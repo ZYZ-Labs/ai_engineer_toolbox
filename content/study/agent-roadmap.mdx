@@ -1,0 +1,39 @@
+# Agent Roadmap
+
+## Goal
+
+An agent is not just a loop around a chat model. A useful agent needs state, tools, permissions, recovery rules, and a way for humans to understand progress.
+
+## Learning Path
+
+1. Start with tool calling. Define exact schemas, validation, permissions, and failure responses before adding planning.
+2. Add task state. Persist enough information to resume after interruption and to explain what has already happened.
+3. Separate planning from execution. Plans should be inspectable, but execution should still validate every action.
+4. Add progress events. Long-running workflows need stage logs, heartbeats, or polling status.
+5. Design recovery. Retry only when the operation is idempotent or when duplicate effects are impossible.
+6. Add human approval boundaries for destructive, expensive, or externally visible actions.
+
+## Engineering Practices
+
+- Make tool outputs structured and small.
+- Keep irreversible operations behind explicit confirmation.
+- Record the reason for each external action.
+- Treat timeouts as state transitions, not just exceptions.
+- Use replay fixtures for multi-step workflows.
+
+## Pitfalls
+
+- Letting the model invent tool semantics from natural language descriptions.
+- Retrying non-idempotent actions and creating duplicate side effects.
+- Shipping a silent long-running workflow with no progress visibility.
+- Hiding partial failure inside a friendly final sentence.
+
+## Recommended Tools
+
+- Use SSE Parser to inspect streaming progress events.
+- Use Prompt Escape when embedding tool instructions inside templates.
+- Use Messages Formatter for reviewing agent traces.
+
+## Checkpoint
+
+You should be able to pause an agent mid-task, inspect current state, resume safely, and explain which tool calls already changed external systems.

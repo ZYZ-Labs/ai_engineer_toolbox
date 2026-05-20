@@ -1,0 +1,41 @@
+# AI App Engineering
+
+## Goal
+
+AI application engineering is product engineering under probabilistic behavior. The work is to make model-powered features observable, testable, recoverable, and understandable enough to operate.
+
+## Core Workflow
+
+1. Define the user job and the unacceptable failure modes.
+2. Capture fixed samples before changing prompts or models.
+3. Decide what must be deterministic around the model: schemas, validation, permissions, retries, and storage.
+4. Add instrumentation for inputs, settings, outputs, latency, token counts, and downstream effects.
+5. Evaluate with a mix of automated checks and human review.
+6. Ship behind rollback and monitor real usage drift.
+
+## Engineering Practices
+
+- Keep prompts versioned with the code that consumes their outputs.
+- Validate model output at the boundary before it reaches business logic.
+- Record model name, settings, and prompt version with every important generation.
+- Use structured outputs for machine-consumed responses.
+- Prefer small scoped AI calls over one large opaque chain when recovery matters.
+
+## Pitfalls
+
+- Treating prompt edits as content changes rather than code changes.
+- Shipping without representative fixtures.
+- Logging too little to debug or too much sensitive data to keep safely.
+- Assuming retries solve schema failures.
+- Using a chatbot shape when the product needs a workflow.
+
+## Recommended Tools
+
+- Use Hash Generator to create stable fingerprints for fixtures and prompt versions.
+- Use HMAC Generator for webhook and callback verification tests.
+- Use Base64 Text and JSON Formatter for payload inspection.
+- Use Token Estimator to keep prompts within practical context budgets.
+
+## Checkpoint
+
+You should be able to review a production AI issue and identify the prompt version, model settings, input sample, output validation result, latency, token usage, and downstream action that followed.

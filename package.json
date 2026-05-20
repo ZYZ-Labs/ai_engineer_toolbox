@@ -1,0 +1,31 @@
+{
+  "name": "ai-engineer-toolbox",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local-first tools and study resources for AI application engineers.",
+  "license": "Apache-2.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm --workspace @ai-engineer-toolbox/web run dev",
+    "build": "npm --workspaces --if-present run build",
+    "lint": "npm --workspace @ai-engineer-toolbox/web run lint",
+    "test": "npm --workspaces --if-present run test",
+    "typecheck": "npm --workspaces --if-present run typecheck"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  },
+  "overrides": {
+    "postcss": "8.5.15",
+    "next@16.2.6": {
+      "postcss": "8.5.15"
+    }
+  },
+  "engines": {
+    "node": ">=20.11.0"
+  }
+}

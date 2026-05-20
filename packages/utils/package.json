@@ -1,0 +1,20 @@
+{
+  "name": "@ai-engineer-toolbox/utils",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "crypto-js": "^4.2.0",
+    "sm-crypto": "^0.4.0"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  }
+}

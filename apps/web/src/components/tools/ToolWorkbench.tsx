@@ -1,0 +1,355 @@
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Check, Copy, Play, RotateCcw, Upload } from "lucide-react";
+import type { ToolWorkbenchConfig } from "@/lib/tool-registry";
+import {
+  aesDecrypt,
+  aesEncrypt,
+  base64ToText,
+  decodeUrl,
+  desDecrypt,
+  desEncrypt,
+  diffJson,
+  encodeUrl,
+  escapePrompt,
+  estimateTokens,
+  formatJson,
+  formatMessages,
+  hashText,
+  hmacText,
+  imageToDataUrl,
+  minifyJson,
+  parseSse,
+  sm4Decrypt,
+  sm4Encrypt,
+  textToBase64
+} from "@ai-engineer-toolbox/utils";
+
+type Props = {
+  tool: ToolWorkbenchConfig;
+};
+
+export function ToolWorkbench({ tool }: Props) {
+  const [operation, setOperation] = useState(tool.defaultOperation);
+  const [algorithm, setAlgorithm] = useState(tool.defaultAlgorithm || tool.algorithms?.[0] || "");
+  const [input, setInput] = useState(tool.defaultInput);
+  const [secondaryInput, setSecondaryInput] = useState(tool.defaultSecondaryInput || "");
+  const [secret, setSecret] = useState(tool.defaultSecret || "");
+  const [iv, setIv] = useState(tool.defaultIv || "");
+  const [output, setOutput] = useState("");
+  const [meta, setMeta] = useState<Record<string, string | number>>({});
+  const [error, setError] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [fileName, setFileName] = useState("");
+  const didRunInitial = useRef(false);
+
+  const run = useCallback(async () => {
+    setError("");
+    setCopied(false);
+    setMeta({});
+
+    try {
+      const result = await executeTool({
+        path: tool.path,
+        operation,
+        algorithm,
+        input,
+        secondaryInput,
+        secret,
+        iv
+      });
+      setOutput(result.output);
+      setMeta(result.meta || {});
+      if (result.meta?.iv && typeof result.meta.iv === "string") {
+        setIv(result.meta.iv);
+      }
+    } catch (cause) {
+      setOutput("");
+      setError(cause instanceof Error ? cause.message : "Unable to process the input.");
+    }
+  }, [algorithm, input, iv, operation, secondaryInput, secret, tool.path]);
+
+  useEffect(() => {
+    if (!didRunInitial.current && !tool.acceptsFile) {
+      didRunInitial.current = true;
+      void run();
+    }
+  }, [run, tool.acceptsFile]);
+
+  async function copyOutput() {
+    if (!output) return;
+    await navigator.clipboard.writeText(output);
+    setCopied(true);
+  }
+
+  async function handleFile(file?: File) {
+    if (!file) return;
+    setFileName(file.name);
+    setError("");
+    setCopied(false);
+    const dataUrl = await imageToDataUrl(file);
+    setOutput(dataUrl);
+    setMeta({ bytes: file.size, type: file.type || "unknown" });
+  }
+
+  function reset() {
+    setOperation(tool.defaultOperation);
+    setAlgorithm(tool.defaultAlgorithm || tool.algorithms?.[0] || "");
+    setInput(tool.defaultInput);
+    setSecondaryInput(tool.defaultSecondaryInput || "");
+    setSecret(tool.defaultSecret || "");
+    setIv(tool.defaultIv || "");
+    setOutput("");
+    setMeta({});
+    setError("");
+    setCopied(false);
+    setFileName("");
+  }
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[20rem_minmax(0,1fr)]">
+      <aside className="rounded-spec border border-line bg-panel p-5 shadow-sm">
+        <h2 className="text-sm font-semibold text-ink">Algorithm Settings</h2>
+        <div className="mt-5 space-y-5">
+          <fieldset>
+            <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted">Mode</legend>
+            <div className="grid grid-cols-2 gap-2">
+              {tool.operations.map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => setOperation(item)}
+                  className={`h-10 rounded-xl border px-3 text-sm font-medium capitalize transition ${
+                    operation === item
+                      ? "border-primary bg-primary text-white"
+                      : "border-line bg-white text-muted hover:border-primary/40 hover:text-primary"
+                  }`}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </fieldset>
+
+          {tool.algorithms ? (
+            <label className="block">
+              <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">Algorithm</span>
+              <select
+                value={algorithm}
+                onChange={(event) => setAlgorithm(event.target.value)}
+                className="h-11 w-full rounded-xl border border-line bg-white px-3 text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+              >
+                {tool.algorithms.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+
+          {tool.secretLabel ? (
+            <label className="block">
+              <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">{tool.secretLabel}</span>
+              <input
+                value={secret}
+                onChange={(event) => setSecret(event.target.value)}
+                className="h-11 w-full rounded-xl border border-line bg-white px-3 font-mono text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+              />
+            </label>
+          ) : null}
+
+          {tool.ivLabel ? (
+            <label className="block">
+              <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">{tool.ivLabel}</span>
+              <input
+                value={iv}
+                onChange={(event) => setIv(event.target.value)}
+                className="h-11 w-full rounded-xl border border-line bg-white px-3 font-mono text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+              />
+            </label>
+          ) : null}
+
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={run}
+              disabled={tool.acceptsFile}
+              className="inline-flex h-10 flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-semibold text-white transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-muted/30"
+            >
+              <Play className="h-4 w-4" aria-hidden="true" />
+              Run
+            </button>
+            <button
+              type="button"
+              onClick={reset}
+              className="grid h-10 w-10 place-items-center rounded-xl border border-line bg-white text-muted transition hover:border-primary/40 hover:text-primary"
+              aria-label="Reset"
+            >
+              <RotateCcw className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <section className="grid gap-6 xl:grid-cols-2">
+        <div className="rounded-spec border border-line bg-panel p-5 shadow-sm">
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-sm font-semibold text-ink">{tool.inputLabel}</h2>
+            {tool.acceptsFile ? (
+              <label className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-xl border border-line px-3 text-sm font-medium text-muted transition hover:border-primary/40 hover:text-primary">
+                <Upload className="h-4 w-4" aria-hidden="true" />
+                Select
+                <input className="sr-only" type="file" accept="image/*" onChange={(event) => void handleFile(event.target.files?.[0])} />
+              </label>
+            ) : null}
+          </div>
+
+          {tool.acceptsFile ? (
+            <div className="grid min-h-[18rem] place-items-center rounded-xl border border-dashed border-line bg-canvas p-6 text-center text-sm text-muted">
+              <span>{fileName || tool.placeholder}</span>
+            </div>
+          ) : (
+            <textarea
+              value={input}
+              onChange={(event) => setInput(event.target.value)}
+              placeholder={tool.placeholder}
+              spellCheck={false}
+              className="min-h-[18rem] w-full resize-y rounded-xl border border-line bg-canvas p-4 font-mono text-sm leading-6 text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+            />
+          )}
+
+          {tool.secondaryInputLabel ? (
+            <div className="mt-5">
+              <label className="mb-3 block text-sm font-semibold text-ink">{tool.secondaryInputLabel}</label>
+              <textarea
+                value={secondaryInput}
+                onChange={(event) => setSecondaryInput(event.target.value)}
+                placeholder={tool.secondaryPlaceholder}
+                spellCheck={false}
+                className="min-h-[12rem] w-full resize-y rounded-xl border border-line bg-canvas p-4 font-mono text-sm leading-6 text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+              />
+            </div>
+          ) : null}
+        </div>
+
+        <div className="rounded-spec border border-line bg-panel p-5 shadow-sm">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <h2 className="text-sm font-semibold text-ink">Output</h2>
+            <button
+              type="button"
+              onClick={copyOutput}
+              disabled={!output}
+              className="inline-flex h-9 items-center gap-2 rounded-xl border border-line px-3 text-sm font-medium text-muted transition hover:border-primary/40 hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
+              {copied ? "Copied" : "Copy"}
+            </button>
+          </div>
+          {error ? (
+            <div className="min-h-[18rem] rounded-xl border border-red-200 bg-red-50 p-4 text-sm leading-6 text-red-700">{error}</div>
+          ) : (
+            <textarea
+              value={output}
+              readOnly
+              spellCheck={false}
+              className="min-h-[18rem] w-full resize-y rounded-xl border border-line bg-canvas p-4 font-mono text-sm leading-6 text-ink outline-none"
+            />
+          )}
+
+          {Object.keys(meta).length ? (
+            <dl className="mt-4 grid gap-2 text-sm">
+              {Object.entries(meta).map(([key, value]) => (
+                <div key={key} className="flex min-w-0 items-center justify-between gap-3 rounded-xl bg-primary-soft px-3 py-2">
+                  <dt className="shrink-0 font-medium text-primary">{key}</dt>
+                  <dd className="min-w-0 truncate font-mono text-ink">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+async function executeTool({
+  path,
+  operation,
+  algorithm,
+  input,
+  secondaryInput,
+  secret,
+  iv
+}: {
+  path: string;
+  operation: string;
+  algorithm: string;
+  input: string;
+  secondaryInput: string;
+  secret: string;
+  iv: string;
+}): Promise<{ output: string; meta?: Record<string, string | number> }> {
+  if (path === "/tools/crypto/aes") {
+    if (!secret) throw new Error("Passphrase is required.");
+    if (operation === "decrypt" && !iv) throw new Error("IV is required for AES decrypt.");
+    if (operation === "encrypt") return aesEncrypt(input, secret, algorithm as "AES-GCM" | "AES-CBC", iv || undefined);
+    return { output: await aesDecrypt(input, secret, algorithm as "AES-GCM" | "AES-CBC", iv) };
+  }
+
+  if (path === "/tools/crypto/des") {
+    if (!secret) throw new Error("DES key is required.");
+    if (operation === "encrypt") return { output: desEncrypt(input, secret, algorithm as "DES-CBC" | "DES-ECB", iv) };
+    return { output: desDecrypt(input, secret, algorithm as "DES-CBC" | "DES-ECB", iv) };
+  }
+
+  if (path === "/tools/crypto/sm4") {
+    if (!secret) throw new Error("SM4 key is required.");
+    if (operation === "encrypt") return { output: sm4Encrypt(input, secret, algorithm as "SM4-CBC" | "SM4-ECB", iv) };
+    return { output: sm4Decrypt(input, secret, algorithm as "SM4-CBC" | "SM4-ECB", iv) };
+  }
+
+  if (path === "/tools/crypto/hash") {
+    return { output: await hashText(input, algorithm as "MD5" | "SHA-1" | "SHA-256" | "SHA-512") };
+  }
+
+  if (path === "/tools/crypto/hmac") {
+    if (!secret) throw new Error("Secret is required.");
+    return { output: hmacText(input, secret, algorithm as "HMAC-MD5" | "HMAC-SHA256" | "HMAC-SHA512") };
+  }
+
+  if (path === "/tools/json/formatter") {
+    return { output: operation === "minify" ? minifyJson(input) : formatJson(input) };
+  }
+
+  if (path === "/tools/json/diff") {
+    return { output: diffJson(input, secondaryInput) };
+  }
+
+  if (path === "/tools/base64/text") {
+    return { output: operation === "decode" ? base64ToText(input) : textToBase64(input) };
+  }
+
+  if (path === "/tools/url/encode") {
+    return { output: operation === "decode" ? decodeUrl(input) : encodeUrl(input) };
+  }
+
+  if (path === "/tools/ai/messages-formatter") {
+    return { output: formatMessages(input) };
+  }
+
+  if (path === "/tools/ai/prompt-escape") {
+    return { output: escapePrompt(input) };
+  }
+
+  if (path === "/tools/ai/sse-parser") {
+    return { output: parseSse(input) };
+  }
+
+  if (path === "/tools/ai/token-estimator") {
+    return estimateTokens(input);
+  }
+
+  throw new Error("Unsupported tool.");
+}
