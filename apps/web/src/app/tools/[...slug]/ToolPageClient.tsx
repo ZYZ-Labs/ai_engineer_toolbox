@@ -1,10 +1,12 @@
 "use client";
 
+import { useEffect } from "react";
 import { PageShell } from "@/components/layout/PageShell";
 import { ToolWorkbench } from "@/components/tools/ToolWorkbench";
 import { useI18n } from "@/lib/i18n";
 import { translateTool, translateCategory } from "@/lib/i18n/tool";
 import { findToolByPath } from "@/lib/tool-registry";
+import { recordUsage } from "@/lib/usage";
 
 type Props = {
   toolPath: string;
@@ -13,6 +15,11 @@ type Props = {
 export function ToolPageClient({ toolPath }: Props) {
   const { t } = useI18n();
   const tool = findToolByPath(toolPath);
+
+  useEffect(() => {
+    if (toolPath) recordUsage(toolPath);
+  }, [toolPath]);
+
   if (!tool) return null;
 
   const localized = translateTool(tool, t);

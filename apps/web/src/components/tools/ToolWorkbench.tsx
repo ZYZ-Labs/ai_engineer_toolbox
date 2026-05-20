@@ -43,6 +43,7 @@ export function ToolWorkbench({ tool }: Props) {
   const { t } = useI18n();
   const [operation, setOperation] = useState(tool.defaultOperation);
   const [algorithm, setAlgorithm] = useState(tool.defaultAlgorithm || tool.algorithms?.[0] || "");
+  const [padding, setPadding] = useState(tool.defaultPadding || tool.paddings?.[0] || "PKCS7");
   const [input, setInput] = useState(tool.defaultInput);
   const [secondaryInput, setSecondaryInput] = useState(tool.defaultSecondaryInput || "");
   const [secret, setSecret] = useState(tool.defaultSecret || "");
@@ -54,6 +55,15 @@ export function ToolWorkbench({ tool }: Props) {
   const [fileName, setFileName] = useState("");
   const didRunInitial = useRef(false);
 
+  function handleAlgorithmChange(next: string) {
+    setAlgorithm(next);
+    setIv(tool.defaultIv || "");
+    setOutput("");
+    setMeta({});
+    setError("");
+    setCopied(false);
+  }
+
   const run = useCallback(async () => {
     setError("");
     setCopied(false);
@@ -64,6 +74,7 @@ export function ToolWorkbench({ tool }: Props) {
         path: tool.path,
         operation,
         algorithm,
+        padding,
         input,
         secondaryInput,
         secret,
@@ -82,7 +93,7 @@ export function ToolWorkbench({ tool }: Props) {
         setError(cause instanceof Error ? cause.message : t("workbench.error.generic"));
       }
     }
-  }, [algorithm, input, iv, operation, secondaryInput, secret, t, tool.path]);
+  }, [algorithm, padding, input, iv, operation, secondaryInput, secret, t, tool.path]);
 
   useEffect(() => {
     if (!didRunInitial.current && !tool.acceptsFile) {
@@ -110,6 +121,7 @@ export function ToolWorkbench({ tool }: Props) {
   function reset() {
     setOperation(tool.defaultOperation);
     setAlgorithm(tool.defaultAlgorithm || tool.algorithms?.[0] || "");
+    setPadding(tool.defaultPadding || tool.paddings?.[0] || "PKCS7");
     setInput(tool.defaultInput);
     setSecondaryInput(tool.defaultSecondaryInput || "");
     setSecret(tool.defaultSecret || "");
@@ -120,6 +132,8 @@ export function ToolWorkbench({ tool }: Props) {
     setCopied(false);
     setFileName("");
   }
+
+  const needsIv = tool.ivLabel && !algorithm.includes("ECB");
 
   return (
     <div className="grid gap-6 lg:grid-cols-[20rem_minmax(0,1fr)]">
@@ -151,10 +165,27 @@ export function ToolWorkbench({ tool }: Props) {
               <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">{t("workbench.algorithm")}</span>
               <select
                 value={algorithm}
-                onChange={(event) => setAlgorithm(event.target.value)}
+                onChange={(event) => handleAlgorithmChange(event.target.value)}
                 className="h-11 w-full rounded-xl border border-line bg-white px-3 text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
               >
                 {tool.algorithms.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+
+          {tool.paddings && !algorithm.includes("GCM") ? (
+            <label className="block">
+              <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">Padding</span>
+              <select
+                value={padding}
+                onChange={(event) => setPadding(event.target.value)}
+                className="h-11 w-full rounded-xl border border-line bg-white px-3 text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+              >
+                {tool.paddings.map((item) => (
                   <option key={item} value={item}>
                     {item}
                   </option>
@@ -174,7 +205,7 @@ export function ToolWorkbench({ tool }: Props) {
             </label>
           ) : null}
 
-          {tool.ivLabel ? (
+          {needsIv ? (
             <label className="block">
               <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">{tool.ivLabel}</span>
               <input
@@ -292,6 +323,7 @@ async function executeTool({
   path,
   operation,
   algorithm,
+  padding,
   input,
   secondaryInput,
   secret,
@@ -300,6 +332,7 @@ async function executeTool({
   path: string;
   operation: string;
   algorithm: string;
+  padding: string;
   input: string;
   secondaryInput: string;
   secret: string;
@@ -307,9 +340,9 @@ async function executeTool({
 }): Promise<{ output: string; meta?: Record<string, string | number> }> {
   if (path === "/tools/crypto/aes") {
     if (!secret) throw new I18nError("error.aes.secretRequired");
-    if (operation === "decrypt" && !iv) throw new I18nError("error.aes.ivRequired");
-    if (operation === "encrypt") return aesEncrypt(input, secret, algorithm as "AES-GCM" | "AES-CBC", iv || undefined);
-    return { output: await aesDecrypt(input, secret, algorithm as "AES-GCM" | "AES-CBC", iv) };
+    if (operation === "decrypt" && algorithm.includes("CBC") && !iv) throw new I18nError("error.aes.ivRequired");
+    if (operation === "encrypt") return aesEncrypt(input, secret, algorithm as "AES-GCM" | "AES-CBC" | "AES-ECB", iv || undefined, padding);
+    return { output: await aesDecrypt(input, secret, algorithm as "AES-GCM" | "AES-CBC" | "AES-ECB", iv, padding) };
   }
 
   if (path === "/tools/crypto/des") {
@@ -320,6 +353,7 @@ async function executeTool({
 
   if (path === "/tools/crypto/sm4") {
     if (!secret) throw new I18nError("error.sm4.secretRequired");
+    if (algorithm.includes("CBC") && !iv) throw new I18nError("error.sm4.ivRequired");
     if (operation === "encrypt") return { output: sm4Encrypt(input, secret, algorithm as "SM4-CBC" | "SM4-ECB", iv) };
     return { output: sm4Decrypt(input, secret, algorithm as "SM4-CBC" | "SM4-ECB", iv) };
   }

@@ -110,23 +110,63 @@ export function hmacText(input: string, secret: string, algorithm: "HMAC-MD5" | 
   return CryptoJS.HmacSHA512(input, secret).toString(CryptoJS.enc.Hex);
 }
 
-export async function aesEncrypt(input: string, keyText: string, mode: "AES-GCM" | "AES-CBC", ivBase64?: string) {
-  const key = await deriveAesKey(keyText, mode);
-  const iv = ivBase64 ? base64ToBytes(ivBase64) : crypto.getRandomValues(new Uint8Array(mode === "AES-GCM" ? 12 : 16));
-  const encrypted = await crypto.subtle.encrypt({ name: mode, iv }, key, encoder.encode(input));
+// AES-GCM uses Web Crypto; AES-CBC and AES-ECB use CryptoJS for padding control.
+export async function aesEncrypt(input: string, keyText: string, mode: "AES-GCM" | "AES-CBC" | "AES-ECB", ivBase64?: string, paddingName = "PKCS7"): Promise<ToolResult> {
+  if (mode === "AES-GCM") {
+    const key = await deriveAesKey(keyText, mode);
+    const iv = ivBase64 ? base64ToBytes(ivBase64) : crypto.getRandomValues(new Uint8Array(12));
+    const encrypted = await crypto.subtle.encrypt({ name: mode, iv }, key, encoder.encode(input));
+    return {
+      output: bytesToBase64(encrypted),
+      meta: {
+        iv: bytesToBase64(iv),
+        mode
+      }
+    };
+  }
+
+  // AES-CBC / AES-ECB via CryptoJS
+  const padding = getCryptoJSPadding(paddingName);
+  const keyWords = CryptoJS.enc.Utf8.parse(keyText);
+  const cfg: Record<string, unknown> = {
+    mode: mode === "AES-CBC" ? CryptoJS.mode.CBC : CryptoJS.mode.ECB,
+    padding,
+    ...(mode === "AES-CBC" ? { iv: CryptoJS.enc.Utf8.parse(ivBase64 ? base64ToText(ivBase64) : "") } : {})
+  };
+  const encrypted = CryptoJS.AES.encrypt(input, keyWords, cfg);
   return {
-    output: bytesToBase64(encrypted),
-    meta: {
-      iv: bytesToBase64(iv),
-      mode
-    }
+    output: encrypted.toString(),
+    meta: mode === "AES-CBC" ? { iv: ivBase64 || "" } : undefined
   };
 }
 
-export async function aesDecrypt(input: string, keyText: string, mode: "AES-GCM" | "AES-CBC", ivBase64: string) {
-  const key = await deriveAesKey(keyText, mode);
-  const decrypted = await crypto.subtle.decrypt({ name: mode, iv: base64ToBytes(ivBase64) }, key, base64ToBytes(input));
-  return decoder.decode(decrypted);
+export async function aesDecrypt(input: string, keyText: string, mode: "AES-GCM" | "AES-CBC" | "AES-ECB", ivBase64: string, paddingName = "PKCS7"): Promise<string> {
+  if (mode === "AES-GCM") {
+    const key = await deriveAesKey(keyText, mode);
+    const decrypted = await crypto.subtle.decrypt({ name: mode, iv: base64ToBytes(ivBase64) }, key, base64ToBytes(input));
+    return decoder.decode(decrypted);
+  }
+
+  const padding = getCryptoJSPadding(paddingName);
+  const keyWords = CryptoJS.enc.Utf8.parse(keyText);
+  const cfg: Record<string, unknown> = {
+    mode: mode === "AES-CBC" ? CryptoJS.mode.CBC : CryptoJS.mode.ECB,
+    padding,
+    ...(mode === "AES-CBC" ? { iv: CryptoJS.enc.Utf8.parse(base64ToText(ivBase64)) } : {})
+  };
+  const decrypted = CryptoJS.AES.decrypt(input, keyWords, cfg);
+  return decrypted.toString(CryptoJS.enc.Utf8);
+}
+
+function getCryptoJSPadding(name: string) {
+  switch (name) {
+    case "NoPadding": return CryptoJS.pad.NoPadding;
+    case "ZeroPadding": return CryptoJS.pad.ZeroPadding;
+    case "Iso97971": return CryptoJS.pad.Iso97971;
+    case "AnsiX923": return CryptoJS.pad.AnsiX923;
+    case "Iso10126": return CryptoJS.pad.Iso10126;
+    default: return CryptoJS.pad.Pkcs7;
+  }
 }
 
 async function deriveAesKey(keyText: string, mode: "AES-GCM" | "AES-CBC") {
@@ -135,6 +175,7 @@ async function deriveAesKey(keyText: string, mode: "AES-GCM" | "AES-CBC") {
 }
 
 export function desEncrypt(input: string, key: string, mode: "DES-CBC" | "DES-ECB", iv?: string) {
+  if (!key.trim()) throw new Error("DES key is required.");
   const keyWords = CryptoJS.enc.Utf8.parse(fixedLength(key, 8));
   const options = {
     mode: mode === "DES-CBC" ? CryptoJS.mode.CBC : CryptoJS.mode.ECB,
@@ -145,6 +186,7 @@ export function desEncrypt(input: string, key: string, mode: "DES-CBC" | "DES-EC
 }
 
 export function desDecrypt(input: string, key: string, mode: "DES-CBC" | "DES-ECB", iv?: string) {
+  if (!key.trim()) throw new Error("DES key is required.");
   const keyWords = CryptoJS.enc.Utf8.parse(fixedLength(key, 8));
   const options = {
     mode: mode === "DES-CBC" ? CryptoJS.mode.CBC : CryptoJS.mode.ECB,
@@ -155,6 +197,8 @@ export function desDecrypt(input: string, key: string, mode: "DES-CBC" | "DES-EC
 }
 
 export function sm4Encrypt(input: string, key: string, mode: "SM4-CBC" | "SM4-ECB", iv?: string) {
+  if (!key.trim()) throw new Error("SM4 key is required.");
+  if (mode === "SM4-CBC" && !iv?.trim()) throw new Error("SM4 IV is required for CBC mode.");
   return sm4.encrypt(input, fixedLength(key, 16), {
     mode: mode === "SM4-CBC" ? "cbc" : "ecb",
     iv: mode === "SM4-CBC" ? fixedLength(iv || "", 16) : undefined,
@@ -163,6 +207,8 @@ export function sm4Encrypt(input: string, key: string, mode: "SM4-CBC" | "SM4-EC
 }
 
 export function sm4Decrypt(input: string, key: string, mode: "SM4-CBC" | "SM4-ECB", iv?: string) {
+  if (!key.trim()) throw new Error("SM4 key is required.");
+  if (mode === "SM4-CBC" && !iv?.trim()) throw new Error("SM4 IV is required for CBC mode.");
   return sm4.decrypt(input, fixedLength(key, 16), {
     mode: mode === "SM4-CBC" ? "cbc" : "ecb",
     iv: mode === "SM4-CBC" ? fixedLength(iv || "", 16) : undefined,

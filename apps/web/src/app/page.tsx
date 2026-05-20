@@ -6,7 +6,8 @@ import { PageShell } from "@/components/layout/PageShell";
 import { GlobalSearch } from "@/components/tools/GlobalSearch";
 import { StudyCard } from "@/components/ui/StudyCard";
 import { ToolCard } from "@/components/ui/ToolCard";
-import { featuredTools, getToolsByCategory, tools } from "@/lib/tool-registry";
+import { featuredTools, getToolsByCategory, tools, findToolByPath } from "@/lib/tool-registry";
+import { getTopTools } from "@/lib/usage";
 import { studyPages } from "@/lib/study-registry";
 import { useI18n } from "@/lib/i18n";
 import { translateTool } from "@/lib/i18n/tool";
@@ -14,7 +15,10 @@ import { translateStudyPage } from "@/lib/i18n/study";
 
 export default function HomePage() {
   const { t } = useI18n();
-  const featured = featuredTools.map((path) => tools.find((tool) => tool.path === path)).filter(Boolean);
+  const topUsage = getTopTools();
+  const recentlyUsed = topUsage.length
+    ? topUsage.map((u) => findToolByPath(u.path)).filter(Boolean)
+    : featuredTools.map((path) => tools.find((tool) => tool.path === path)).filter(Boolean);
 
   return (
     <PageShell>
@@ -35,12 +39,12 @@ export default function HomePage() {
           </div>
         </div>
         <div className="grid content-end gap-3">
-          {featured.map((tool) => (tool ? <ToolCard key={tool.path} tool={translateTool(tool, t)} /> : null))}
+          {recentlyUsed.slice(0, 4).map((tool) => (tool ? <ToolCard key={tool.path} tool={translateTool(tool, t)} /> : null))}
         </div>
       </section>
 
-      <HomeSection title={t("home.section.featured")} href="/tools">
-        {featured.map((tool) => (tool ? <ToolCard key={tool.path} tool={translateTool(tool, t)} /> : null))}
+      <HomeSection title={t("home.section.recentlyUsed")} href="/tools">
+        {recentlyUsed.map((tool) => (tool ? <ToolCard key={tool.path} tool={translateTool(tool, t)} /> : null))}
       </HomeSection>
 
       <HomeSection title={t("home.section.aiTools")} href="/tools">

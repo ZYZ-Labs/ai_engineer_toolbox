@@ -34,6 +34,8 @@ export type ToolConfig = {
   algorithms?: string[];
   defaultOperation: string;
   defaultAlgorithm?: string;
+  paddings?: string[];
+  defaultPadding?: string;
   secretLabel?: string;
   ivLabel?: string;
   defaultSecret?: string;
@@ -56,7 +58,9 @@ export const tools: ToolConfig[] = [
     placeholder: "Paste text to encrypt, or Base64 ciphertext to decrypt.",
     defaultInput: "The model output should be deterministic for this replay.",
     operations: ["encrypt", "decrypt"],
-    algorithms: ["AES-GCM", "AES-CBC"],
+    algorithms: ["AES-GCM", "AES-CBC", "AES-ECB"],
+    paddings: ["PKCS7", "NoPadding", "ZeroPadding", "Iso97971", "AnsiX923", "Iso10126"],
+    defaultPadding: "PKCS7",
     defaultOperation: "encrypt",
     defaultAlgorithm: "AES-GCM",
     secretLabel: "Passphrase",
