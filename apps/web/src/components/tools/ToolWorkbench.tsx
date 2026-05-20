@@ -71,6 +71,21 @@ export function ToolWorkbench({ tool }: Props) {
     setCopied(false);
   }
 
+  function handleOperationChange(next: string) {
+    setOperation(next);
+    if (next === "decrypt") {
+      if (output) {
+        setInput(output);
+      }
+    } else if (next === "encrypt") {
+      setInput(tool.defaultInput);
+    }
+    setOutput("");
+    setMeta({});
+    setError("");
+    setCopied(false);
+  }
+
   const run = useCallback(async () => {
     setError("");
     setCopied(false);
@@ -160,7 +175,7 @@ export function ToolWorkbench({ tool }: Props) {
                 <button
                   key={item}
                   type="button"
-                  onClick={() => setOperation(item)}
+                  onClick={() => handleOperationChange(item)}
                   className={`h-10 rounded-xl border px-3 text-sm font-medium capitalize transition ${
                     operation === item
                       ? "border-primary bg-primary text-white"
