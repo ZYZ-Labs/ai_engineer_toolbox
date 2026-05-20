@@ -258,7 +258,7 @@ export function ToolWorkbench({ tool }: Props) {
             </label>
           ) : null}
 
-          {tool.outputEncodings ? (
+          {tool.outputEncodings && operation === "encrypt" ? (
             <label className="block">
               <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">Output Encoding</span>
               <select
