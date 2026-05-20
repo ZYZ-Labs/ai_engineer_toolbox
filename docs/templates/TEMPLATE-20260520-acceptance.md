@@ -9,8 +9,10 @@
 - Open `/tools/crypto/aes`.
 - Encrypt the default text and confirm an IV is displayed.
 - Decrypt the ciphertext using the displayed IV and same passphrase.
-- Open `/study/rag-roadmap`.
-- Confirm the study page renders headings, lists, and body text.
+- Open `/study/transformer-lectures`.
+- Open `/study/transformer-lectures/stage1/chapter01_numpy_tensor`.
+- Confirm lecture tables, code blocks, and Python example panel render.
+- Toggle language in the header and confirm UI labels switch between English and Chinese.
 
 ## Deployment Acceptance
 

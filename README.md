@@ -7,7 +7,7 @@ The project follows the v1 spec in [`AI_Engineer_Toolbox_Spec_v1.md`](AI_Enginee
 ## What Is Included
 
 - 14 browser tools across crypto, data, and AI engineering workflows
-- 4 MDX study pages for transformer, RAG, agent, and AI application engineering roadmaps
+- 1 integrated Transformer lecture course with 30 bilingual chapters and Python examples
 - Static Next.js export for GitHub Pages or Cloudflare Pages
 - Monorepo structure with reusable utility packages
 
@@ -15,7 +15,7 @@ The project follows the v1 spec in [`AI_Engineer_Toolbox_Spec_v1.md`](AI_Enginee
 
 ```txt
 apps/web          Next.js static frontend
-content/study     MDX study content
+content/courses   Long-form course content rendered into static study pages
 packages/ui       Shared UI class helpers
 packages/utils    Browser-safe utility functions and tests
 docs              Agent handoff, plan, progress, and acceptance docs
@@ -72,3 +72,7 @@ Use `apps/web/out` as the static output directory.
 ## Privacy Model
 
 Tool inputs are processed locally in the browser whenever possible. The project does not include user accounts, server-side persistence, analytics wiring, ads, or cloud storage.
+
+## Language
+
+The UI supports English and Chinese. English is the default first paint language; the language switcher stores the user's preference in `localStorage`.

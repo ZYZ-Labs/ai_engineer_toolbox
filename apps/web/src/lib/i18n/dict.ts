@@ -206,14 +206,8 @@ export const dict = {
     "tool.tokenEstimator.explanation": "This is a rough local estimate for planning. Use provider tokenizers when exact billing or context limits matter.",
 
     // Study pages
-    "study.transformerRoadmap.title": "Transformer Roadmap",
-    "study.transformerRoadmap.summary": "Build intuition from embeddings and attention through serving constraints.",
-    "study.ragRoadmap.title": "RAG Roadmap",
-    "study.ragRoadmap.summary": "Design retrieval systems with chunking, evaluation, observability, and failure modes.",
-    "study.agentRoadmap.title": "Agent Roadmap",
-    "study.agentRoadmap.summary": "A practical path for tool use, state, planning, recovery, and safety boundaries.",
-    "study.aiAppEngineering.title": "AI App Engineering",
-    "study.aiAppEngineering.summary": "Engineering practices for building reliable AI features in product systems.",
+    "study.transformerLectures.title": "Transformer Lectures",
+    "study.transformerLectures.summary": "A 30-chapter bilingual course from tensor basics to Transformer internals, diffusion, and source hacking.",
 
     // Levels
     "level.Foundation": "Foundation",
@@ -451,14 +445,8 @@ export const dict = {
     "tool.tokenEstimator.explanation": "这只是本地粗略估算，用于规划。当精确计费或上下文限制重要时，请使用提供商的 tokenizer。",
 
     // Study pages
-    "study.transformerRoadmap.title": "Transformer 学习路线",
-    "study.transformerRoadmap.summary": "从嵌入和注意力机制到 serving 约束，建立直观理解。",
-    "study.ragRoadmap.title": "RAG 学习路线",
-    "study.ragRoadmap.summary": "设计检索系统，涵盖分块、评估、可观测性和故障模式。",
-    "study.agentRoadmap.title": "Agent 学习路线",
-    "study.agentRoadmap.summary": "工具使用、状态管理、规划、恢复和安全边界的实践路径。",
-    "study.aiAppEngineering.title": "AI 应用工程",
-    "study.aiAppEngineering.summary": "在产品系统中构建可靠 AI 功能的工程实践。",
+    "study.transformerLectures.title": "Transformer 系列课程",
+    "study.transformerLectures.summary": "30 章中英双语课程，从 Tensor 基础到 Transformer 内核、Diffusion、源码阅读与模型魔改。",
 
     // Levels
     "level.Foundation": "基础",

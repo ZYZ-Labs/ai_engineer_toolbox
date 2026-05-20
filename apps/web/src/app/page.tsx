@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { PageShell } from "@/components/layout/PageShell";
@@ -15,10 +16,18 @@ import { translateStudyPage } from "@/lib/i18n/study";
 
 export default function HomePage() {
   const { t } = useI18n();
-  const topUsage = getTopTools();
-  const recentlyUsed = topUsage.length
-    ? topUsage.map((u) => findToolByPath(u.path)).filter(Boolean)
-    : featuredTools.map((path) => tools.find((tool) => tool.path === path)).filter(Boolean);
+  const [recentToolPaths, setRecentToolPaths] = useState<string[]>(featuredTools);
+  const recentlyUsed = useMemo(
+    () => recentToolPaths.map((path) => findToolByPath(path) || tools.find((tool) => tool.path === path)).filter(Boolean),
+    [recentToolPaths]
+  );
+
+  useEffect(() => {
+    const topUsage = getTopTools();
+    if (topUsage.length) {
+      queueMicrotask(() => setRecentToolPaths(topUsage.map((usage) => usage.path)));
+    }
+  }, []);
 
   return (
     <PageShell>

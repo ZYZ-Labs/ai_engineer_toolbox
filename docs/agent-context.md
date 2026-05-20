@@ -7,8 +7,12 @@
 - Main entry: `apps/web/src/app/page.tsx`.
 - Tool registry: `apps/web/src/lib/tool-registry.ts`.
 - Tool execution: `apps/web/src/components/tools/ToolWorkbench.tsx`.
-- Study content: `content/study/*.mdx`.
-- **I18n added**: Client-side i18n with `en` (default) and `zh` support. Config cached in `localStorage` under key `aet-lang`. Language switcher in Header.
+- Study content:
+  - Transformer lecture course: `content/courses/transformer-lectures`.
+- **I18n added**: Client-side i18n with `en` as the default first paint language and `zh` support. Config cached in `localStorage` under key `aet-lang`. Language switcher in Header.
+- Course routes:
+  - `/study/transformer-lectures`
+  - `/study/transformer-lectures/stage1/chapter01_numpy_tensor` through chapter 30.
 
 ## Deployment Context
 

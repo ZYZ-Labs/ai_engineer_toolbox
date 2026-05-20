@@ -4,22 +4,10 @@ import type { DictKey } from "./dict";
 type T = (key: DictKey) => string;
 
 const studyKeyMap: Record<string, { title: DictKey; summary: DictKey }> = {
-  "transformer-roadmap": {
-    title: "study.transformerRoadmap.title",
-    summary: "study.transformerRoadmap.summary",
-  },
-  "rag-roadmap": {
-    title: "study.ragRoadmap.title",
-    summary: "study.ragRoadmap.summary",
-  },
-  "agent-roadmap": {
-    title: "study.agentRoadmap.title",
-    summary: "study.agentRoadmap.summary",
-  },
-  "ai-app-engineering": {
-    title: "study.aiAppEngineering.title",
-    summary: "study.aiAppEngineering.summary",
-  },
+  "transformer-lectures": {
+    title: "study.transformerLectures.title",
+    summary: "study.transformerLectures.summary",
+  }
 };
 
 export function translateStudyPage(page: StudyPageMeta, t: T): StudyPageMeta {

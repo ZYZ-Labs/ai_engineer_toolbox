@@ -1,16 +1,9 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
 import { dict, defaultLang, type Lang, type DictKey } from "./dict";
 
 const STORAGE_KEY = "aet-lang";
-
-function getInitialLang(): Lang {
-  if (typeof window === "undefined") return defaultLang;
-  const stored = window.localStorage.getItem(STORAGE_KEY) as Lang | null;
-  if (stored === "en" || stored === "zh") return stored;
-  return defaultLang;
-}
 
 type I18nContextValue = {
   lang: Lang;
@@ -25,7 +18,15 @@ const I18nContext = createContext<I18nContextValue>({
 });
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(() => getInitialLang());
+  const [lang, setLangState] = useState<Lang>(defaultLang);
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem(STORAGE_KEY) as Lang | null;
+    if (stored === "en" || stored === "zh") {
+      document.documentElement.lang = stored;
+      queueMicrotask(() => setLangState(stored));
+    }
+  }, []);
 
   const setLang = useCallback((next: Lang) => {
     setLangState(next);

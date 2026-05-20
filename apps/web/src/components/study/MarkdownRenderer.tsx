@@ -71,6 +71,34 @@ export function MarkdownRenderer({ source }: { source: string }) {
             </ol>
           );
         }
+        if (block.type === "table") {
+          return (
+            <div key={index} className="my-5 overflow-x-auto">
+              <table>
+                <thead>
+                  <tr>
+                    {block.headers.map((header) => (
+                      <th key={header}>
+                        <InlineText text={header} />
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {block.rows.map((row, rowIndex) => (
+                    <tr key={rowIndex}>
+                      {row.map((cell, cellIndex) => (
+                        <td key={`${rowIndex}-${cellIndex}`}>
+                          <InlineText text={cell} />
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+        }
         if (block.type === "code") {
           return (
             <pre key={index}>

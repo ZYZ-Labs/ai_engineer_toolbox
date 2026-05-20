@@ -4,6 +4,7 @@ export type MarkdownBlock =
   | { type: "ul"; items: string[] }
   | { type: "ol"; items: string[] }
   | { type: "blockquote"; text: string }
+  | { type: "table"; headers: string[]; rows: string[][] }
   | { type: "code"; code: string; lang: string };
 
 export function parseMarkdown(source: string): MarkdownBlock[] {
@@ -80,6 +81,21 @@ export function parseMarkdown(source: string): MarkdownBlock[] {
       continue;
     }
 
+    if (isTableStart(lines, index)) {
+      const tableLines: string[] = [];
+      while (index < lines.length && /^\|.*\|$/.test(lines[index].trim())) {
+        tableLines.push(lines[index].trim());
+        index += 1;
+      }
+      const [headerLine, , ...rowLines] = tableLines;
+      blocks.push({
+        type: "table",
+        headers: splitTableRow(headerLine),
+        rows: rowLines.map(splitTableRow)
+      });
+      continue;
+    }
+
     const paragraph: string[] = [];
     while (
       index < lines.length &&
@@ -93,4 +109,18 @@ export function parseMarkdown(source: string): MarkdownBlock[] {
   }
 
   return blocks;
+}
+
+function isTableStart(lines: string[], index: number) {
+  const current = lines[index]?.trim();
+  const next = lines[index + 1]?.trim();
+  return Boolean(current && next && /^\|.*\|$/.test(current) && /^\|[\s:-]+\|/.test(next));
+}
+
+function splitTableRow(row: string) {
+  return row
+    .replace(/^\|/, "")
+    .replace(/\|$/, "")
+    .split("|")
+    .map((cell) => cell.trim());
 }

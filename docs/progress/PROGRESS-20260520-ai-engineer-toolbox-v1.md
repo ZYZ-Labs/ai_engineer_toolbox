@@ -16,11 +16,16 @@
 - Remote commit `5190914` contains the v1 source implementation.
 - Remote commit `7516358` contains `.github/workflows/pages.yml`.
 - Remote commit `90be6e5` contains the root `CNAME` from GitHub Pages custom domain configuration.
+- Client-side i18n is integrated with English default and Chinese toggle.
+- `/usr/local/project/study` course content is copied into `content/courses/transformer-lectures` and exposed as static routes.
+- `npm run build` now exports 53 static pages, including 30 Transformer lecture chapter pages.
+- Original placeholder roadmap study pages are removed from the active study index and static export.
 
 ## Next Actions
 
 - Enable GitHub Pages with GitHub Actions source after push.
 - Configure DNS CNAME for `toolbox.silvericekey.fun`.
+- Push the i18n and Transformer course integration changes.
 
 ## Blockers
 
