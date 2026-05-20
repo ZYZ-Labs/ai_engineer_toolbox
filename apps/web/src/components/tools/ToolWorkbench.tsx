@@ -442,7 +442,7 @@ async function executeTool({
     keyEncoding,
     ivEncoding,
     inputEncoding,
-    outputEncoding
+    outputEncoding: operation === "decrypt" ? "text" : outputEncoding
   };
 
   if (path === "/tools/crypto/aes") {
