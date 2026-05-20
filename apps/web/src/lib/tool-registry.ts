@@ -36,6 +36,14 @@ export type ToolConfig = {
   defaultAlgorithm?: string;
   paddings?: string[];
   defaultPadding?: string;
+  keyEncodings?: string[];
+  defaultKeyEncoding?: string;
+  ivEncodings?: string[];
+  defaultIvEncoding?: string;
+  inputEncodings?: string[];
+  defaultInputEncoding?: string;
+  outputEncodings?: string[];
+  defaultOutputEncoding?: string;
   secretLabel?: string;
   ivLabel?: string;
   defaultSecret?: string;
@@ -52,65 +60,93 @@ export const tools: ToolConfig[] = [
     title: "AES Encryptor",
     path: "/tools/crypto/aes",
     category: "Crypto",
-    summary: "Encrypt and decrypt text with AES-GCM or AES-CBC in Web Crypto.",
+    summary: "Encrypt and decrypt with AES-GCM, AES-CBC, or AES-ECB. Supports multiple paddings and key/IV/input/output encodings.",
     icon: LockKeyhole,
     inputLabel: "Plaintext or ciphertext",
-    placeholder: "Paste text to encrypt, or Base64 ciphertext to decrypt.",
+    placeholder: "Paste text to encrypt, or ciphertext to decrypt.",
     defaultInput: "The model output should be deterministic for this replay.",
     operations: ["encrypt", "decrypt"],
     algorithms: ["AES-GCM", "AES-CBC", "AES-ECB"],
     paddings: ["PKCS7", "NoPadding", "ZeroPadding", "Iso97971", "AnsiX923", "Iso10126"],
     defaultPadding: "PKCS7",
+    keyEncodings: ["text", "base64", "hex"],
+    defaultKeyEncoding: "text",
+    ivEncodings: ["text", "base64", "hex"],
+    defaultIvEncoding: "text",
+    inputEncodings: ["text", "base64", "hex"],
+    defaultInputEncoding: "text",
+    outputEncodings: ["base64", "hex"],
+    defaultOutputEncoding: "base64",
     defaultOperation: "encrypt",
     defaultAlgorithm: "AES-GCM",
-    secretLabel: "Passphrase",
-    ivLabel: "IV for decrypt, optional for encrypt",
+    secretLabel: "Passphrase / Key",
+    ivLabel: "IV",
     defaultSecret: "local-first-toolbox",
-    explanation: "AES-GCM is authenticated encryption and is the default. AES-CBC is included for compatibility with older systems."
+    explanation: "AES-GCM uses Web Crypto with SHA-256 key derivation. AES-CBC and AES-ECB use CryptoJS with configurable padding. Key, IV, input, and output all support text, Base64, or Hex encoding."
   },
   {
     title: "DES Compatibility Tool",
     path: "/tools/crypto/des",
     category: "Crypto",
-    summary: "Handle DES-CBC and DES-ECB payloads when legacy integration requires it.",
+    summary: "DES with CBC, ECB, CFB, OFB, and CTR modes. Supports padding and multiple encodings for key, IV, input, and output.",
     icon: KeyRound,
     inputLabel: "Plaintext or ciphertext",
-    placeholder: "Paste text to encrypt, or Base64 ciphertext to decrypt.",
+    placeholder: "Paste text to encrypt, or ciphertext to decrypt.",
     defaultInput: "legacy payload",
     operations: ["encrypt", "decrypt"],
-    algorithms: ["DES-CBC", "DES-ECB"],
+    algorithms: ["DES-CBC", "DES-ECB", "DES-CFB", "DES-OFB", "DES-CTR"],
+    paddings: ["PKCS7", "NoPadding", "ZeroPadding", "Iso97971", "AnsiX923", "Iso10126"],
+    defaultPadding: "PKCS7",
+    keyEncodings: ["text", "base64", "hex"],
+    defaultKeyEncoding: "text",
+    ivEncodings: ["text", "base64", "hex"],
+    defaultIvEncoding: "text",
+    inputEncodings: ["text", "base64", "hex"],
+    defaultInputEncoding: "text",
+    outputEncodings: ["base64", "hex"],
+    defaultOutputEncoding: "base64",
     defaultOperation: "encrypt",
     defaultAlgorithm: "DES-CBC",
-    secretLabel: "8-byte key",
-    ivLabel: "8-byte IV for CBC",
+    secretLabel: "Key",
+    ivLabel: "IV",
     defaultSecret: "12345678",
     defaultIv: "87654321",
-    explanation: "DES exists here for compatibility checks only. It is not recommended for new systems."
+    explanation: "DES with CBC, ECB, CFB, OFB, and CTR modes via CryptoJS. Padding is configurable for block modes. Key, IV, input, and output support text, Base64, or Hex encoding. DES is not recommended for new systems."
   },
   {
     title: "SM4 Compatibility Tool",
     path: "/tools/crypto/sm4",
     category: "Crypto",
-    summary: "Encrypt and decrypt SM4-CBC or SM4-ECB strings for integration checks.",
+    summary: "SM4-CBC and SM4-ECB with configurable padding and encoding support for key, IV, input, and output.",
     icon: ShieldCheck,
     inputLabel: "Plaintext or ciphertext",
-    placeholder: "Paste text to encrypt, or Base64 ciphertext to decrypt.",
+    placeholder: "Paste text to encrypt, or ciphertext to decrypt.",
     defaultInput: "SM4 integration payload",
     operations: ["encrypt", "decrypt"],
     algorithms: ["SM4-CBC", "SM4-ECB"],
+    paddings: ["PKCS7"],
+    defaultPadding: "PKCS7",
+    keyEncodings: ["text", "base64", "hex"],
+    defaultKeyEncoding: "text",
+    ivEncodings: ["text", "base64", "hex"],
+    defaultIvEncoding: "text",
+    inputEncodings: ["text", "base64", "hex"],
+    defaultInputEncoding: "text",
+    outputEncodings: ["base64", "hex"],
+    defaultOutputEncoding: "base64",
     defaultOperation: "encrypt",
     defaultAlgorithm: "SM4-CBC",
-    secretLabel: "16-byte key",
-    ivLabel: "16-byte IV for CBC",
+    secretLabel: "Key",
+    ivLabel: "IV",
     defaultSecret: "0123456789abcdef",
     defaultIv: "fedcba9876543210",
-    explanation: "SM4 is provided for teams that integrate with systems requiring the Chinese commercial block cipher standard."
+    explanation: "SM4 with CBC and ECB modes. Key and IV are internally converted to 32-character hex. Supports text, Base64, or Hex encoding for key, IV, input, and output."
   },
   {
     title: "Hash Generator",
     path: "/tools/crypto/hash",
     category: "Crypto",
-    summary: "Generate MD5, SHA-1, SHA-256, and SHA-512 digests.",
+    summary: "Generate MD5, SHA-1, SHA-256, and SHA-512 digests. Input supports text, Base64, or Hex encoding.",
     icon: Hash,
     inputLabel: "Input",
     placeholder: "Paste text to hash.",
@@ -119,13 +155,15 @@ export const tools: ToolConfig[] = [
     algorithms: ["MD5", "SHA-1", "SHA-256", "SHA-512"],
     defaultOperation: "hash",
     defaultAlgorithm: "SHA-256",
-    explanation: "SHA-256 or SHA-512 is appropriate for fingerprints. MD5 and SHA-1 are included for compatibility checks."
+    inputEncodings: ["text", "base64", "hex"],
+    defaultInputEncoding: "text",
+    explanation: "SHA-256 or SHA-512 is appropriate for fingerprints. MD5 and SHA-1 are included for compatibility checks. Input can be text, Base64, or Hex."
   },
   {
     title: "HMAC Generator",
     path: "/tools/crypto/hmac",
     category: "Crypto",
-    summary: "Generate keyed digests with HMAC-MD5, HMAC-SHA256, or HMAC-SHA512.",
+    summary: "Generate keyed digests with HMAC-MD5, HMAC-SHA256, or HMAC-SHA512. Key and message support multiple encodings.",
     icon: Fingerprint,
     inputLabel: "Message",
     placeholder: "Paste message text.",
@@ -136,7 +174,11 @@ export const tools: ToolConfig[] = [
     defaultAlgorithm: "HMAC-SHA256",
     secretLabel: "Secret",
     defaultSecret: "webhook-secret",
-    explanation: "HMAC is useful for webhook signatures and request verification where both sides share a secret."
+    keyEncodings: ["text", "base64", "hex"],
+    defaultKeyEncoding: "text",
+    inputEncodings: ["text", "base64", "hex"],
+    defaultInputEncoding: "text",
+    explanation: "HMAC is useful for webhook signatures and request verification. Key and message support text, Base64, or Hex encoding."
   },
   {
     title: "JSON Formatter",

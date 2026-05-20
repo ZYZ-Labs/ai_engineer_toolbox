@@ -44,6 +44,10 @@ export function ToolWorkbench({ tool }: Props) {
   const [operation, setOperation] = useState(tool.defaultOperation);
   const [algorithm, setAlgorithm] = useState(tool.defaultAlgorithm || tool.algorithms?.[0] || "");
   const [padding, setPadding] = useState(tool.defaultPadding || tool.paddings?.[0] || "PKCS7");
+  const [keyEncoding, setKeyEncoding] = useState(tool.defaultKeyEncoding || tool.keyEncodings?.[0] || "text");
+  const [ivEncoding, setIvEncoding] = useState(tool.defaultIvEncoding || tool.ivEncodings?.[0] || "text");
+  const [inputEncoding, setInputEncoding] = useState(tool.defaultInputEncoding || tool.inputEncodings?.[0] || "text");
+  const [outputEncoding, setOutputEncoding] = useState(tool.defaultOutputEncoding || tool.outputEncodings?.[0] || "base64");
   const [input, setInput] = useState(tool.defaultInput);
   const [secondaryInput, setSecondaryInput] = useState(tool.defaultSecondaryInput || "");
   const [secret, setSecret] = useState(tool.defaultSecret || "");
@@ -54,6 +58,8 @@ export function ToolWorkbench({ tool }: Props) {
   const [copied, setCopied] = useState(false);
   const [fileName, setFileName] = useState("");
   const didRunInitial = useRef(false);
+
+  const needsIv = tool.ivLabel && !algorithm.includes("ECB");
 
   function handleAlgorithmChange(next: string) {
     setAlgorithm(next);
@@ -75,6 +81,10 @@ export function ToolWorkbench({ tool }: Props) {
         operation,
         algorithm,
         padding,
+        keyEncoding,
+        ivEncoding,
+        inputEncoding,
+        outputEncoding,
         input,
         secondaryInput,
         secret,
@@ -93,7 +103,7 @@ export function ToolWorkbench({ tool }: Props) {
         setError(cause instanceof Error ? cause.message : t("workbench.error.generic"));
       }
     }
-  }, [algorithm, padding, input, iv, operation, secondaryInput, secret, t, tool.path]);
+  }, [algorithm, padding, keyEncoding, ivEncoding, inputEncoding, outputEncoding, input, iv, operation, secondaryInput, secret, t, tool.path]);
 
   useEffect(() => {
     if (!didRunInitial.current && !tool.acceptsFile) {
@@ -122,6 +132,10 @@ export function ToolWorkbench({ tool }: Props) {
     setOperation(tool.defaultOperation);
     setAlgorithm(tool.defaultAlgorithm || tool.algorithms?.[0] || "");
     setPadding(tool.defaultPadding || tool.paddings?.[0] || "PKCS7");
+    setKeyEncoding(tool.defaultKeyEncoding || tool.keyEncodings?.[0] || "text");
+    setIvEncoding(tool.defaultIvEncoding || tool.ivEncodings?.[0] || "text");
+    setInputEncoding(tool.defaultInputEncoding || tool.inputEncodings?.[0] || "text");
+    setOutputEncoding(tool.defaultOutputEncoding || tool.outputEncodings?.[0] || "base64");
     setInput(tool.defaultInput);
     setSecondaryInput(tool.defaultSecondaryInput || "");
     setSecret(tool.defaultSecret || "");
@@ -132,8 +146,6 @@ export function ToolWorkbench({ tool }: Props) {
     setCopied(false);
     setFileName("");
   }
-
-  const needsIv = tool.ivLabel && !algorithm.includes("ECB");
 
   return (
     <div className="grid gap-6 lg:grid-cols-[20rem_minmax(0,1fr)]">
@@ -186,6 +198,74 @@ export function ToolWorkbench({ tool }: Props) {
                 className="h-11 w-full rounded-xl border border-line bg-white px-3 text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
               >
                 {tool.paddings.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+
+          {tool.keyEncodings ? (
+            <label className="block">
+              <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">Key Encoding</span>
+              <select
+                value={keyEncoding}
+                onChange={(event) => setKeyEncoding(event.target.value)}
+                className="h-11 w-full rounded-xl border border-line bg-white px-3 text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+              >
+                {tool.keyEncodings.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+
+          {needsIv && tool.ivEncodings ? (
+            <label className="block">
+              <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">IV Encoding</span>
+              <select
+                value={ivEncoding}
+                onChange={(event) => setIvEncoding(event.target.value)}
+                className="h-11 w-full rounded-xl border border-line bg-white px-3 text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+              >
+                {tool.ivEncodings.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+
+          {tool.inputEncodings ? (
+            <label className="block">
+              <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">Input Encoding</span>
+              <select
+                value={inputEncoding}
+                onChange={(event) => setInputEncoding(event.target.value)}
+                className="h-11 w-full rounded-xl border border-line bg-white px-3 text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+              >
+                {tool.inputEncodings.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+
+          {tool.outputEncodings ? (
+            <label className="block">
+              <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">Output Encoding</span>
+              <select
+                value={outputEncoding}
+                onChange={(event) => setOutputEncoding(event.target.value)}
+                className="h-11 w-full rounded-xl border border-line bg-white px-3 text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+              >
+                {tool.outputEncodings.map((item) => (
                   <option key={item} value={item}>
                     {item}
                   </option>
@@ -324,6 +404,10 @@ async function executeTool({
   operation,
   algorithm,
   padding,
+  keyEncoding,
+  ivEncoding,
+  inputEncoding,
+  outputEncoding,
   input,
   secondaryInput,
   secret,
@@ -333,38 +417,49 @@ async function executeTool({
   operation: string;
   algorithm: string;
   padding: string;
+  keyEncoding: string;
+  ivEncoding: string;
+  inputEncoding: string;
+  outputEncoding: string;
   input: string;
   secondaryInput: string;
   secret: string;
   iv: string;
 }): Promise<{ output: string; meta?: Record<string, string | number> }> {
+  const cryptoOptions = {
+    keyEncoding,
+    ivEncoding,
+    inputEncoding,
+    outputEncoding
+  };
+
   if (path === "/tools/crypto/aes") {
     if (!secret) throw new I18nError("error.aes.secretRequired");
     if (operation === "decrypt" && algorithm.includes("CBC") && !iv) throw new I18nError("error.aes.ivRequired");
-    if (operation === "encrypt") return aesEncrypt(input, secret, algorithm as "AES-GCM" | "AES-CBC" | "AES-ECB", iv || undefined, padding);
-    return { output: await aesDecrypt(input, secret, algorithm as "AES-GCM" | "AES-CBC" | "AES-ECB", iv, padding) };
+    if (operation === "encrypt") return aesEncrypt(input, secret, algorithm as "AES-GCM" | "AES-CBC" | "AES-ECB", iv || "", padding, cryptoOptions);
+    return { output: await aesDecrypt(input, secret, algorithm as "AES-GCM" | "AES-CBC" | "AES-ECB", iv, padding, cryptoOptions) };
   }
 
   if (path === "/tools/crypto/des") {
     if (!secret) throw new I18nError("error.des.secretRequired");
-    if (operation === "encrypt") return { output: desEncrypt(input, secret, algorithm as "DES-CBC" | "DES-ECB", iv) };
-    return { output: desDecrypt(input, secret, algorithm as "DES-CBC" | "DES-ECB", iv) };
+    if (operation === "encrypt") return { output: desEncrypt(input, secret, algorithm as "DES-CBC" | "DES-ECB" | "DES-CFB" | "DES-OFB" | "DES-CTR", iv, padding, cryptoOptions) };
+    return { output: desDecrypt(input, secret, algorithm as "DES-CBC" | "DES-ECB" | "DES-CFB" | "DES-OFB" | "DES-CTR", iv, padding, cryptoOptions) };
   }
 
   if (path === "/tools/crypto/sm4") {
     if (!secret) throw new I18nError("error.sm4.secretRequired");
     if (algorithm.includes("CBC") && !iv) throw new I18nError("error.sm4.ivRequired");
-    if (operation === "encrypt") return { output: sm4Encrypt(input, secret, algorithm as "SM4-CBC" | "SM4-ECB", iv) };
-    return { output: sm4Decrypt(input, secret, algorithm as "SM4-CBC" | "SM4-ECB", iv) };
+    if (operation === "encrypt") return { output: sm4Encrypt(input, secret, algorithm as "SM4-CBC" | "SM4-ECB", iv, padding, cryptoOptions) };
+    return { output: sm4Decrypt(input, secret, algorithm as "SM4-CBC" | "SM4-ECB", iv, padding, cryptoOptions) };
   }
 
   if (path === "/tools/crypto/hash") {
-    return { output: await hashText(input, algorithm as "MD5" | "SHA-1" | "SHA-256" | "SHA-512") };
+    return { output: await hashText(input, algorithm as "MD5" | "SHA-1" | "SHA-256" | "SHA-512", inputEncoding as "text" | "base64" | "hex") };
   }
 
   if (path === "/tools/crypto/hmac") {
     if (!secret) throw new I18nError("error.hmac.secretRequired");
-    return { output: hmacText(input, secret, algorithm as "HMAC-MD5" | "HMAC-SHA256" | "HMAC-SHA512") };
+    return { output: hmacText(input, secret, algorithm as "HMAC-MD5" | "HMAC-SHA256" | "HMAC-SHA512", { inputEncoding, keyEncoding }) };
   }
 
   if (path === "/tools/json/formatter") {
