@@ -16,10 +16,13 @@
 - Custom domain: `toolbox.silvericekey.fun`.
 - Static output: `apps/web/out`.
 - Pages workflow: `.github/workflows/pages.yml`.
-- Domain file: `apps/web/public/CNAME`.
+- Domain files:
+  - `apps/web/public/CNAME` is copied into the Next.js static export artifact.
+  - Root `CNAME` was created by the GitHub Pages custom domain setting.
 - Remote commits:
   - `5190914` implements source code and project docs.
   - `7516358` adds the GitHub Pages deployment workflow.
+  - `90be6e5` creates root `CNAME`.
 
 ## Validation Entry
 

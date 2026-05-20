@@ -32,6 +32,7 @@ AI Engineer Toolbox v1 was implemented from `AI_Engineer_Toolbox_Spec_v1.md` as 
 - GitHub Pages output includes `CNAME` with `toolbox.silvericekey.fun`.
 - Source implementation was pushed to `master` as `5190914`.
 - GitHub Pages workflow was pushed to `master` as `7516358`.
+- Root `CNAME` was added on remote as `90be6e5`.
 
 ## Evidence
 

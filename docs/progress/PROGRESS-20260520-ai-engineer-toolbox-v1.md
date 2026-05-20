@@ -15,6 +15,7 @@
 - `apps/web/out/CNAME` contains `toolbox.silvericekey.fun`.
 - Remote commit `5190914` contains the v1 source implementation.
 - Remote commit `7516358` contains `.github/workflows/pages.yml`.
+- Remote commit `90be6e5` contains the root `CNAME` from GitHub Pages custom domain configuration.
 
 ## Next Actions
 
