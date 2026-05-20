@@ -30,6 +30,8 @@ AI Engineer Toolbox v1 was implemented from `AI_Engineer_Toolbox_Spec_v1.md` as 
 - Typecheck passed for web and utils workspaces.
 - Static build passed and generated 26 pages.
 - GitHub Pages output includes `CNAME` with `toolbox.silvericekey.fun`.
+- Source implementation was pushed to `master` as `5190914`.
+- GitHub Pages workflow was pushed to `master` as `7516358`.
 
 ## Evidence
 
@@ -61,6 +63,5 @@ toolbox.silvericekey.fun
 
 ## Follow-Up
 
-- Push repository to `ZYZ-Labs/ai_engineer_toolbox`.
 - Enable GitHub Pages with GitHub Actions as the source.
 - Add DNS CNAME record: `toolbox.silvericekey.fun CNAME zyz-labs.github.io`.

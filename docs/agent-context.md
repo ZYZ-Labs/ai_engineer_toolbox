@@ -3,7 +3,7 @@
 ## Current Status
 
 - Main task: implement AI Engineer Toolbox v1 from `AI_Engineer_Toolbox_Spec_v1.md`.
-- Current phase: implementation complete, pending git push.
+- Current phase: implementation pushed to GitHub, pending GitHub Pages and DNS configuration.
 - Main entry: `apps/web/src/app/page.tsx`.
 - Tool registry: `apps/web/src/lib/tool-registry.ts`.
 - Tool execution: `apps/web/src/components/tools/ToolWorkbench.tsx`.
@@ -17,6 +17,9 @@
 - Static output: `apps/web/out`.
 - Pages workflow: `.github/workflows/pages.yml`.
 - Domain file: `apps/web/public/CNAME`.
+- Remote commits:
+  - `5190914` implements source code and project docs.
+  - `7516358` adds the GitHub Pages deployment workflow.
 
 ## Validation Entry
 
