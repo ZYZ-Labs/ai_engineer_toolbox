@@ -8,6 +8,7 @@
 - Tool registry: `apps/web/src/lib/tool-registry.ts`.
 - Tool execution: `apps/web/src/components/tools/ToolWorkbench.tsx`.
 - Study content: `content/study/*.mdx`.
+- **I18n added**: Client-side i18n with `en` (default) and `zh` support. Config cached in `localStorage` under key `aet-lang`. Language switcher in Header.
 
 ## Deployment Context
 

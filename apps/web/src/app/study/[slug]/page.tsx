@@ -2,8 +2,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PageShell } from "@/components/layout/PageShell";
-import { MarkdownRenderer } from "@/components/study/MarkdownRenderer";
+import { StudyPageClient } from "./StudyPageClient";
 import { findStudyPage, studyPages } from "@/lib/study-registry";
 
 type Props = {
@@ -31,14 +30,5 @@ export default async function StudyPage({ params }: Props) {
 
   const source = await readFile(path.join(process.cwd(), "../../content/study", `${slug}.mdx`), "utf8");
 
-  return (
-    <PageShell>
-      <div className="mx-auto max-w-3xl rounded-spec border border-line bg-white p-6 shadow-sm sm:p-8">
-        <p className="mb-4 text-sm font-semibold uppercase text-primary">
-          {page.level} / {page.readingTime}
-        </p>
-        <MarkdownRenderer source={source} />
-      </div>
-    </PageShell>
-  );
+  return <StudyPageClient page={page} source={source} />;
 }

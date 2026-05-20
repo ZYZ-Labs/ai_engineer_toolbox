@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { I18nProvider } from "@/lib/i18n";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import "./globals.css";
@@ -16,9 +17,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body>
-        <Header />
-        {children}
-        <Footer />
+        <I18nProvider>
+          <Header />
+          {children}
+          <Footer />
+        </I18nProvider>
       </body>
     </html>
   );

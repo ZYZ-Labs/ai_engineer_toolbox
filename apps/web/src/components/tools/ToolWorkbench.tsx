@@ -3,6 +3,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Check, Copy, Play, RotateCcw, Upload } from "lucide-react";
 import type { ToolWorkbenchConfig } from "@/lib/tool-registry";
+import { useI18n } from "@/lib/i18n";
+import { translateOperation } from "@/lib/i18n/tool";
+import type { DictKey } from "@/lib/i18n/dict";
 import {
   aesDecrypt,
   aesEncrypt,
@@ -30,7 +33,14 @@ type Props = {
   tool: ToolWorkbenchConfig;
 };
 
+class I18nError extends Error {
+  constructor(public key: DictKey) {
+    super(key);
+  }
+}
+
 export function ToolWorkbench({ tool }: Props) {
+  const { t } = useI18n();
   const [operation, setOperation] = useState(tool.defaultOperation);
   const [algorithm, setAlgorithm] = useState(tool.defaultAlgorithm || tool.algorithms?.[0] || "");
   const [input, setInput] = useState(tool.defaultInput);
@@ -66,9 +76,13 @@ export function ToolWorkbench({ tool }: Props) {
       }
     } catch (cause) {
       setOutput("");
-      setError(cause instanceof Error ? cause.message : "Unable to process the input.");
+      if (cause instanceof I18nError) {
+        setError(t(cause.key));
+      } else {
+        setError(cause instanceof Error ? cause.message : t("workbench.error.generic"));
+      }
     }
-  }, [algorithm, input, iv, operation, secondaryInput, secret, tool.path]);
+  }, [algorithm, input, iv, operation, secondaryInput, secret, t, tool.path]);
 
   useEffect(() => {
     if (!didRunInitial.current && !tool.acceptsFile) {
@@ -110,10 +124,10 @@ export function ToolWorkbench({ tool }: Props) {
   return (
     <div className="grid gap-6 lg:grid-cols-[20rem_minmax(0,1fr)]">
       <aside className="rounded-spec border border-line bg-panel p-5 shadow-sm">
-        <h2 className="text-sm font-semibold text-ink">Algorithm Settings</h2>
+        <h2 className="text-sm font-semibold text-ink">{t("workbench.algorithmSettings")}</h2>
         <div className="mt-5 space-y-5">
           <fieldset>
-            <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted">Mode</legend>
+            <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted">{t("workbench.mode")}</legend>
             <div className="grid grid-cols-2 gap-2">
               {tool.operations.map((item) => (
                 <button
@@ -126,7 +140,7 @@ export function ToolWorkbench({ tool }: Props) {
                       : "border-line bg-white text-muted hover:border-primary/40 hover:text-primary"
                   }`}
                 >
-                  {item}
+                  {translateOperation(item, t)}
                 </button>
               ))}
             </div>
@@ -134,7 +148,7 @@ export function ToolWorkbench({ tool }: Props) {
 
           {tool.algorithms ? (
             <label className="block">
-              <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">Algorithm</span>
+              <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">{t("workbench.algorithm")}</span>
               <select
                 value={algorithm}
                 onChange={(event) => setAlgorithm(event.target.value)}
@@ -179,13 +193,13 @@ export function ToolWorkbench({ tool }: Props) {
               className="inline-flex h-10 flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-semibold text-white transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-muted/30"
             >
               <Play className="h-4 w-4" aria-hidden="true" />
-              Run
+              {t("workbench.run")}
             </button>
             <button
               type="button"
               onClick={reset}
               className="grid h-10 w-10 place-items-center rounded-xl border border-line bg-white text-muted transition hover:border-primary/40 hover:text-primary"
-              aria-label="Reset"
+              aria-label={t("workbench.reset")}
             >
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
             </button>
@@ -200,7 +214,7 @@ export function ToolWorkbench({ tool }: Props) {
             {tool.acceptsFile ? (
               <label className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-xl border border-line px-3 text-sm font-medium text-muted transition hover:border-primary/40 hover:text-primary">
                 <Upload className="h-4 w-4" aria-hidden="true" />
-                Select
+                {t("workbench.select")}
                 <input className="sr-only" type="file" accept="image/*" onChange={(event) => void handleFile(event.target.files?.[0])} />
               </label>
             ) : null}
@@ -236,7 +250,7 @@ export function ToolWorkbench({ tool }: Props) {
 
         <div className="rounded-spec border border-line bg-panel p-5 shadow-sm">
           <div className="mb-3 flex items-center justify-between gap-3">
-            <h2 className="text-sm font-semibold text-ink">Output</h2>
+            <h2 className="text-sm font-semibold text-ink">{t("workbench.output")}</h2>
             <button
               type="button"
               onClick={copyOutput}
@@ -244,7 +258,7 @@ export function ToolWorkbench({ tool }: Props) {
               className="inline-flex h-9 items-center gap-2 rounded-xl border border-line px-3 text-sm font-medium text-muted transition hover:border-primary/40 hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
             >
               {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
-              {copied ? "Copied" : "Copy"}
+              {copied ? t("workbench.copied") : t("workbench.copy")}
             </button>
           </div>
           {error ? (
@@ -292,20 +306,20 @@ async function executeTool({
   iv: string;
 }): Promise<{ output: string; meta?: Record<string, string | number> }> {
   if (path === "/tools/crypto/aes") {
-    if (!secret) throw new Error("Passphrase is required.");
-    if (operation === "decrypt" && !iv) throw new Error("IV is required for AES decrypt.");
+    if (!secret) throw new I18nError("error.aes.secretRequired");
+    if (operation === "decrypt" && !iv) throw new I18nError("error.aes.ivRequired");
     if (operation === "encrypt") return aesEncrypt(input, secret, algorithm as "AES-GCM" | "AES-CBC", iv || undefined);
     return { output: await aesDecrypt(input, secret, algorithm as "AES-GCM" | "AES-CBC", iv) };
   }
 
   if (path === "/tools/crypto/des") {
-    if (!secret) throw new Error("DES key is required.");
+    if (!secret) throw new I18nError("error.des.secretRequired");
     if (operation === "encrypt") return { output: desEncrypt(input, secret, algorithm as "DES-CBC" | "DES-ECB", iv) };
     return { output: desDecrypt(input, secret, algorithm as "DES-CBC" | "DES-ECB", iv) };
   }
 
   if (path === "/tools/crypto/sm4") {
-    if (!secret) throw new Error("SM4 key is required.");
+    if (!secret) throw new I18nError("error.sm4.secretRequired");
     if (operation === "encrypt") return { output: sm4Encrypt(input, secret, algorithm as "SM4-CBC" | "SM4-ECB", iv) };
     return { output: sm4Decrypt(input, secret, algorithm as "SM4-CBC" | "SM4-ECB", iv) };
   }
@@ -315,7 +329,7 @@ async function executeTool({
   }
 
   if (path === "/tools/crypto/hmac") {
-    if (!secret) throw new Error("Secret is required.");
+    if (!secret) throw new I18nError("error.hmac.secretRequired");
     return { output: hmacText(input, secret, algorithm as "HMAC-MD5" | "HMAC-SHA256" | "HMAC-SHA512") };
   }
 
@@ -351,5 +365,5 @@ async function executeTool({
     return estimateTokens(input);
   }
 
-  throw new Error("Unsupported tool.");
+  throw new I18nError("error.unsupportedTool");
 }

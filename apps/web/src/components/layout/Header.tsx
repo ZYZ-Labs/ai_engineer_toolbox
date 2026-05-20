@@ -1,14 +1,25 @@
+"use client";
+
 import Link from "next/link";
 import { Boxes, Github } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
+import type { Lang } from "@/lib/i18n/dict";
 
 const navItems = [
-  { href: "/tools", label: "Tools" },
-  { href: "/study", label: "Study" },
-  { href: "/about", label: "About" },
-  { href: "/changelog", label: "Changelog" }
+  { href: "/tools", key: "nav.tools" as const },
+  { href: "/study", key: "nav.study" as const },
+  { href: "/about", key: "nav.about" as const },
+  { href: "/changelog", key: "nav.changelog" as const }
 ];
 
 export function Header() {
+  const { t, lang, setLang } = useI18n();
+
+  function toggleLang() {
+    const next: Lang = lang === "en" ? "zh" : "en";
+    setLang(next);
+  }
+
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-white/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -16,7 +27,7 @@ export function Header() {
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-white">
             <Boxes className="h-5 w-5" aria-hidden="true" />
           </span>
-          <span>AI Engineer Toolbox</span>
+          <span>{t("site.name")}</span>
         </Link>
         <nav className="hidden items-center gap-1 md:flex">
           {navItems.map((item) => (
@@ -25,17 +36,28 @@ export function Header() {
               href={item.href}
               className="rounded-full px-4 py-2 text-sm font-medium text-muted transition hover:bg-primary-soft hover:text-primary"
             >
-              {item.label}
+              {t(item.key)}
             </Link>
           ))}
         </nav>
-        <a
-          href="https://github.com/ZYZ-Labs/ai_engineer_toolbox"
-          className="grid h-9 w-9 place-items-center rounded-full border border-line bg-panel text-muted transition hover:border-primary/40 hover:text-primary"
-          aria-label="GitHub repository"
-        >
-          <Github className="h-4 w-4" aria-hidden="true" />
-        </a>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={toggleLang}
+            className="grid h-9 w-9 place-items-center rounded-full border border-line bg-panel text-xs font-semibold text-muted transition hover:border-primary/40 hover:text-primary"
+            aria-label="Switch language"
+            title={lang === "en" ? t("lang.zh") : t("lang.en")}
+          >
+            {lang === "en" ? "EN" : "中"}
+          </button>
+          <a
+            href="https://github.com/ZYZ-Labs/ai_engineer_toolbox"
+            className="grid h-9 w-9 place-items-center rounded-full border border-line bg-panel text-muted transition hover:border-primary/40 hover:text-primary"
+            aria-label="GitHub repository"
+          >
+            <Github className="h-4 w-4" aria-hidden="true" />
+          </a>
+        </div>
       </div>
     </header>
   );

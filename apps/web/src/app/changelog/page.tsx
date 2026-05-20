@@ -1,23 +1,30 @@
-import type { Metadata } from "next";
-import { PageShell } from "@/components/layout/PageShell";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Changelog"
-};
+import { PageShell } from "@/components/layout/PageShell";
+import { useI18n } from "@/lib/i18n";
 
 export default function ChangelogPage() {
+  const { t } = useI18n();
+
   return (
     <PageShell>
       <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase text-primary">Changelog</p>
-        <h1 className="mt-3 text-4xl font-semibold text-ink">Project updates</h1>
+        <p className="text-sm font-semibold uppercase text-primary">{t("changelog.label")}</p>
+        <h1 className="mt-3 text-4xl font-semibold text-ink">{t("changelog.title")}</h1>
       </div>
       <div className="mt-8 rounded-spec border border-line bg-white p-6 shadow-sm">
-        <p className="text-sm font-semibold text-ink">2026-05-20 / v0.1.0</p>
+        <p className="text-sm font-semibold text-ink">{t("changelog.i18n.date")}</p>
         <ul className="mt-4 space-y-2 text-sm leading-7 text-muted">
-          <li>Implemented the static Next.js frontend for GitHub Pages and custom domain deployment.</li>
-          <li>Added local-first tools for crypto, data, and AI engineering workflows.</li>
-          <li>Added MDX study roadmaps and project handoff documentation.</li>
+          <li>{t("changelog.i18n.l1")}</li>
+        </ul>
+      </div>
+
+      <div className="mt-6 rounded-spec border border-line bg-white p-6 shadow-sm">
+        <p className="text-sm font-semibold text-ink">{t("changelog.v010.date")}</p>
+        <ul className="mt-4 space-y-2 text-sm leading-7 text-muted">
+          <li>{t("changelog.v010.l1")}</li>
+          <li>{t("changelog.v010.l2")}</li>
+          <li>{t("changelog.v010.l3")}</li>
         </ul>
       </div>
     </PageShell>
