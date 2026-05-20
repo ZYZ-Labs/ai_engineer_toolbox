@@ -10,6 +10,7 @@ import {
   aesDecrypt,
   aesEncrypt,
   base64ToText,
+  decodeBase64Image,
   decodeUrl,
   desDecrypt,
   desEncrypt,
@@ -300,7 +301,7 @@ export function ToolWorkbench({ tool }: Props) {
             <button
               type="button"
               onClick={run}
-              disabled={tool.acceptsFile}
+              disabled={tool.acceptsFile && operation === "encode"}
               className="inline-flex h-10 flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-semibold text-white transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-muted/30"
             >
               <Play className="h-4 w-4" aria-hidden="true" />
@@ -322,7 +323,7 @@ export function ToolWorkbench({ tool }: Props) {
         <div className="rounded-spec border border-line bg-panel p-5 shadow-sm">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-sm font-semibold text-ink">{tool.inputLabel}</h2>
-            {tool.acceptsFile ? (
+            {tool.acceptsFile && operation === "encode" ? (
               <label className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-xl border border-line px-3 text-sm font-medium text-muted transition hover:border-primary/40 hover:text-primary">
                 <Upload className="h-4 w-4" aria-hidden="true" />
                 {t("workbench.select")}
@@ -331,7 +332,7 @@ export function ToolWorkbench({ tool }: Props) {
             ) : null}
           </div>
 
-          {tool.acceptsFile ? (
+          {tool.acceptsFile && operation === "encode" ? (
             <div className="grid min-h-[18rem] place-items-center rounded-xl border border-dashed border-line bg-canvas p-6 text-center text-sm text-muted">
               <span>{fileName || tool.placeholder}</span>
             </div>
@@ -374,6 +375,17 @@ export function ToolWorkbench({ tool }: Props) {
           </div>
           {error ? (
             <div className="min-h-[18rem] rounded-xl border border-red-200 bg-red-50 p-4 text-sm leading-6 text-red-700">{error}</div>
+          ) : tool.path === "/tools/base64/image" && operation === "decode" ? (
+            output ? (
+              <div className="grid min-h-[18rem] place-items-center rounded-xl border border-line bg-canvas p-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={output} alt="Decoded" className="max-h-96 max-w-full rounded-lg object-contain" />
+              </div>
+            ) : (
+              <div className="grid min-h-[18rem] place-items-center rounded-xl border border-dashed border-line bg-canvas p-6 text-center text-sm text-muted">
+                <span>Paste Base64 to decode</span>
+              </div>
+            )
           ) : (
             <textarea
               value={output}
@@ -472,6 +484,12 @@ async function executeTool({
 
   if (path === "/tools/base64/text") {
     return { output: operation === "decode" ? base64ToText(input) : textToBase64(input) };
+  }
+
+  if (path === "/tools/base64/image") {
+    if (operation === "encode") return { output: "" };
+    const result = decodeBase64Image(input);
+    return { output: result.dataUrl, meta: { mimeType: result.mimeType } };
   }
 
   if (path === "/tools/url/encode") {

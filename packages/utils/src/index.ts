@@ -505,3 +505,40 @@ export function imageToDataUrl(file: File) {
     reader.readAsDataURL(file);
   });
 }
+
+export function decodeBase64Image(input: string): { dataUrl: string; mimeType: string } {
+  let clean = input.trim();
+
+  // Already a data URL
+  if (clean.startsWith("data:image/")) {
+    const mimeMatch = clean.match(/^data:image\/([^;]+)/);
+    const mimeType = mimeMatch ? `image/${mimeMatch[1]}` : "image/png";
+    return { dataUrl: clean, mimeType };
+  }
+
+  // Remove any non-base64 characters (like whitespace)
+  clean = clean.replace(/[^A-Za-z0-9+/=]/g, "");
+
+  // Detect format from base64 header bytes
+  const header = atob(clean.slice(0, 24));
+  const bytes = new Uint8Array(header.length);
+  for (let i = 0; i < header.length; i++) bytes[i] = header.charCodeAt(i);
+
+  let mimeType = "image/png";
+  if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47) {
+    mimeType = "image/png";
+  } else if (bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) {
+    mimeType = "image/jpeg";
+  } else if (bytes[0] === 0x47 && bytes[1] === 0x49 && bytes[2] === 0x46) {
+    mimeType = "image/gif";
+  } else if (bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x46) {
+    mimeType = "image/webp";
+  } else if (bytes[0] === 0x42 && bytes[1] === 0x4d) {
+    mimeType = "image/bmp";
+  } else if (bytes[0] === 0x3c && bytes[1] === 0x3f && bytes[2] === 0x78) {
+    mimeType = "image/svg+xml";
+  }
+
+  const dataUrl = `data:${mimeType};base64,${clean}`;
+  return { dataUrl, mimeType };
+}

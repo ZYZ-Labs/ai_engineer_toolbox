@@ -38,6 +38,9 @@ export const dict = {
     // Changelog
     "changelog.label": "Changelog",
     "changelog.title": "Project updates",
+    "changelog.base64image.date": "2026-05-20 / Base64 Image decode",
+    "changelog.base64image.l1": "Added decode mode to Base64 Image tool. Accepts Base64 with or without data URL prefix.",
+    "changelog.base64image.l2": "Auto-detects image format (PNG/JPEG/GIF/WebP/BMP/SVG) from file headers when decoding.",
     "changelog.crypto_v2.date": "2026-05-20 / crypto encoding and modes",
     "changelog.crypto_v2.l1": "Added key/IV/input/output encoding support (text, Base64, Hex) for AES, DES, SM4, Hash, and HMAC.",
     "changelog.crypto_v2.l2": "Fixed SM4 by converting key/IV to 32-char hex and bridging base64/hex input-output.",
@@ -162,10 +165,10 @@ export const dict = {
 
     // Tool: Base64 Image
     "tool.base64Image.title": "Base64 Image",
-    "tool.base64Image.summary": "Convert an image file to a Data URL in the browser.",
-    "tool.base64Image.inputLabel": "Image file",
-    "tool.base64Image.placeholder": "Select an image file.",
-    "tool.base64Image.explanation": "Image conversion uses the browser FileReader API. The selected file is not uploaded by this app.",
+    "tool.base64Image.summary": "Convert an image file to Base64, or decode Base64 back to an image with auto-detected format.",
+    "tool.base64Image.inputLabel": "Image file or Base64",
+    "tool.base64Image.placeholder": "Select an image file, or paste Base64 here.",
+    "tool.base64Image.explanation": "Encode: converts an image file to a Base64 Data URL via FileReader. Decode: accepts Base64 with or without a data URL prefix, auto-detects PNG/JPEG/GIF/WebP/BMP/SVG from file headers, and renders the image.",
 
     // Tool: URL Encoder
     "tool.urlEncoder.title": "URL Encoder",
@@ -285,6 +288,9 @@ export const dict = {
     "changelog.crypto_v2.l2": "Fixed SM4 by converting key/IV to 32-char hex and bridging base64/hex input-output.",
     "changelog.crypto_v2.l3": "Expanded DES to CBC, ECB, CFB, OFB, and CTR modes with configurable padding.",
     "changelog.crypto_v2.l4": "Added Padding selection for AES-CBC, AES-ECB, DES, and SM4.",
+    "changelog.base64image.date": "2026-05-20 / Base64 图片解码",
+    "changelog.base64image.l1": "Base64 图片工具新增解码模式，接受带或不带 data URL 前缀的 Base64。",
+    "changelog.base64image.l2": "解码时从文件头自动检测图片格式（PNG/JPEG/GIF/WebP/BMP/SVG）。",
     "changelog.crypto_v2.l5": "更新所有加密工具说明，反映新的编码和模式能力。",
     "changelog.crypto.date": "2026-05-20 / 加密与使用统计",
     "changelog.crypto.l1": "新增 AES-ECB 支持，可配置 Padding（PKCS7、NoPadding、ZeroPadding 等）。",
@@ -404,10 +410,10 @@ export const dict = {
 
     // Tool: Base64 Image
     "tool.base64Image.title": "Base64 图片",
-    "tool.base64Image.summary": "在浏览器中将图片文件转换为 Data URL。",
-    "tool.base64Image.inputLabel": "图片文件",
-    "tool.base64Image.placeholder": "选择一张图片文件。",
-    "tool.base64Image.explanation": "图片转换使用浏览器 FileReader API。选中的文件不会被本应用上传。",
+    "tool.base64Image.summary": "将图片文件转为 Base64，或将 Base64 解码回图片并自动检测格式。",
+    "tool.base64Image.inputLabel": "图片文件或 Base64",
+    "tool.base64Image.placeholder": "选择一张图片文件，或在此粘贴 Base64。",
+    "tool.base64Image.explanation": "编码：通过 FileReader 将图片文件转为 Base64 Data URL。解码：接受带或不带 data URL 前缀的 Base64，从文件头自动检测 PNG/JPEG/GIF/WebP/BMP/SVG 格式并渲染图片。",
 
     // Tool: URL Encoder
     "tool.urlEncoder.title": "URL 编码器",

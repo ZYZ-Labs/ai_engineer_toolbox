@@ -226,15 +226,15 @@ export const tools: ToolConfig[] = [
     title: "Base64 Image",
     path: "/tools/base64/image",
     category: "Data",
-    summary: "Convert an image file to a Data URL in the browser.",
+    summary: "Convert an image file to Base64, or decode Base64 back to an image with auto-detected format.",
     icon: Image,
-    inputLabel: "Image file",
-    placeholder: "Select an image file.",
+    inputLabel: "Image file or Base64",
+    placeholder: "Select an image file, or paste Base64 here.",
     defaultInput: "",
-    operations: ["encode"],
+    operations: ["encode", "decode"],
     defaultOperation: "encode",
     acceptsFile: true,
-    explanation: "Image conversion uses the browser FileReader API. The selected file is not uploaded by this app."
+    explanation: "Encode: converts an image file to a Base64 Data URL via FileReader. Decode: accepts Base64 with or without a data URL prefix, auto-detects PNG/JPEG/GIF/WebP/BMP/SVG from file headers, and renders the image."
   },
   {
     title: "URL Encoder",
