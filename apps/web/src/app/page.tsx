@@ -22,7 +22,7 @@ export default function HomePage() {
 
   return (
     <PageShell>
-      <section className="grid min-h-[calc(100vh-12rem)] content-center gap-10 py-8 lg:grid-cols-[minmax(0,1fr)_24rem] lg:py-14">
+      <section className="grid gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_24rem] lg:py-12">
         <div className="max-w-3xl">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-line bg-white px-3 py-1.5 text-sm text-muted">
             <Sparkles className="h-4 w-4 text-primary" aria-hidden="true" />
