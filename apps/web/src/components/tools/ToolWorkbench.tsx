@@ -16,15 +16,11 @@ import {
   desEncrypt,
   diffJson,
   encodeUrl,
-  escapePrompt,
-  estimateTokens,
   formatJson,
-  formatMessages,
   hashText,
   hmacText,
   imageToDataUrl,
   minifyJson,
-  parseSse,
   sm4Decrypt,
   sm4Encrypt,
   textToBase64
@@ -509,22 +505,6 @@ async function executeTool({
 
   if (path === "/tools/url/encode") {
     return { output: operation === "decode" ? decodeUrl(input) : encodeUrl(input) };
-  }
-
-  if (path === "/tools/ai/messages-formatter") {
-    return { output: formatMessages(input) };
-  }
-
-  if (path === "/tools/ai/prompt-escape") {
-    return { output: escapePrompt(input) };
-  }
-
-  if (path === "/tools/ai/sse-parser") {
-    return { output: parseSse(input) };
-  }
-
-  if (path === "/tools/ai/token-estimator") {
-    return estimateTokens(input);
   }
 
   throw new I18nError("error.unsupportedTool");

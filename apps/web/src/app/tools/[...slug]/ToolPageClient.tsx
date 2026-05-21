@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { PageShell } from "@/components/layout/PageShell";
 import { ToolWorkbench } from "@/components/tools/ToolWorkbench";
+import { AiChatWorkbench } from "@/components/tools/AiChatWorkbench";
 import { useI18n } from "@/lib/i18n";
 import { translateTool, translateCategory } from "@/lib/i18n/tool";
 import { findToolByPath } from "@/lib/tool-registry";
@@ -24,6 +25,7 @@ export function ToolPageClient({ toolPath }: Props) {
 
   const localized = translateTool(tool, t);
   const { icon: Icon, ...workbenchTool } = localized;
+  const isAiChat = tool.path === "/tools/ai/chat";
 
   return (
     <PageShell>
@@ -38,20 +40,22 @@ export function ToolPageClient({ toolPath }: Props) {
         </div>
       </div>
 
-      <ToolWorkbench tool={workbenchTool} />
+      {isAiChat ? <AiChatWorkbench /> : <ToolWorkbench tool={workbenchTool} />}
 
-      <section className="mt-8 grid gap-6 lg:grid-cols-2">
-        <div className="rounded-spec border border-line bg-panel p-5 shadow-sm">
-          <h2 className="text-sm font-semibold text-ink">{t("tool.explanation")}</h2>
-          <p className="mt-3 text-sm leading-7 text-muted">{localized.explanation}</p>
-        </div>
-        <div className="rounded-spec border border-line bg-panel p-5 shadow-sm">
-          <h2 className="text-sm font-semibold text-ink">{t("tool.securityNotice")}</h2>
-          <p className="mt-3 text-sm leading-7 text-muted">
-            {localized.notice || t("tool.defaultNotice")}
-          </p>
-        </div>
-      </section>
+      {!isAiChat && (
+        <section className="mt-8 grid gap-6 lg:grid-cols-2">
+          <div className="rounded-spec border border-line bg-panel p-5 shadow-sm">
+            <h2 className="text-sm font-semibold text-ink">{t("tool.explanation")}</h2>
+            <p className="mt-3 text-sm leading-7 text-muted">{localized.explanation}</p>
+          </div>
+          <div className="rounded-spec border border-line bg-panel p-5 shadow-sm">
+            <h2 className="text-sm font-semibold text-ink">{t("tool.securityNotice")}</h2>
+            <p className="mt-3 text-sm leading-7 text-muted">
+              {localized.notice || t("tool.defaultNotice")}
+            </p>
+          </div>
+        </section>
+      )}
     </PageShell>
   );
 }

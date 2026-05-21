@@ -81,33 +81,12 @@ const toolKeyMap: Record<string, { title: DictKey; summary: DictKey; inputLabel:
     placeholder: "tool.urlEncoder.placeholder",
     explanation: "tool.urlEncoder.explanation",
   },
-  "/tools/ai/messages-formatter": {
-    title: "tool.messagesFormatter.title",
-    summary: "tool.messagesFormatter.summary",
-    inputLabel: "tool.messagesFormatter.inputLabel",
-    placeholder: "tool.messagesFormatter.placeholder",
-    explanation: "tool.messagesFormatter.explanation",
-  },
-  "/tools/ai/prompt-escape": {
-    title: "tool.promptEscape.title",
-    summary: "tool.promptEscape.summary",
-    inputLabel: "tool.promptEscape.inputLabel",
-    placeholder: "tool.promptEscape.placeholder",
-    explanation: "tool.promptEscape.explanation",
-  },
-  "/tools/ai/sse-parser": {
-    title: "tool.sseParser.title",
-    summary: "tool.sseParser.summary",
-    inputLabel: "tool.sseParser.inputLabel",
-    placeholder: "tool.sseParser.placeholder",
-    explanation: "tool.sseParser.explanation",
-  },
-  "/tools/ai/token-estimator": {
-    title: "tool.tokenEstimator.title",
-    summary: "tool.tokenEstimator.summary",
-    inputLabel: "tool.tokenEstimator.inputLabel",
-    placeholder: "tool.tokenEstimator.placeholder",
-    explanation: "tool.tokenEstimator.explanation",
+  "/tools/ai/chat": {
+    title: "tool.aiChat.title",
+    summary: "tool.aiChat.summary",
+    inputLabel: "tool.aiChat.inputLabel",
+    placeholder: "tool.aiChat.placeholder",
+    explanation: "tool.aiChat.explanation",
   },
 };
 

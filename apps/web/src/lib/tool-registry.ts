@@ -1,16 +1,13 @@
 import {
   Binary,
   Braces,
-  Code2,
-  FileCode2,
+  Bot,
   FileJson2,
   Fingerprint,
   Hash,
   Image,
   KeyRound,
   LockKeyhole,
-  MessageSquareText,
-  Network,
   ScanText,
   ShieldCheck,
   type LucideIcon
@@ -250,65 +247,25 @@ export const tools: ToolConfig[] = [
     explanation: "Encodes individual URL components with percent escaping and decodes them back to readable text."
   },
   {
-    title: "Messages Formatter",
-    path: "/tools/ai/messages-formatter",
+    title: "AI Chat",
+    path: "/tools/ai/chat",
     category: "AI Engineering",
-    summary: "Turn chat message arrays into readable Markdown transcripts.",
-    icon: MessageSquareText,
-    inputLabel: "Messages JSON",
-    placeholder: "[{\"role\":\"system\",\"content\":\"Be precise.\"}]",
-    defaultInput:
-      "[{\"role\":\"system\",\"content\":\"Be precise.\"},{\"role\":\"user\",\"content\":\"Explain RAG evaluation.\"}]",
-    operations: ["format"],
-    defaultOperation: "format",
-    explanation: "Useful for reviewing logged chat payloads, prompt fixtures, and replay samples."
-  },
-  {
-    title: "Prompt Escape",
-    path: "/tools/ai/prompt-escape",
-    category: "AI Engineering",
-    summary: "Escape prompt snippets for Markdown and template-safe embedding.",
-    icon: Code2,
-    inputLabel: "Prompt text",
-    placeholder: "Paste prompt text.",
-    defaultInput: "Use `${tool}` only when <context> is complete.",
-    operations: ["escape"],
-    defaultOperation: "escape",
-    explanation: "Escapes template-sensitive characters while keeping the text readable for code review."
-  },
-  {
-    title: "SSE Parser",
-    path: "/tools/ai/sse-parser",
-    category: "AI Engineering",
-    summary: "Inspect server-sent event streams from AI APIs.",
-    icon: Network,
-    inputLabel: "SSE payload",
-    placeholder: "event: message\ndata: {\"delta\":\"hello\"}",
-    defaultInput: "event: message\ndata: {\"delta\":\"hello\"}\n\nevent: done\ndata: [DONE]\n",
-    operations: ["parse"],
-    defaultOperation: "parse",
-    explanation: "Splits SSE blocks and formats event fields so streaming API traces are easier to inspect."
-  },
-  {
-    title: "Token Estimator",
-    path: "/tools/ai/token-estimator",
-    category: "AI Engineering",
-    summary: "Estimate token counts for English and Chinese mixed prompts.",
-    icon: FileCode2,
-    inputLabel: "Prompt or document",
-    placeholder: "Paste prompt or document text.",
-    defaultInput: "Design a RAG evaluation flow for 多语言知识库 retrieval.",
-    operations: ["estimate"],
-    defaultOperation: "estimate",
-    explanation: "This is a rough local estimate for planning. Use provider tokenizers when exact billing or context limits matter."
+    summary: "Multi-provider AI chat with OpenAI, Anthropic, Gemini, DeepSeek, OpenRouter, and more. API key stored locally.",
+    icon: Bot,
+    inputLabel: "Message",
+    placeholder: "Type your message...",
+    defaultInput: "",
+    operations: ["chat"],
+    defaultOperation: "chat",
+    explanation: "Connect to multiple AI providers directly from your browser. Your API key is stored in localStorage and never sent to our servers. Supports streaming responses. Some providers require a CORS proxy for browser access."
   }
 ];
 
 export const featuredTools = [
-  "/tools/ai/messages-formatter",
-  "/tools/ai/sse-parser",
+  "/tools/ai/chat",
   "/tools/json/formatter",
-  "/tools/crypto/aes"
+  "/tools/crypto/aes",
+  "/tools/base64/text"
 ];
 
 export function findToolByPath(path: string) {

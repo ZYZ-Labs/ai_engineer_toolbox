@@ -177,33 +177,12 @@ export const dict = {
     "tool.urlEncoder.placeholder": "Paste text to encode or decode.",
     "tool.urlEncoder.explanation": "Encodes individual URL components with percent escaping and decodes them back to readable text.",
 
-    // Tool: Messages Formatter
-    "tool.messagesFormatter.title": "Messages Formatter",
-    "tool.messagesFormatter.summary": "Turn chat message arrays into readable Markdown transcripts.",
-    "tool.messagesFormatter.inputLabel": "Messages JSON",
-    "tool.messagesFormatter.placeholder": '[{"role":"system","content":"Be precise."}]',
-    "tool.messagesFormatter.explanation": "Useful for reviewing logged chat payloads, prompt fixtures, and replay samples.",
-
-    // Tool: Prompt Escape
-    "tool.promptEscape.title": "Prompt Escape",
-    "tool.promptEscape.summary": "Escape prompt snippets for Markdown and template-safe embedding.",
-    "tool.promptEscape.inputLabel": "Prompt text",
-    "tool.promptEscape.placeholder": "Paste prompt text.",
-    "tool.promptEscape.explanation": "Escapes template-sensitive characters while keeping the text readable for code review.",
-
-    // Tool: SSE Parser
-    "tool.sseParser.title": "SSE Parser",
-    "tool.sseParser.summary": "Inspect server-sent event streams from AI APIs.",
-    "tool.sseParser.inputLabel": "SSE payload",
-    "tool.sseParser.placeholder": 'event: message\ndata: {"delta":"hello"}',
-    "tool.sseParser.explanation": "Splits SSE blocks and formats event fields so streaming API traces are easier to inspect.",
-
-    // Tool: Token Estimator
-    "tool.tokenEstimator.title": "Token Estimator",
-    "tool.tokenEstimator.summary": "Estimate token counts for English and Chinese mixed prompts.",
-    "tool.tokenEstimator.inputLabel": "Prompt or document",
-    "tool.tokenEstimator.placeholder": "Paste prompt or document text.",
-    "tool.tokenEstimator.explanation": "This is a rough local estimate for planning. Use provider tokenizers when exact billing or context limits matter.",
+    // Tool: AI Chat
+    "tool.aiChat.title": "AI Chat",
+    "tool.aiChat.summary": "Multi-provider AI chat with OpenAI, Anthropic, Gemini, DeepSeek, OpenRouter, and more. API key stored locally.",
+    "tool.aiChat.inputLabel": "Message",
+    "tool.aiChat.placeholder": "Type your message...",
+    "tool.aiChat.explanation": "Connect to multiple AI providers directly from your browser. Your API key is stored in localStorage and never sent to our servers. Supports streaming responses. Some providers require a CORS proxy for browser access.",
 
     // Study pages
     "study.transformerLectures.title": "Transformer Lectures",
@@ -418,33 +397,12 @@ export const dict = {
     "tool.urlEncoder.placeholder": "粘贴要编码或解码的文本。",
     "tool.urlEncoder.explanation": "使用百分号转义对单个 URL 组件进行编码，并将其解码回可读文本。",
 
-    // Tool: Messages Formatter
-    "tool.messagesFormatter.title": "消息格式化",
-    "tool.messagesFormatter.summary": "将聊天消息数组转换为可读的 Markdown 对话记录。",
-    "tool.messagesFormatter.inputLabel": "消息 JSON",
-    "tool.messagesFormatter.placeholder": '[{"role":"system","content":"Be precise."}]',
-    "tool.messagesFormatter.explanation": "适用于审阅记录的聊天载荷、提示词模板和回放样本。",
-
-    // Tool: Prompt Escape
-    "tool.promptEscape.title": "提示词转义",
-    "tool.promptEscape.summary": "转义提示词片段，以便安全嵌入 Markdown 和模板。",
-    "tool.promptEscape.inputLabel": "提示词文本",
-    "tool.promptEscape.placeholder": "粘贴提示词文本。",
-    "tool.promptEscape.explanation": "转义模板敏感字符，同时保持文本在代码审阅时的可读性。",
-
-    // Tool: SSE Parser
-    "tool.sseParser.title": "SSE 解析器",
-    "tool.sseParser.summary": "检查来自 AI API 的服务器推送事件流。",
-    "tool.sseParser.inputLabel": "SSE 载荷",
-    "tool.sseParser.placeholder": 'event: message\ndata: {"delta":"hello"}',
-    "tool.sseParser.explanation": "拆分 SSE 块并格式化事件字段，让流式 API 跟踪更容易检查。",
-
-    // Tool: Token Estimator
-    "tool.tokenEstimator.title": "Token 估算器",
-    "tool.tokenEstimator.summary": "估算中英混合提示词的 token 数量。",
-    "tool.tokenEstimator.inputLabel": "提示词或文档",
-    "tool.tokenEstimator.placeholder": "粘贴提示词或文档文本。",
-    "tool.tokenEstimator.explanation": "这只是本地粗略估算，用于规划。当精确计费或上下文限制重要时，请使用提供商的 tokenizer。",
+    // Tool: AI Chat
+    "tool.aiChat.title": "AI 对话",
+    "tool.aiChat.summary": "多供应商 AI 对话，支持 OpenAI、Anthropic、Gemini、DeepSeek、OpenRouter 等。API 密钥本地存储。",
+    "tool.aiChat.inputLabel": "消息",
+    "tool.aiChat.placeholder": "输入消息...",
+    "tool.aiChat.explanation": "直接从浏览器连接多个 AI 供应商。您的 API 密钥存储在 localStorage 中，不会发送到我们的服务器。支持流式响应。部分供应商需要 CORS 代理才能在浏览器中访问。",
 
     // Study pages
     "study.transformerLectures.title": "Transformer 系列课程",
