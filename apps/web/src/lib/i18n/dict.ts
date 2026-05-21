@@ -208,6 +208,8 @@ export const dict = {
     // Study pages
     "study.transformerLectures.title": "Transformer Lectures",
     "study.transformerLectures.summary": "A 30-chapter bilingual course from tensor basics to Transformer internals, diffusion, and source hacking.",
+    "study.ngLectures.title": "Andrew Ng Deep Learning",
+    "study.ngLectures.summary": "A 28-chapter bilingual course covering ML fundamentals, neural networks, CNN, RNN, and generative AI.",
 
     // Levels
     "level.Foundation": "Foundation",
@@ -447,6 +449,8 @@ export const dict = {
     // Study pages
     "study.transformerLectures.title": "Transformer 系列课程",
     "study.transformerLectures.summary": "30 章中英双语课程，从 Tensor 基础到 Transformer 内核、Diffusion、源码阅读与模型魔改。",
+    "study.ngLectures.title": "吴恩达深度学习",
+    "study.ngLectures.summary": "28 章中英双语课程，涵盖机器学习基础、神经网络、CNN、RNN 与生成式 AI。",
 
     // Levels
     "level.Foundation": "基础",

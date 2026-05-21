@@ -7,6 +7,10 @@ const studyKeyMap: Record<string, { title: DictKey; summary: DictKey }> = {
   "transformer-lectures": {
     title: "study.transformerLectures.title",
     summary: "study.transformerLectures.summary",
+  },
+  "ng-lectures": {
+    title: "study.ngLectures.title",
+    summary: "study.ngLectures.summary",
   }
 };
 

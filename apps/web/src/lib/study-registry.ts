@@ -13,6 +13,14 @@ export const studyPages: StudyPageMeta[] = [
     summary: "A 30-chapter bilingual course from tensor basics to Transformer internals, diffusion, and source hacking.",
     level: "Foundation",
     readingTime: "30 chapters"
+  },
+  {
+    slug: "ng-lectures",
+    title: "Andrew Ng Deep Learning",
+    summary: "A 28-chapter bilingual course covering ML fundamentals, neural networks, CNN, RNN, and generative AI.",
+    level: "Foundation",
+    readingTime: "28 chapters"
+
   }
 ];
 
