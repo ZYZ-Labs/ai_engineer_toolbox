@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Check, Copy, Play, RotateCcw, Upload } from "lucide-react";
+import { Check, ChevronDown, Copy, Play, RotateCcw, Upload } from "lucide-react";
 import type { ToolWorkbenchConfig } from "@/lib/tool-registry";
 import { useI18n } from "@/lib/i18n";
 import { translateOperation } from "@/lib/i18n/tool";
@@ -334,60 +334,22 @@ export function ToolWorkbench({ tool }: Props) {
           {tool.secretLabel ? (
             <label className="block">
               <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">{tool.secretLabel}</span>
-              <div className="flex gap-2">
-                <input
-                  value={secret}
-                  onChange={(event) => setSecret(event.target.value)}
-                  className="h-11 flex-1 rounded-xl border border-line bg-white px-3 font-mono text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
-                />
-                {cryptoHistory.secrets.length > 0 ? (
-                  <select
-                    value=""
-                    onChange={(event) => {
-                      if (event.target.value) setSecret(event.target.value);
-                    }}
-                    title="History"
-                    className="h-11 w-28 shrink-0 rounded-xl border border-line bg-white px-3 text-sm text-muted outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
-                  >
-                    <option value="">History</option>
-                    {cryptoHistory.secrets.map((item) => (
-                      <option key={item} value={item}>
-                        {item.length > 16 ? `${item.slice(0, 16)}…` : item}
-                      </option>
-                    ))}
-                  </select>
-                ) : null}
-              </div>
+              <HistoryInput
+                value={secret}
+                onChange={setSecret}
+                history={cryptoHistory.secrets}
+              />
             </label>
           ) : null}
 
           {needsIv ? (
             <label className="block">
               <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">{tool.ivLabel}</span>
-              <div className="flex gap-2">
-                <input
-                  value={iv}
-                  onChange={(event) => setIv(event.target.value)}
-                  className="h-11 flex-1 rounded-xl border border-line bg-white px-3 font-mono text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
-                />
-                {cryptoHistory.ivs.length > 0 ? (
-                  <select
-                    value=""
-                    onChange={(event) => {
-                      if (event.target.value) setIv(event.target.value);
-                    }}
-                    title="History"
-                    className="h-11 w-28 shrink-0 rounded-xl border border-line bg-white px-3 text-sm text-muted outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
-                  >
-                    <option value="">History</option>
-                    {cryptoHistory.ivs.map((item) => (
-                      <option key={item} value={item}>
-                        {item.length > 16 ? `${item.slice(0, 16)}…` : item}
-                      </option>
-                    ))}
-                  </select>
-                ) : null}
-              </div>
+              <HistoryInput
+                value={iv}
+                onChange={setIv}
+                history={cryptoHistory.ivs}
+              />
             </label>
           ) : null}
 
@@ -591,4 +553,72 @@ async function executeTool({
   }
 
   throw new I18nError("error.unsupportedTool");
+}
+
+function HistoryInput({
+  value,
+  onChange,
+  history
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  history: string[];
+}) {
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [open]);
+
+  return (
+    <div ref={containerRef} className="relative">
+      <div className="relative">
+        <input
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          onFocus={() => {
+            if (history.length > 0) setOpen(true);
+          }}
+          className="h-11 w-full rounded-xl border border-line bg-white px-3 pr-9 font-mono text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+        />
+        {history.length > 0 && (
+          <button
+            type="button"
+            onClick={() => setOpen((prev) => !prev)}
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-muted transition hover:text-primary"
+            tabIndex={-1}
+          >
+            <ChevronDown className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`} />
+          </button>
+        )}
+      </div>
+      {open && history.length > 0 && (
+        <ul className="absolute z-10 mt-1 max-h-48 w-full overflow-auto rounded-xl border border-line bg-white py-1 shadow-lg">
+          {history.map((item) => (
+            <li
+              key={item}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => {
+                onChange(item);
+                setOpen(false);
+              }}
+              className="cursor-pointer truncate px-3 py-2 text-sm text-ink hover:bg-primary-soft"
+              title={item}
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 }
