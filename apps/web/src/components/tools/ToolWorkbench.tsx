@@ -30,6 +30,43 @@ type Props = {
   tool: ToolWorkbenchConfig;
 };
 
+const CRYPTO_HISTORY_KEY = "toolbox:cryptoHistory";
+
+type CryptoHistory = {
+  secrets: string[];
+  ivs: string[];
+};
+
+function loadCryptoHistory(): CryptoHistory {
+  try {
+    const raw = localStorage.getItem(CRYPTO_HISTORY_KEY);
+    if (raw) return JSON.parse(raw) as CryptoHistory;
+  } catch {
+    // ignore
+  }
+  return { secrets: [], ivs: [] };
+}
+
+function saveCryptoHistory(history: CryptoHistory) {
+  try {
+    localStorage.setItem(CRYPTO_HISTORY_KEY, JSON.stringify(history));
+  } catch {
+    // ignore
+  }
+}
+
+function pushCryptoHistory(secret: string, iv: string) {
+  const current = loadCryptoHistory();
+  const next: CryptoHistory = { ...current };
+  if (secret.trim()) {
+    next.secrets = [secret, ...current.secrets.filter((s) => s !== secret)].slice(0, 10);
+  }
+  if (iv.trim()) {
+    next.ivs = [iv, ...current.ivs.filter((s) => s !== iv)].slice(0, 10);
+  }
+  saveCryptoHistory(next);
+}
+
 class I18nError extends Error {
   constructor(public key: DictKey) {
     super(key);
@@ -54,6 +91,9 @@ export function ToolWorkbench({ tool }: Props) {
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const [fileName, setFileName] = useState("");
+  const [cryptoHistory, setCryptoHistory] = useState<CryptoHistory>(() =>
+    tool.secretLabel || tool.ivLabel ? loadCryptoHistory() : { secrets: [], ivs: [] }
+  );
   const didRunInitial = useRef(false);
 
   const needsIv = tool.ivLabel && !algorithm.includes("ECB");
@@ -107,6 +147,11 @@ export function ToolWorkbench({ tool }: Props) {
       if (result.meta?.iv && typeof result.meta.iv === "string") {
         setIv(result.meta.iv);
       }
+      if (tool.secretLabel || tool.ivLabel) {
+        const nextIv = result.meta?.iv && typeof result.meta.iv === "string" ? result.meta.iv : iv;
+        pushCryptoHistory(secret, nextIv);
+        setCryptoHistory(loadCryptoHistory());
+      }
     } catch (cause) {
       setOutput("");
       if (cause instanceof I18nError) {
@@ -115,7 +160,7 @@ export function ToolWorkbench({ tool }: Props) {
         setError(cause instanceof Error ? cause.message : t("workbench.error.generic"));
       }
     }
-  }, [algorithm, padding, keyEncoding, ivEncoding, inputEncoding, outputEncoding, input, iv, operation, secondaryInput, secret, t, tool.path]);
+  }, [algorithm, padding, keyEncoding, ivEncoding, inputEncoding, outputEncoding, input, iv, operation, secondaryInput, secret, t, tool.path, tool.ivLabel, tool.secretLabel]);
 
   useEffect(() => {
     if (!didRunInitial.current && !tool.acceptsFile) {
@@ -289,22 +334,60 @@ export function ToolWorkbench({ tool }: Props) {
           {tool.secretLabel ? (
             <label className="block">
               <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">{tool.secretLabel}</span>
-              <input
-                value={secret}
-                onChange={(event) => setSecret(event.target.value)}
-                className="h-11 w-full rounded-xl border border-line bg-white px-3 font-mono text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
-              />
+              <div className="flex gap-2">
+                <input
+                  value={secret}
+                  onChange={(event) => setSecret(event.target.value)}
+                  className="h-11 flex-1 rounded-xl border border-line bg-white px-3 font-mono text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+                />
+                {cryptoHistory.secrets.length > 0 ? (
+                  <select
+                    value=""
+                    onChange={(event) => {
+                      if (event.target.value) setSecret(event.target.value);
+                    }}
+                    title="History"
+                    className="h-11 rounded-xl border border-line bg-white px-2 text-sm text-muted outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+                  >
+                    <option value="">History</option>
+                    {cryptoHistory.secrets.map((item) => (
+                      <option key={item} value={item}>
+                        {item.length > 24 ? `${item.slice(0, 24)}…` : item}
+                      </option>
+                    ))}
+                  </select>
+                ) : null}
+              </div>
             </label>
           ) : null}
 
           {needsIv ? (
             <label className="block">
               <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">{tool.ivLabel}</span>
-              <input
-                value={iv}
-                onChange={(event) => setIv(event.target.value)}
-                className="h-11 w-full rounded-xl border border-line bg-white px-3 font-mono text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
-              />
+              <div className="flex gap-2">
+                <input
+                  value={iv}
+                  onChange={(event) => setIv(event.target.value)}
+                  className="h-11 flex-1 rounded-xl border border-line bg-white px-3 font-mono text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+                />
+                {cryptoHistory.ivs.length > 0 ? (
+                  <select
+                    value=""
+                    onChange={(event) => {
+                      if (event.target.value) setIv(event.target.value);
+                    }}
+                    title="History"
+                    className="h-11 rounded-xl border border-line bg-white px-2 text-sm text-muted outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+                  >
+                    <option value="">History</option>
+                    {cryptoHistory.ivs.map((item) => (
+                      <option key={item} value={item}>
+                        {item.length > 24 ? `${item.slice(0, 24)}…` : item}
+                      </option>
+                    ))}
+                  </select>
+                ) : null}
+              </div>
             </label>
           ) : null}
 
