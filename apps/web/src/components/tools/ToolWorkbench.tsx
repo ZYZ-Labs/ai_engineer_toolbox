@@ -347,7 +347,7 @@ export function ToolWorkbench({ tool }: Props) {
                       if (event.target.value) setSecret(event.target.value);
                     }}
                     title="History"
-                    className="h-11 w-24 shrink-0 rounded-xl border border-line bg-white px-2 text-sm text-muted outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+                    className="h-11 w-28 shrink-0 rounded-xl border border-line bg-white px-3 text-sm text-muted outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
                   >
                     <option value="">History</option>
                     {cryptoHistory.secrets.map((item) => (
@@ -377,7 +377,7 @@ export function ToolWorkbench({ tool }: Props) {
                       if (event.target.value) setIv(event.target.value);
                     }}
                     title="History"
-                    className="h-11 w-24 shrink-0 rounded-xl border border-line bg-white px-2 text-sm text-muted outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+                    className="h-11 w-28 shrink-0 rounded-xl border border-line bg-white px-3 text-sm text-muted outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
                   >
                     <option value="">History</option>
                     {cryptoHistory.ivs.map((item) => (
