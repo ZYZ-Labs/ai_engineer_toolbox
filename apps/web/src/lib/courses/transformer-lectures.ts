@@ -100,7 +100,7 @@ export const transformerLectureStages: LectureStage[] = [
 
 export const transformerLectureChapters = transformerLectureStages.flatMap((stage) => stage.chapters);
 
-const contentRoot = path.join(process.cwd(), "../../content/courses/transformer-lectures/lectures");
+const contentRoot = path.join(process.cwd(), "../../content/courses/lectures-source/course_transformer/lectures");
 
 function chapter(stage: string, number: number, title: string, titleEn: string, file: string, exampleFile?: string): LectureChapter {
   return {

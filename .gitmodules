@@ -1,0 +1,3 @@
+[submodule "content/courses/lectures-source"]
+	path = content/courses/lectures-source
+	url = https://github.com/ZYZ-Labs/Transformer-Lectures.git

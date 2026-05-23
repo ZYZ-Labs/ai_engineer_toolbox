@@ -107,7 +107,7 @@ export const ngLectureStages: LectureStage[] = [
 
 export const ngLectureChapters = ngLectureStages.flatMap((stage) => stage.chapters);
 
-const contentRoot = path.join(process.cwd(), "../../content/courses/ng-lectures/lectures");
+const contentRoot = path.join(process.cwd(), "../../content/courses/lectures-source/course_ng/lectures");
 
 function chapter(stage: string, number: number, title: string, titleEn: string, slug: string, file: string, exampleFile?: string): LectureChapter {
   return {
