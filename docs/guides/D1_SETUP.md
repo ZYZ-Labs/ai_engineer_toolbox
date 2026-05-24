@@ -72,15 +72,15 @@ Push to `main` or `master` branch. GitHub Actions will:
 If deploying from Cloudflare's own Worker build settings, use:
 
 ```txt
-Root directory: /
+Path: /
 Build command: npm run build
-Build output directory: apps/web/out
 Deploy command: npm run worker:deploy
+Non-production deploy command: leave the Cloudflare default if it is locked
 ```
 
 `npm run pages:deploy` is kept as a compatibility alias for Cloudflare settings that were already changed during the Pages attempt; it now also runs `wrangler deploy`.
 
-The Worker entry is `apps/web/functions/worker.ts`. It routes `/api/*` requests to the existing handlers under `apps/web/functions/api/` and serves all other requests from `apps/web/out` through the `ASSETS` binding.
+Do not set the Cloudflare project path to `apps/web/out`. That directory is the static asset output and is already referenced from the root `wrangler.jsonc`. The Worker entry is `apps/web/functions/worker.ts`. It routes `/api/*` requests to the existing handlers under `apps/web/functions/api/` and serves all other requests from `apps/web/out` through the `ASSETS` binding.
 
 For direct local CLI deployment:
 

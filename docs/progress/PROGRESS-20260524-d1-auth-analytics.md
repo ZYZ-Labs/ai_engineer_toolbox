@@ -35,7 +35,7 @@
 1. Run `wrangler d1 execute` to apply `scripts/init-db.sql`.
 2. Run `scripts/create-admin.mjs` to create an admin user.
 3. Add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` to GitHub repository secrets if using GitHub Actions deployment.
-4. In Cloudflare Worker build settings, use `npm run build` as the build command and `npm run worker:deploy` as the deploy command. `npm run pages:deploy` also works as a compatibility alias.
+4. In Cloudflare Worker build settings, use path `/`, `npm run build` as the build command, and `npm run worker:deploy` as the deploy command. Leave the non-production deploy command at Cloudflare's locked default if it cannot be changed.
 5. Push to `main`/`master` to trigger Cloudflare Workers deployment.
 6. Verify login and course access on the deployed site.
 
