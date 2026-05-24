@@ -11,7 +11,7 @@ This project now uses **Cloudflare D1** for:
 
 - Cloudflare account
 - Wrangler CLI installed (`npm install -g wrangler`)
-- Cloudflare API Token with `Cloudflare Pages:Edit` and `D1:Edit` permissions
+- Cloudflare API Token with Workers edit/deploy and `D1:Edit` permissions
 
 ## Step 1: Create D1 Database
 
@@ -66,37 +66,39 @@ In your GitHub repository settings, add:
 
 Push to `main` or `master` branch. GitHub Actions will:
 1. Build the Next.js static site
-2. Copy Functions to the output directory
-3. Deploy to Cloudflare Pages
+2. Deploy the Worker with Workers Static Assets
+3. Bind D1 through the root `wrangler.jsonc`
 
-If deploying from Cloudflare's own build settings, use Pages deployment settings rather than a Workers deploy command:
+If deploying from Cloudflare's own Worker build settings, use:
 
 ```txt
 Root directory: /
 Build command: npm run build
 Build output directory: apps/web/out
-Deploy command: npm run pages:deploy
+Deploy command: npm run worker:deploy
 ```
 
-Do not use `npx wrangler deploy` from the repository root for this project. The repository is an npm workspace, and the web app is under `apps/web`; `wrangler deploy` is for Workers and triggers Wrangler workspace application detection at the wrong level. The deploy command must call `wrangler pages deploy` through `npm run pages:deploy` or run directly from `apps/web`:
+`npm run pages:deploy` is kept as a compatibility alias for Cloudflare settings that were already changed during the Pages attempt; it now also runs `wrangler deploy`.
+
+The Worker entry is `apps/web/functions/worker.ts`. It routes `/api/*` requests to the existing handlers under `apps/web/functions/api/` and serves all other requests from `apps/web/out` through the `ASSETS` binding.
+
+For direct local CLI deployment:
 
 ```bash
-cd apps/web
-npx wrangler pages deploy out --project-name=ai-engineer-toolbox
+npm run build
+npm run worker:deploy
 ```
 
 ## Local Development
 
-### Build and test with Pages Functions
+### Build and test with Workers
 
 ```bash
-cd apps/web
 npm run build
-cp -r functions out/functions
-npx wrangler pages dev out --compatibility-date=2026-05-22
+npm run worker:dev
 ```
 
-The local dev server will be available at `http://localhost:8788`.
+The local Worker dev server will be available at the URL printed by Wrangler.
 
 ### Local D1
 

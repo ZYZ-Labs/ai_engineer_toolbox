@@ -14,8 +14,11 @@
     "lint": "npm --workspace @ai-engineer-toolbox/web run lint",
     "test": "npm --workspaces --if-present run test",
     "typecheck": "npm --workspaces --if-present run typecheck",
+    "deploy": "wrangler deploy",
+    "worker:dev": "wrangler dev",
+    "worker:deploy": "wrangler deploy",
     "pages:dev": "npm --workspace @ai-engineer-toolbox/web run pages:dev --",
-    "pages:deploy": "npm --workspace @ai-engineer-toolbox/web run pages:deploy --"
+    "pages:deploy": "wrangler deploy"
   },
   "devDependencies": {
     "typescript": "^5.8.3",

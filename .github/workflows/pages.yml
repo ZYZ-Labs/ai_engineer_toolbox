@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: Deploy to Cloudflare Workers
 
 on:
   push:
@@ -28,15 +28,8 @@ jobs:
       - name: Build static site
         run: npm run build
 
-      - name: Copy Functions to output
-        run: cp -r apps/web/functions apps/web/out/functions
-
-      - name: Deploy to Cloudflare Pages
-        working-directory: apps/web
-        run: |
-          mv ../../package.json ../../package.json.bak
-          npx wrangler pages deploy out --project-name=ai-engineer-toolbox --branch=main
-          mv ../../package.json.bak ../../package.json
+      - name: Deploy to Cloudflare Workers
+        run: npm run worker:deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

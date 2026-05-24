@@ -9,7 +9,8 @@ The project follows the v1 spec in [`AI_Engineer_Toolbox_Spec_v1.md`](AI_Enginee
 - 14 browser tools across crypto, data, and AI engineering workflows
   - Crypto tools (AES, DES, SM4, Hash, HMAC) store key/IV history in localStorage for quick reuse
 - 1 integrated Transformer lecture course with 30 bilingual chapters and Python examples
-- Static Next.js export for GitHub Pages or Cloudflare Pages
+- Static Next.js export served by Cloudflare Workers Static Assets
+- Cloudflare D1-backed visit tracking and simple login protection for study content
 - Monorepo structure with reusable utility packages
 
 ## Project Structure
@@ -40,39 +41,35 @@ npm run typecheck
 npm run build
 ```
 
-## Static Deployment
+## Cloudflare Workers Deployment
 
-The web app is configured with `output: "export"` and a GitHub Pages workflow at `.github/workflows/pages.yml`.
+The web app is configured with `output: "export"`. Cloudflare Workers serves the exported files from `apps/web/out` through Workers Static Assets, while `apps/web/functions/worker.ts` handles `/api/*` routes and D1 access.
 
-For the custom domain deployment, the default build uses the site root and copies `apps/web/public/CNAME` into `apps/web/out`:
-
-```txt
-toolbox.silvericekey.fun
-```
-
-In GitHub repository settings, set Pages source to GitHub Actions. In DNS, point the subdomain to the organization Pages host:
-
-```txt
-toolbox.silvericekey.fun CNAME zyz-labs.github.io
-```
-
-For GitHub Pages under a repository path without a custom domain, set:
-
-```bash
-NEXT_PUBLIC_BASE_PATH=/ai_engineer_toolbox npm run build
-```
-
-For Cloudflare Pages, the default build command is:
+Use these Cloudflare Worker build settings:
 
 ```bash
 npm run build
+npm run worker:deploy
 ```
 
-Use `apps/web/out` as the static output directory.
+The root `wrangler.jsonc` contains:
+
+```txt
+main: ./apps/web/functions/worker.ts
+assets.directory: ./apps/web/out
+D1 binding: DB
+```
+
+For direct local CLI deployment:
+
+```bash
+npm run build
+npm run worker:deploy
+```
 
 ## Privacy Model
 
-Tool inputs are processed locally in the browser whenever possible. The project does not include user accounts, server-side persistence, analytics wiring, ads, or cloud storage.
+Tool inputs are processed locally in the browser whenever possible. The deployed site includes D1-backed visit tracking and a simple session-cookie login for study content.
 
 ## Language
 

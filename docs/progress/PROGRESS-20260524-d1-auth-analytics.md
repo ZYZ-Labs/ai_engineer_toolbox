@@ -3,15 +3,15 @@
 ## Current Status
 
 - D1 database integration, visit tracking, and auth system have been implemented.
-- Deployment target changed from GitHub Pages to **Cloudflare Pages** (required for D1 + Functions).
+- Deployment target changed from static Pages-style hosting to **Cloudflare Workers** with Workers Static Assets and D1.
 - Course pages now require login via client-side `ProtectedContent` component.
-- Cloudflare deployment failure at `2026-05-24 14:08:29` was traced to the wrong deploy command: Wrangler was invoked as a Workers deploy from the npm workspace root.
+- Cloudflare deployment failures at `2026-05-24 14:08:29` and `14:23:22` were traced to a target mismatch: the Cloudflare project is a Worker, not Pages.
 
 ## Recent Key Conclusions
 
 - Cloudflare D1 binding added to `wrangler.jsonc`.
 - Database schema includes `visits`, `users`, and `sessions` tables.
-- Six Pages Functions created under `apps/web/functions/api/`:
+- Six Pages-compatible API handlers created under `apps/web/functions/api/` and reused by the Worker entry:
   - `POST /api/visit` — deduplicated visit tracking (IP hash + date)
   - `GET /api/stats` — admin-only visit statistics
   - `POST /api/auth/login` — username/password login with session cookie
@@ -24,24 +24,25 @@
   - `/study/ng-lectures/[stage]/[chapter]`
   - `/study/transformer-lectures`
   - `/study/transformer-lectures/[stage]/[chapter]`
-- GitHub Actions workflow updated to deploy to Cloudflare Pages using `wrangler-action@v3`.
+- GitHub Actions workflow updated to deploy to Cloudflare Workers using `wrangler deploy`.
 - Admin user creation script at `scripts/create-admin.mjs`.
 - Setup guide written at `docs/guides/D1_SETUP.md`.
-- Root `pages:deploy` script added so deployment from the repository root delegates to `apps/web` and runs `wrangler pages deploy out`.
+- Root Worker deployment scripts added. `pages:deploy` is retained as a compatibility alias but now runs `wrangler deploy`.
+- Worker entry added at `apps/web/functions/worker.ts`; it routes API requests and serves static assets through `env.ASSETS`.
 
 ## Next Actions
 
 1. Run `wrangler d1 execute` to apply `scripts/init-db.sql`.
 2. Run `scripts/create-admin.mjs` to create an admin user.
 3. Add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` to GitHub repository secrets if using GitHub Actions deployment.
-4. In Cloudflare build settings, use `npm run build` as the build command, `apps/web/out` as the output directory, and `npm run pages:deploy` as the deploy command if a deploy command field is enabled.
-5. Push to `main`/`master` to trigger Cloudflare Pages deployment.
+4. In Cloudflare Worker build settings, use `npm run build` as the build command and `npm run worker:deploy` as the deploy command. `npm run pages:deploy` also works as a compatibility alias.
+5. Push to `main`/`master` to trigger Cloudflare Workers deployment.
 6. Verify login and course access on the deployed site.
 
 ## Blockers
 
 - Cloudflare API Token and Account ID not yet added to GitHub secrets.
-- Cloudflare dashboard may still be configured as a Workers deployment. If it keeps running `npx wrangler deploy`, deployment will fail before build output is uploaded.
+- Cloudflare dashboard must run the build before `wrangler deploy`; otherwise `apps/web/out` will be missing.
 
 ## Unverified Risks
 

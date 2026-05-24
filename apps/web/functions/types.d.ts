@@ -1,6 +1,7 @@
 /// <reference types="@cloudflare/workers-types" />
 
 export interface Env {
+  ASSETS: Fetcher;
   DB: D1Database;
   JWT_SECRET: string;
   COOKIE_DOMAIN?: string;
