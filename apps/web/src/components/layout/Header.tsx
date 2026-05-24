@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Boxes, Github } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import type { Lang } from "@/lib/i18n/dict";
+import { LoginButton } from "@/components/auth/LoginButton";
 
 const navItems = [
   { href: "/tools", key: "nav.tools" as const },
@@ -57,6 +58,7 @@ export function Header() {
           >
             <Github className="h-4 w-4" aria-hidden="true" />
           </a>
+          <LoginButton />
         </div>
       </div>
     </header>

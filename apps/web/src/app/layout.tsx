@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { I18nProvider } from "@/lib/i18n";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { AuthProvider } from "@/components/auth/AuthProvider";
+import { VisitTracker } from "@/components/auth/VisitTracker";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,9 +20,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <body>
         <I18nProvider>
-          <Header />
-          {children}
-          <Footer />
+          <AuthProvider>
+            <VisitTracker />
+            <Header />
+            {children}
+            <Footer />
+          </AuthProvider>
         </I18nProvider>
       </body>
     </html>

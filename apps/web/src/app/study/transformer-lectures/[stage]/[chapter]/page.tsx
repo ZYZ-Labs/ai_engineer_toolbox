@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Code2 } from "lucide-react";
 import { PageShell } from "@/components/layout/PageShell";
+import { ProtectedContent } from "@/components/auth/ProtectedContent";
 import { MarkdownRenderer } from "@/components/study/MarkdownRenderer";
 import {
   findLectureChapter,
@@ -44,6 +45,7 @@ export default async function TransformerLecturePage({ params }: Props) {
 
   return (
     <PageShell>
+      <ProtectedContent>
       <div className="mb-6">
         <Link href="/study/transformer-lectures" className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
@@ -88,6 +90,7 @@ export default async function TransformerLecturePage({ params }: Props) {
           ) : null}
         </aside>
       </div>
+      </ProtectedContent>
     </PageShell>
   );
 }

@@ -3,41 +3,51 @@
 ## Current Status
 
 - Main task: implement AI Engineer Toolbox v1 from `AI_Engineer_Toolbox_Spec_v1.md`.
-- Current phase: implementation pushed to GitHub, pending GitHub Pages and DNS configuration.
+- **New feature**: D1 database + visit tracking + auth system integrated.
+- Deployment target: **Cloudflare Pages** (switched from GitHub Pages to support D1 + Functions).
 - Main entry: `apps/web/src/app/page.tsx`.
 - Tool registry: `apps/web/src/lib/tool-registry.ts`.
 - Tool execution: `apps/web/src/components/tools/ToolWorkbench.tsx`.
 - Study content:
   - Transformer lecture course: `content/courses/transformer-lectures`.
-- **I18n added**: Client-side i18n with `en` as the default first paint language and `zh` support. Config cached in `localStorage` under key `aet-lang`. Language switcher in Header.
-- Course routes:
-  - `/study/transformer-lectures`
-  - `/study/transformer-lectures/stage1/chapter01_numpy_tensor` through chapter 30.
+  - Andrew Ng course: `content/courses/lectures-source/course_ng`.
+- **I18n added**: Client-side i18n with `en` as the default first paint language and `zh` support.
+- **Auth system**: Login at `/login`, session cookies, course pages protected via `ProtectedContent`.
+- **Visit tracking**: `VisitTracker` component + `POST /api/visit` with daily IP deduplication.
+- **Analytics API**: `GET /api/stats` (admin-only).
 
 ## Deployment Context
 
 - Target repository: `https://github.com/ZYZ-Labs/ai_engineer_toolbox.git`.
-- Target hosting: GitHub Pages.
-- Custom domain: `toolbox.silvericekey.fun`.
+- Target hosting: **Cloudflare Pages** (with D1 + Pages Functions).
+- Custom domain: `toolbox.silvericekey.fun` (DNS must point to Cloudflare).
 - Static output: `apps/web/out`.
+- Functions: `apps/web/functions/` (copied to `out/functions` during build).
 - Pages workflow: `.github/workflows/pages.yml`.
-- Domain files:
-  - `apps/web/public/CNAME` is copied into the Next.js static export artifact.
-  - Root `CNAME` was created by the GitHub Pages custom domain setting.
-- Remote commits:
-  - `5190914` implements source code and project docs.
-  - `7516358` adds the GitHub Pages deployment workflow.
-  - `90be6e5` creates root `CNAME`.
+- D1 config: `wrangler.jsonc` (placeholder `database_id` needs replacement).
+- Setup guide: `docs/guides/D1_SETUP.md`.
+
+## Key Files for Auth/Analytics
+
+- API handlers: `apps/web/functions/api/` (visit, stats, auth/*)
+- Auth utilities: `apps/web/src/lib/auth.ts`
+- Auth context: `apps/web/src/components/auth/AuthProvider.tsx`
+- Protected wrapper: `apps/web/src/components/auth/ProtectedContent.tsx`
+- Login page: `apps/web/src/app/login/page.tsx`
+- Login button: `apps/web/src/components/auth/LoginButton.tsx`
+- DB schema: `scripts/init-db.sql`
+- Admin creation: `scripts/create-admin.mjs`
 
 ## Validation Entry
 
 - Install: `npm install` or `npm ci`.
-- Development server: `npm run dev`.
+- Development server: `npm run dev` (frontend only) or `npm run pages:dev` (with Functions).
 - Checks: `npm run lint`, `npm run test`, `npm run typecheck`, `npm run build`.
 
 ## Current Risks
 
-- GitHub Pages must be enabled in repository settings with GitHub Actions as the source.
-- DNS for `toolbox.silvericekey.fun` must point to GitHub Pages outside this repository.
-- Exact token counts remain rough estimates; provider-specific tokenizers are still required for billing-sensitive checks.
-- `npm audit` still reports a moderate PostCSS advisory from Next.js 16.2.6's nested `postcss@8.4.31`; latest stable Next is 16.2.6, and the site is statically exported with no Next server runtime.
+- `wrangler.jsonc` contains placeholder `database_id` that must be replaced.
+- GitHub Actions secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` must be configured.
+- DNS for `toolbox.silvericekey.fun` must point to Cloudflare Pages instead of GitHub Pages.
+- Client-side protection means course content is still present in static HTML (acceptable for personal use).
+- `npm audit` still reports a moderate PostCSS advisory from Next.js 16.2.6's nested `postcss@8.4.31`.
