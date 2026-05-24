@@ -2,6 +2,7 @@
   "name": "@ai-engineer-toolbox/web",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
