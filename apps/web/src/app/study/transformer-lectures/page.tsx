@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { BookOpenText, Code2 } from "lucide-react";
 import { PageShell } from "@/components/layout/PageShell";
-import { ProtectedContent } from "@/components/auth/ProtectedContent";
 import { transformerLectureStages } from "@/lib/courses/transformer-lectures";
 
 export const metadata: Metadata = {
@@ -14,7 +13,6 @@ export default function TransformerLecturesPage() {
 
   return (
     <PageShell>
-      <ProtectedContent>
       <div className="max-w-4xl">
         <p className="text-sm font-semibold uppercase text-primary">Course</p>
         <h1 className="mt-3 text-4xl font-semibold text-ink">Transformer Complete Learning Path</h1>
@@ -68,7 +66,6 @@ export default function TransformerLecturesPage() {
           </section>
         ))}
       </div>
-      </ProtectedContent>
     </PageShell>
   );
 }
