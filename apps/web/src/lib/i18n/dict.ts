@@ -12,7 +12,7 @@ export const dict = {
     "site.name": "AI Engineer Toolbox",
 
     // Footer
-    "footer.line1": "AI Engineer Toolbox is open source, local-first, and intentionally backend-free for v1.",
+    "footer.line1": "AI Engineer Toolbox is open source, local-first, and intentionally minimal on server-side features.",
     "footer.line2": "All processing happens locally in your browser whenever possible. Your data is not uploaded unless explicitly stated.",
 
     // Home
@@ -26,13 +26,21 @@ export const dict = {
     "home.section.study": "Study",
     "home.viewAll": "View all",
     "home.updates.title": "Recent Updates",
-    "home.updates.v1": "v1 implementation with static export, GitHub Pages workflow, and custom domain support.",
+    "home.updates.v1": "v1 implementation with static export, Cloudflare Worker deployment, and custom domain support.",
     "home.updates.tools": "Added local browser tools for crypto, JSON, Base64, URL, SSE, messages, prompts, and token estimation.",
+    "home.stats.title": "Site traffic",
+    "home.stats.description": "Public aggregate traffic from D1. IP addresses are hashed before storage and never shown here.",
+    "home.stats.total": "Total visits",
+    "home.stats.today": "Today",
+    "home.stats.visitors": "Unique visitors",
+    "home.stats.last7": "Last 7 days",
+    "home.stats.dailyUnit": "daily visits",
+    "home.stats.noData": "No visit data yet.",
 
     // About
     "about.label": "About",
     "about.title": "A small toolbox for real AI application work",
-    "about.p1": "AI Engineer Toolbox keeps v1 intentionally simple: browser-side tools, practical study pages, no accounts, no database, no ads, and no unnecessary backend.",
+    "about.p1": "AI Engineer Toolbox keeps v1 intentionally simple: browser-side tools, practical study pages, no public accounts, no ads, and only minimal D1-backed aggregate analytics.",
     "about.p2": "The goal is to help engineers inspect payloads, debug streaming APIs, prepare prompt fixtures, validate signatures, and study the systems that matter around modern AI applications.",
 
     // Changelog
@@ -40,8 +48,8 @@ export const dict = {
     "changelog.title": "Project updates",
     "changelog.workerAuth.date": "2026-05-24 / Cloudflare Worker deployment and auth",
     "changelog.workerAuth.l1": "Moved deployment to Cloudflare Workers Static Assets with a Worker entry for API routes.",
-    "changelog.workerAuth.l2": "Added D1-backed visit tracking, session login, protected study content, and admin stats API.",
-    "changelog.workerAuth.l3": "Changed successful login to return to the homepage instead of automatically opening Study.",
+    "changelog.workerAuth.l2": "Added D1-backed visit tracking, public aggregate traffic cards, hidden admin login, and admin stats API.",
+    "changelog.workerAuth.l3": "Kept courses public and changed successful login to return to the homepage instead of automatically opening Study.",
     "changelog.base64image.date": "2026-05-20 / Base64 Image decode",
     "changelog.base64image.l1": "Added decode mode to Base64 Image tool. Accepts Base64 with or without data URL prefix.",
     "changelog.base64image.l2": "Auto-detects image format (PNG/JPEG/GIF/WebP/BMP/SVG) from file headers when decoding.",
@@ -246,7 +254,7 @@ export const dict = {
     "site.name": "AI Engineer Toolbox",
 
     // Footer
-    "footer.line1": "AI Engineer Toolbox 是开源的、本地优先的，v1 版本刻意不设后端。",
+    "footer.line1": "AI Engineer Toolbox 是开源的、本地优先的，并刻意保持最小化服务端能力。",
     "footer.line2": "所有处理尽可能在浏览器本地完成。除非另有说明，您的数据不会被上传。",
 
     // Home
@@ -260,13 +268,21 @@ export const dict = {
     "home.section.study": "学习",
     "home.viewAll": "查看全部",
     "home.updates.title": "最近更新",
-    "home.updates.v1": "v1 实现：静态导出、GitHub Pages 工作流和自定义域名支持。",
+    "home.updates.v1": "v1 实现：静态导出、Cloudflare Worker 部署和自定义域名支持。",
     "home.updates.tools": "新增本地浏览器工具：加密、JSON、Base64、URL、SSE、消息、提示词和 token 估算。",
+    "home.stats.title": "站点访问量",
+    "home.stats.description": "来自 D1 的公开聚合访问统计。IP 会先哈希再存储，这里不会展示任何 IP 信息。",
+    "home.stats.total": "总访问量",
+    "home.stats.today": "今日访问",
+    "home.stats.visitors": "独立访客",
+    "home.stats.last7": "最近 7 天",
+    "home.stats.dailyUnit": "每日访问",
+    "home.stats.noData": "暂无访问数据。",
 
     // About
     "about.label": "关于",
     "about.title": "为真实 AI 应用工作准备的小工具箱",
-    "about.p1": "AI Engineer Toolbox 的 v1 版本刻意保持简单：浏览器端工具、实用的学习页面、无需账号、没有数据库、没有广告，也没有不必要的后端。",
+    "about.p1": "AI Engineer Toolbox 的 v1 版本刻意保持简单：浏览器端工具、实用的学习页面、无公开账号、没有广告，只保留最小化的 D1 聚合访问统计。",
     "about.p2": "目标是帮助工程师检查请求体、调试流式 API、准备提示词模板、验证签名，并学习现代 AI 应用周围重要的系统知识。",
 
     // Changelog
@@ -274,8 +290,8 @@ export const dict = {
     "changelog.title": "项目更新",
     "changelog.workerAuth.date": "2026-05-24 / Cloudflare Worker 部署与登录",
     "changelog.workerAuth.l1": "部署迁移到 Cloudflare Workers Static Assets，并通过 Worker 入口处理 API 路由。",
-    "changelog.workerAuth.l2": "新增基于 D1 的访问统计、会话登录、学习内容保护和管理员统计接口。",
-    "changelog.workerAuth.l3": "登录成功后返回首页，不再自动跳转到学习页。",
+    "changelog.workerAuth.l2": "新增基于 D1 的访问统计、首页公开聚合访问卡片、隐藏管理员登录和管理员统计接口。",
+    "changelog.workerAuth.l3": "学习内容保持公开，登录成功后返回首页，不再自动跳转到学习页。",
     "changelog.crypto_v2.date": "2026-05-20 / crypto encoding and modes",
     "changelog.crypto_v2.l1": "Added key/IV/input/output encoding support (text, Base64, Hex) for AES, DES, SM4, Hash, and HMAC.",
     "changelog.crypto_v2.l2": "Fixed SM4 by converting key/IV to 32-char hex and bridging base64/hex input-output.",

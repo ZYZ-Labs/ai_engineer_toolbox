@@ -4,6 +4,7 @@ import { onRequestPost as login } from "./api/auth/login";
 import { onRequestPost as logout } from "./api/auth/logout";
 import { onRequestGet as me } from "./api/auth/me";
 import { onRequestGet as stats } from "./api/stats";
+import { onRequestGet as publicStats } from "./api/stats-public";
 import { onRequestPost as visit } from "./api/visit";
 import { jsonResponse } from "./api/_utils";
 
@@ -65,6 +66,8 @@ function routeApi(request: Request): Handler | null {
       return visit;
     case "GET /api/stats":
       return stats;
+    case "GET /api/stats/public":
+      return publicStats;
     case "POST /api/auth/login":
       return login;
     case "POST /api/auth/logout":
@@ -76,7 +79,7 @@ function routeApi(request: Request): Handler | null {
   }
 }
 
-export default {
+const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
@@ -97,3 +100,5 @@ export default {
     return env.ASSETS.fetch(request);
   },
 };
+
+export default worker;

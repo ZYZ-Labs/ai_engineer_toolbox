@@ -7,6 +7,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { GlobalSearch } from "@/components/tools/GlobalSearch";
 import { StudyCard } from "@/components/ui/StudyCard";
 import { ToolCard } from "@/components/ui/ToolCard";
+import { SiteStats } from "@/components/stats/SiteStats";
 import { featuredTools, getToolsByCategory, tools, findToolByPath } from "@/lib/tool-registry";
 import { getTopTools } from "@/lib/usage";
 import { studyPages } from "@/lib/study-registry";
@@ -73,6 +74,8 @@ export default function HomePage() {
           <StudyCard key={page.slug} page={translateStudyPage(page, t)} />
         ))}
       </HomeSection>
+
+      <SiteStats />
 
       <section className="py-12">
         <div className="rounded-spec border border-line bg-white p-6 shadow-sm">

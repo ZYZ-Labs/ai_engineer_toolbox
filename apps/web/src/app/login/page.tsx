@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { LogIn, ShieldAlert } from "lucide-react";
 import { PageShell } from "@/components/layout/PageShell";
-import { useAuth } from "@/components/auth/AuthProvider";
 import { login } from "@/lib/auth";
 
 export default function LoginPage() {
@@ -12,7 +11,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login: setUser } = useAuth();
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
@@ -21,8 +19,7 @@ export default function LoginPage() {
     setIsSubmitting(true);
 
     try {
-      const user = await login(username, password);
-      setUser(user);
+      await login(username, password);
       router.push("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");

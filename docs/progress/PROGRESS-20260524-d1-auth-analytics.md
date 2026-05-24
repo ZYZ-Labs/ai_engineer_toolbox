@@ -4,7 +4,7 @@
 
 - D1 database integration, visit tracking, and auth system have been implemented.
 - Deployment target changed from static Pages-style hosting to **Cloudflare Workers** with Workers Static Assets and D1.
-- Course pages now require login via client-side `ProtectedContent` component.
+- Course pages are public. Login is only kept as a hidden admin entry for detailed statistics.
 - Cloudflare deployment failures at `2026-05-24 14:08:29` and `14:23:22` were traced to a target mismatch: the Cloudflare project is a Worker, not Pages.
 
 ## Recent Key Conclusions
@@ -17,13 +17,10 @@
   - `POST /api/auth/login` — username/password login with session cookie
   - `POST /api/auth/logout` — clear session
   - `GET /api/auth/me` — current user info
-- Frontend auth system: `AuthProvider`, `LoginButton`, `ProtectedContent`, login page at `/login`.
+- Frontend auth entry: hidden login page at `/login`.
 - `VisitTracker` component reports page views on every route change via `usePathname`.
-- All 4 course route pages wrapped in `ProtectedContent`:
-  - `/study/ng-lectures`
-  - `/study/ng-lectures/[stage]/[chapter]`
-  - `/study/transformer-lectures`
-  - `/study/transformer-lectures/[stage]/[chapter]`
+- Public aggregate stats endpoint added at `GET /api/stats/public`.
+- Homepage now displays total visits, today's visits, unique visitors, and a 7-day daily chart.
 - GitHub Actions workflow updated to deploy to Cloudflare Workers using `wrangler deploy`.
 - Admin user creation script at `scripts/create-admin.mjs`.
 - Setup guide written at `docs/guides/D1_SETUP.md`.
@@ -31,6 +28,7 @@
 - Worker entry added at `apps/web/functions/worker.ts`; it routes API requests and serves static assets through `env.ASSETS`.
 - Login success now returns to the homepage instead of automatically navigating to `/study`.
 - Changelog page now includes the 2026-05-24 Worker/D1/auth update.
+- Header login button and client-side course protection components were removed; `/login` remains directly accessible for admin use.
 
 ## Next Actions
 

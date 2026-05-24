@@ -4,8 +4,8 @@
 
 This project now uses **Cloudflare D1** for:
 - **Visit tracking**: Page visits deduplicated by IP hash + date
-- **User authentication**: Simple username/password login with session cookies
-- **Access control**: Course pages require login
+- **Public homepage stats**: Aggregated total, daily, and unique visitor counts
+- **Admin authentication**: Hidden username/password login with session cookies for detailed stats
 
 ## Prerequisites
 
@@ -113,7 +113,8 @@ npx wrangler d1 execute ai-engineer-toolbox-db --local --file=../../scripts/init
 | Endpoint | Method | Auth | Description |
 |----------|--------|------|-------------|
 | `/api/visit` | POST | No | Record a page visit |
-| `/api/stats` | GET | Yes | Get visit statistics |
+| `/api/stats/public` | GET | No | Get public aggregate visit statistics |
+| `/api/stats` | GET | Yes | Get detailed visit statistics |
 | `/api/auth/login` | POST | No | Login with username/password |
 | `/api/auth/logout` | POST | No | Clear session |
 | `/api/auth/me` | GET | No | Get current user info |

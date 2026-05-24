@@ -2,7 +2,7 @@
 
 AI Engineer Toolbox is a local-first toolbox and study site for AI application engineers.
 
-The project follows the v1 spec in [`AI_Engineer_Toolbox_Spec_v1.md`](AI_Engineer_Toolbox_Spec_v1.md): no accounts, no database, no backend by default, and browser-side processing whenever possible.
+The project follows the v1 spec in [`AI_Engineer_Toolbox_Spec_v1.md`](AI_Engineer_Toolbox_Spec_v1.md): browser-side processing whenever possible, no public accounts, and only minimal D1-backed aggregate analytics.
 
 ## What Is Included
 

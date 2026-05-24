@@ -12,7 +12,7 @@
   - Transformer lecture course: `content/courses/transformer-lectures`.
   - Andrew Ng course: `content/courses/lectures-source/course_ng`.
 - **I18n added**: Client-side i18n with `en` as the default first paint language and `zh` support.
-- **Auth system**: Login at `/login`, session cookies, course pages protected via `ProtectedContent`.
+- **Auth system**: Hidden admin login at `/login`, session cookies, detailed stats protected by admin session.
 - **Visit tracking**: `VisitTracker` component + `POST /api/visit` with daily IP deduplication.
 - **Analytics API**: `GET /api/stats` (admin-only).
 
@@ -32,10 +32,7 @@
 
 - API handlers: `apps/web/functions/api/` (visit, stats, auth/*)
 - Auth utilities: `apps/web/src/lib/auth.ts`
-- Auth context: `apps/web/src/components/auth/AuthProvider.tsx`
-- Protected wrapper: `apps/web/src/components/auth/ProtectedContent.tsx`
 - Login page: `apps/web/src/app/login/page.tsx`
-- Login button: `apps/web/src/components/auth/LoginButton.tsx`
 - DB schema: `scripts/init-db.sql`
 - Admin creation: `scripts/create-admin.mjs`
 

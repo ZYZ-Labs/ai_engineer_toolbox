@@ -56,7 +56,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         "Set-Cookie": setSessionCookie(token, env.COOKIE_DOMAIN),
       }
     );
-  } catch (err) {
+  } catch {
     return jsonResponse({ error: "Login failed" }, 500);
   }
 };
