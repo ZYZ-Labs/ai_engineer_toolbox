@@ -38,6 +38,10 @@ export const dict = {
     // Changelog
     "changelog.label": "Changelog",
     "changelog.title": "Project updates",
+    "changelog.workerAuth.date": "2026-05-24 / Cloudflare Worker deployment and auth",
+    "changelog.workerAuth.l1": "Moved deployment to Cloudflare Workers Static Assets with a Worker entry for API routes.",
+    "changelog.workerAuth.l2": "Added D1-backed visit tracking, session login, protected study content, and admin stats API.",
+    "changelog.workerAuth.l3": "Changed successful login to return to the homepage instead of automatically opening Study.",
     "changelog.base64image.date": "2026-05-20 / Base64 Image decode",
     "changelog.base64image.l1": "Added decode mode to Base64 Image tool. Accepts Base64 with or without data URL prefix.",
     "changelog.base64image.l2": "Auto-detects image format (PNG/JPEG/GIF/WebP/BMP/SVG) from file headers when decoding.",
@@ -268,6 +272,10 @@ export const dict = {
     // Changelog
     "changelog.label": "更新日志",
     "changelog.title": "项目更新",
+    "changelog.workerAuth.date": "2026-05-24 / Cloudflare Worker 部署与登录",
+    "changelog.workerAuth.l1": "部署迁移到 Cloudflare Workers Static Assets，并通过 Worker 入口处理 API 路由。",
+    "changelog.workerAuth.l2": "新增基于 D1 的访问统计、会话登录、学习内容保护和管理员统计接口。",
+    "changelog.workerAuth.l3": "登录成功后返回首页，不再自动跳转到学习页。",
     "changelog.crypto_v2.date": "2026-05-20 / crypto encoding and modes",
     "changelog.crypto_v2.l1": "Added key/IV/input/output encoding support (text, Base64, Hex) for AES, DES, SM4, Hash, and HMAC.",
     "changelog.crypto_v2.l2": "Fixed SM4 by converting key/IV to 32-char hex and bridging base64/hex input-output.",

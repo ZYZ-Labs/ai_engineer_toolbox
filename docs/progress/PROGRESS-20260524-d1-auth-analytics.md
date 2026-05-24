@@ -29,6 +29,8 @@
 - Setup guide written at `docs/guides/D1_SETUP.md`.
 - Root Worker deployment scripts added. `pages:deploy` is retained as a compatibility alias but now runs `wrangler deploy`.
 - Worker entry added at `apps/web/functions/worker.ts`; it routes API requests and serves static assets through `env.ASSETS`.
+- Login success now returns to the homepage instead of automatically navigating to `/study`.
+- Changelog page now includes the 2026-05-24 Worker/D1/auth update.
 
 ## Next Actions
 
