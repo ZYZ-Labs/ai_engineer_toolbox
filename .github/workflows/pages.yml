@@ -34,7 +34,12 @@ jobs:
       - name: Deploy to Cloudflare Pages
         working-directory: apps/web
         run: |
+          set -x
+          echo "=== Before sed ==="
+          grep -n "workspaces" ../../package.json || true
           sed -i 's/"workspaces":/"_workspaces_disabled":/' ../../package.json
+          echo "=== After sed ==="
+          grep -n "workspaces" ../../package.json || true
           npx wrangler pages deploy out --project-name=ai-engineer-toolbox --branch=main
           sed -i 's/"_workspaces_disabled":/"workspaces":/' ../../package.json
         env:
