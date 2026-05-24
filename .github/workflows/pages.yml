@@ -1,62 +1,62 @@
 name: Deploy to Cloudflare Pages
 
-  on:
-    push:
-      branches:
-        - master
-        - main
-    workflow_dispatch:
+on:
+  push:
+    branches:
+      - master
+      - main
+  workflow_dispatch:
 
-  permissions:
-    contents: read
-    pages: write
-    id-token: write
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
-  concurrency:
-    group: pages
-    cancel-in-progress: false
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v4
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-        - name: Setup Node
-          uses: actions/setup-node@v4
-          with:
-            node-version: 22
-            cache: npm
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
 
-        - name: Install dependencies
-          run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-        - name: Build static site
-          run: npm run build
+      - name: Build static site
+        run: npm run build
 
-        - name: Copy Functions to output
-          run: cp -r apps/web/functions apps/web/out/functions
+      - name: Copy Functions to output
+        run: cp -r apps/web/functions apps/web/out/functions
 
-        - name: Upload artifact
-          uses: actions/upload-artifact@v4
-          with:
-            name: cloudflare-pages
-            path: apps/web/out
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloudflare-pages
+          path: apps/web/out
 
-    deploy:
-      runs-on: ubuntu-latest
-      needs: build
-      steps:
-        - name: Download artifact
-          uses: actions/download-artifact@v4
-          with:
-            name: cloudflare-pages
-            path: out
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: cloudflare-pages
+          path: out
 
-        - name: Deploy to Cloudflare Pages
-          uses: cloudflare/wrangler-action@v3
-          with:
-            apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-            accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-            command: pages deploy out --project-name=ai-engineer-toolbox --branch=main
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy out --project-name=ai-engineer-toolbox --branch=main
