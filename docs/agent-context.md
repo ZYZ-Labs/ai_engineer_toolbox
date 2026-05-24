@@ -43,11 +43,12 @@
 - Install: `npm install` or `npm ci`.
 - Development server: `npm run dev` (frontend only) or `npm run pages:dev` (with Functions).
 - Checks: `npm run lint`, `npm run test`, `npm run typecheck`, `npm run build`.
+- Cloudflare deploy command from repo root: `npm run pages:deploy` (delegates to `apps/web` and runs `wrangler pages deploy out`).
 
 ## Current Risks
 
-- `wrangler.jsonc` contains placeholder `database_id` that must be replaced.
 - GitHub Actions secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` must be configured.
 - DNS for `toolbox.silvericekey.fun` must point to Cloudflare Pages instead of GitHub Pages.
 - Client-side protection means course content is still present in static HTML (acceptable for personal use).
 - `npm audit` still reports a moderate PostCSS advisory from Next.js 16.2.6's nested `postcss@8.4.31`.
+- Cloudflare Workers deploy command `npx wrangler deploy` fails from the workspace root; this project must deploy as Cloudflare Pages with `wrangler pages deploy`.

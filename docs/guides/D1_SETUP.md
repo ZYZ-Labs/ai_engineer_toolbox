@@ -69,6 +69,22 @@ Push to `main` or `master` branch. GitHub Actions will:
 2. Copy Functions to the output directory
 3. Deploy to Cloudflare Pages
 
+If deploying from Cloudflare's own build settings, use Pages deployment settings rather than a Workers deploy command:
+
+```txt
+Root directory: /
+Build command: npm run build
+Build output directory: apps/web/out
+Deploy command: npm run pages:deploy
+```
+
+Do not use `npx wrangler deploy` from the repository root for this project. The repository is an npm workspace, and the web app is under `apps/web`; `wrangler deploy` is for Workers and triggers Wrangler workspace application detection at the wrong level. The deploy command must call `wrangler pages deploy` through `npm run pages:deploy` or run directly from `apps/web`:
+
+```bash
+cd apps/web
+npx wrangler pages deploy out --project-name=ai-engineer-toolbox
+```
+
 ## Local Development
 
 ### Build and test with Pages Functions
