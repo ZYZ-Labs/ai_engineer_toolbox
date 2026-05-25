@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Boxes, Github } from "lucide-react";
+import { Boxes } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import type { Lang } from "@/lib/i18n/dict";
 
@@ -50,13 +50,7 @@ export function Header() {
           >
             {lang === "en" ? "EN" : "中"}
           </button>
-          <a
-            href="https://github.com/ZYZ-Labs/ai_engineer_toolbox"
-            className="grid h-9 w-9 place-items-center rounded-full border border-line bg-panel text-muted transition hover:border-primary/40 hover:text-primary"
-            aria-label="GitHub repository"
-          >
-            <Github className="h-4 w-4" aria-hidden="true" />
-          </a>
+
         </div>
       </div>
     </header>
