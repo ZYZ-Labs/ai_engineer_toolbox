@@ -21,6 +21,20 @@ export const studyPages: StudyPageMeta[] = [
     level: "Foundation",
     readingTime: "28 chapters"
 
+  },
+  {
+    slug: "git-basics",
+    title: "Git Beginner Course",
+    summary: "A detailed beginner course for Git concepts, command-line workflow, branches, remotes, conflicts, and safe collaboration.",
+    level: "Foundation",
+    readingTime: "10 chapters"
+  },
+  {
+    slug: "godot-basics",
+    title: "Godot 4.6.3 Beginner Course",
+    summary: "A detailed Godot 4.6.3 course for new game makers, from editor basics to a playable 2D project and export workflow.",
+    level: "Foundation",
+    readingTime: "12 chapters"
   }
 ];
 

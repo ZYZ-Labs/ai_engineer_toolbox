@@ -11,10 +11,14 @@
 - Study content:
   - Transformer lecture course: `content/courses/transformer-lectures`.
   - Andrew Ng course: `content/courses/lectures-source/course_ng`.
+  - Git beginner course: `content/courses/beginner-courses/git-basics`.
+  - Godot 4.6.3 beginner course: `content/courses/beginner-courses/godot-basics`.
 - **I18n added**: Client-side i18n with `en` as the default first paint language and `zh` support.
 - **Auth system**: Hidden admin login at `/login`, session cookies, detailed stats protected by admin session.
 - **Visit tracking**: `VisitTracker` component + `POST /api/visit` with daily IP deduplication.
 - **Analytics API**: `GET /api/stats` (admin-only).
+- **Beginner study courses**: `/study/git-basics` and `/study/godot-basics` use the shared static beginner-course route under `apps/web/src/app/study/[course]`.
+- Latest beginner-course validation: `npm run typecheck`, `npm run build`, `npm run test`, and targeted ESLint for new course files passed on 2026-06-04.
 
 ## Deployment Context
 
@@ -41,6 +45,9 @@
 - Install: `npm install` or `npm ci`.
 - Development server: `npm run dev` (frontend only) or `npm run pages:dev` (with Functions).
 - Checks: `npm run lint`, `npm run test`, `npm run typecheck`, `npm run build`.
+- New beginner-course sample routes:
+  - `/study/git-basics/stage1/chapter01_install_setup`
+  - `/study/godot-basics/stage1/chapter01_install_editor`
 - Cloudflare deploy command from repo root: `npm run worker:deploy` or `npm run pages:deploy` (compat alias); both run `wrangler deploy`.
 
 ## Current Risks
@@ -50,3 +57,4 @@
 - Client-side protection means course content is still present in static HTML (acceptable for personal use).
 - `npm audit` still reports a moderate PostCSS advisory from Next.js 16.2.6's nested `postcss@8.4.31`.
 - Cloudflare dashboard must build before deploy so `apps/web/out` exists for Workers Static Assets.
+- Full `npm run lint` currently fails on pre-existing AI Chat lint issues in `AiChatWorkbench.tsx` and `ai-providers.ts`; targeted lint for the new beginner-course files passes.

@@ -11,6 +11,14 @@ const studyKeyMap: Record<string, { title: DictKey; summary: DictKey }> = {
   "ng-lectures": {
     title: "study.ngLectures.title",
     summary: "study.ngLectures.summary",
+  },
+  "git-basics": {
+    title: "study.gitBasics.title",
+    summary: "study.gitBasics.summary",
+  },
+  "godot-basics": {
+    title: "study.godotBasics.title",
+    summary: "study.godotBasics.summary",
   }
 };
 

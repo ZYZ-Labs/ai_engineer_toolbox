@@ -76,6 +76,9 @@ export const dict = {
     "changelog.ngLectures.date": "2026-05-21 / Andrew Ng Deep Learning course",
     "changelog.ngLectures.l1": "Added ng-lectures: a 28-chapter bilingual course covering ML fundamentals, neural networks, CNN, RNN, and generative AI.",
     "changelog.ngLectures.l2": "Registered alongside transformer-lectures in the study section with full i18n support.",
+    "changelog.beginnerCourses.date": "2026-06-04 / Beginner Git and Godot courses",
+    "changelog.beginnerCourses.l1": "Added git-basics: a 10-chapter beginner course covering Git setup, commits, branches, remotes, conflicts, and safe collaboration.",
+    "changelog.beginnerCourses.l2": "Added godot-basics: a 12-chapter Godot 4.6.3 beginner course covering editor concepts, GDScript, a 2D game project, debugging, version control, and export.",
     "changelog.v010.date": "2026-05-20 / v0.1.0",
     "changelog.v010.l1": "Implemented the static Next.js frontend for GitHub Pages and custom domain deployment.",
     "changelog.v010.l2": "Added local-first tools for crypto, data, and AI engineering workflows.",
@@ -211,6 +214,10 @@ export const dict = {
     "study.transformerLectures.summary": "A 30-chapter bilingual course from tensor basics to Transformer internals, diffusion, and source hacking.",
     "study.ngLectures.title": "Andrew Ng Deep Learning",
     "study.ngLectures.summary": "A 28-chapter bilingual course covering ML fundamentals, neural networks, CNN, RNN, and generative AI.",
+    "study.gitBasics.title": "Git Beginner Course",
+    "study.gitBasics.summary": "A detailed beginner course for Git concepts, command-line workflow, branches, remotes, conflicts, and safe collaboration.",
+    "study.godotBasics.title": "Godot 4.6.3 Beginner Course",
+    "study.godotBasics.summary": "A detailed Godot 4.6.3 course for new game makers, from editor basics to a playable 2D project and export workflow.",
 
     // Levels
     "level.Foundation": "Foundation",
@@ -318,6 +325,9 @@ export const dict = {
     "changelog.ngLectures.date": "2026-05-21 / 吴恩达深度学习课程",
     "changelog.ngLectures.l1": "新增 ng-lectures：28 章中英双语课程，涵盖机器学习基础、神经网络、CNN、RNN 与生成式 AI。",
     "changelog.ngLectures.l2": "与 transformer-lectures 一起注册到学习板块，支持完整国际化。",
+    "changelog.beginnerCourses.date": "2026-06-04 / Git 与 Godot 新手课程",
+    "changelog.beginnerCourses.l1": "新增 git-basics：10 章 Git 新手课程，覆盖安装配置、提交、分支、远端、冲突处理和安全协作。",
+    "changelog.beginnerCourses.l2": "新增 godot-basics：12 章 Godot 4.6.3 新手课程，覆盖编辑器概念、GDScript、2D 小游戏、调试、版本控制和导出。",
     "changelog.v010.date": "2026-05-20 / v0.1.0",
     "changelog.v010.l1": "实现了静态 Next.js 前端，支持 GitHub Pages 和自定义域名部署。",
     "changelog.v010.l2": "新增了本地优先的加密、数据和 AI 工程工作流工具。",
@@ -453,6 +463,10 @@ export const dict = {
     "study.transformerLectures.summary": "30 章中英双语课程，从 Tensor 基础到 Transformer 内核、Diffusion、源码阅读与模型魔改。",
     "study.ngLectures.title": "吴恩达深度学习",
     "study.ngLectures.summary": "28 章中英双语课程，涵盖机器学习基础、神经网络、CNN、RNN 与生成式 AI。",
+    "study.gitBasics.title": "Git 新手教程",
+    "study.gitBasics.summary": "面向新手的详细 Git 课程，覆盖概念、命令行流程、分支、远端、冲突和安全协作习惯。",
+    "study.godotBasics.title": "Godot 4.6.3 新手教程",
+    "study.godotBasics.summary": "面向游戏开发新手的 Godot 4.6.3 课程，从编辑器基础到可玩的 2D 项目和导出流程。",
 
     // Levels
     "level.Foundation": "基础",

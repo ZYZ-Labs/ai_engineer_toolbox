@@ -12,6 +12,12 @@
 - Open `/study/transformer-lectures`.
 - Open `/study/transformer-lectures/stage1/chapter01_numpy_tensor`.
 - Confirm lecture tables, code blocks, and Python example panel render.
+- Open `/study/git-basics`.
+- Open `/study/git-basics/stage1/chapter01_install_setup`.
+- Confirm the Git beginner chapter renders command examples, tables, and checklist sections.
+- Open `/study/godot-basics`.
+- Open `/study/godot-basics/stage1/chapter01_install_editor`.
+- Confirm the Godot beginner chapter states the Godot 4.6.3 baseline and renders setup steps.
 - Toggle language in the header and confirm UI labels switch between English and Chinese.
 
 ## Deployment Acceptance

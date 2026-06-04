@@ -29,6 +29,10 @@
 - Login success now returns to the homepage instead of automatically navigating to `/study`.
 - Changelog page now includes the 2026-05-24 Worker/D1/auth update.
 - Header login button and client-side course protection components were removed; `/login` remains directly accessible for admin use.
+- Beginner study courses are now available as public static pages:
+  - `/study/git-basics`
+  - `/study/godot-basics` (Godot 4.6.3 baseline)
+- Beginner study courses passed static build validation on 2026-06-04.
 
 ## Next Actions
 
@@ -38,6 +42,7 @@
 4. In Cloudflare Worker build settings, use path `/`, `npm run build` as the build command, and `npm run worker:deploy` as the deploy command. Leave the non-production deploy command at Cloudflare's locked default if it cannot be changed.
 5. Push to `main`/`master` to trigger Cloudflare Workers deployment.
 6. Verify login and course access on the deployed site.
+7. Verify new beginner study routes after deployment.
 
 ## Blockers
 

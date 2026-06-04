@@ -20,12 +20,15 @@
 - `/usr/local/project/study` course content is copied into `content/courses/transformer-lectures` and exposed as static routes.
 - `npm run build` now exports 53 static pages, including 30 Transformer lecture chapter pages.
 - Original placeholder roadmap study pages are removed from the active study index and static export.
+- Git and Godot beginner courses are now available under `/study/git-basics` and `/study/godot-basics`.
+- Godot beginner course baseline is fixed to Godot 4.6.3 stable.
+- Beginner course integration validation passed for typecheck, build, tests, and targeted ESLint on 2026-06-04.
 
 ## Next Actions
 
 - Enable GitHub Pages with GitHub Actions source after push.
 - Configure DNS CNAME for `toolbox.silvericekey.fun`.
-- Push the i18n and Transformer course integration changes.
+- Push the Git/Godot beginner course integration changes.
 
 ## Blockers
 
