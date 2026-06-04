@@ -32,6 +32,8 @@
 - Beginner study courses are now available as public static pages:
   - `/study/git-basics`
   - `/study/godot-basics` (Godot 4.6.3 baseline)
+  - `/study/unity-basics` (Unity 6.3 LTS baseline)
+  - `/study/unreal-basics` (Unreal Engine 5.7 baseline)
 - Beginner study courses passed static build validation on 2026-06-04.
 
 ## Next Actions

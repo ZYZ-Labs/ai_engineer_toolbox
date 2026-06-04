@@ -18,6 +18,12 @@
 - Open `/study/godot-basics`.
 - Open `/study/godot-basics/stage1/chapter01_install_editor`.
 - Confirm the Godot beginner chapter states the Godot 4.6.3 baseline and renders setup steps.
+- Open `/study/unity-basics`.
+- Open `/study/unity-basics/stage1/chapter01_install_editor`.
+- Confirm the Unity beginner chapter states the Unity 6.3 LTS baseline and renders setup steps.
+- Open `/study/unreal-basics`.
+- Open `/study/unreal-basics/stage1/chapter01_install_editor`.
+- Confirm the Unreal beginner chapter states the Unreal Engine 5.7 baseline and renders setup steps.
 - Toggle language in the header and confirm UI labels switch between English and Chinese.
 
 ## Deployment Acceptance

@@ -13,6 +13,14 @@ export default function ChangelogPage() {
         <h1 className="mt-3 text-4xl font-semibold text-ink">{t("changelog.title")}</h1>
       </div>
       <div className="mt-8 rounded-spec border border-line bg-white p-6 shadow-sm">
+        <p className="text-sm font-semibold text-ink">{t("changelog.engineCourses.date")}</p>
+        <ul className="mt-4 space-y-2 text-sm leading-7 text-muted">
+          <li>{t("changelog.engineCourses.l1")}</li>
+          <li>{t("changelog.engineCourses.l2")}</li>
+        </ul>
+      </div>
+
+      <div className="mt-6 rounded-spec border border-line bg-white p-6 shadow-sm">
         <p className="text-sm font-semibold text-ink">{t("changelog.beginnerCourses.date")}</p>
         <ul className="mt-4 space-y-2 text-sm leading-7 text-muted">
           <li>{t("changelog.beginnerCourses.l1")}</li>

@@ -79,6 +79,9 @@ export const dict = {
     "changelog.beginnerCourses.date": "2026-06-04 / Beginner Git and Godot courses",
     "changelog.beginnerCourses.l1": "Added git-basics: a 10-chapter beginner course covering Git setup, commits, branches, remotes, conflicts, and safe collaboration.",
     "changelog.beginnerCourses.l2": "Added godot-basics: a 12-chapter Godot 4.6.3 beginner course covering editor concepts, GDScript, a 2D game project, debugging, version control, and export.",
+    "changelog.engineCourses.date": "2026-06-04 / Beginner Unity and Unreal courses",
+    "changelog.engineCourses.l1": "Added unity-basics: a 12-chapter Unity 6.3 LTS beginner course covering editor concepts, C# scripting, a 2D project, UI, data, debugging, Git, and builds.",
+    "changelog.engineCourses.l2": "Added unreal-basics: a 12-chapter Unreal Engine 5.7 beginner course covering editor concepts, Blueprints, gameplay framework, a 3D prototype, UMG, packaging, and Git LFS.",
     "changelog.v010.date": "2026-05-20 / v0.1.0",
     "changelog.v010.l1": "Implemented the static Next.js frontend for GitHub Pages and custom domain deployment.",
     "changelog.v010.l2": "Added local-first tools for crypto, data, and AI engineering workflows.",
@@ -218,6 +221,10 @@ export const dict = {
     "study.gitBasics.summary": "A detailed beginner course for Git concepts, command-line workflow, branches, remotes, conflicts, and safe collaboration.",
     "study.godotBasics.title": "Godot 4.6.3 Beginner Course",
     "study.godotBasics.summary": "A detailed Godot 4.6.3 course for new game makers, from editor basics to a playable 2D project and export workflow.",
+    "study.unityBasics.title": "Unity 6.3 LTS Beginner Course",
+    "study.unityBasics.summary": "A detailed Unity 6.3 LTS course for new game makers, from editor basics to a playable 2D project and build workflow.",
+    "study.unrealBasics.title": "Unreal Engine 5.7 Beginner Course",
+    "study.unrealBasics.summary": "A detailed Unreal Engine 5.7 course for new users, from editor basics and Blueprints to a playable 3D prototype.",
 
     // Levels
     "level.Foundation": "Foundation",
@@ -328,6 +335,9 @@ export const dict = {
     "changelog.beginnerCourses.date": "2026-06-04 / Git 与 Godot 新手课程",
     "changelog.beginnerCourses.l1": "新增 git-basics：10 章 Git 新手课程，覆盖安装配置、提交、分支、远端、冲突处理和安全协作。",
     "changelog.beginnerCourses.l2": "新增 godot-basics：12 章 Godot 4.6.3 新手课程，覆盖编辑器概念、GDScript、2D 小游戏、调试、版本控制和导出。",
+    "changelog.engineCourses.date": "2026-06-04 / Unity 与 Unreal 新手课程",
+    "changelog.engineCourses.l1": "新增 unity-basics：12 章 Unity 6.3 LTS 新手课程，覆盖编辑器概念、C# 脚本、2D 小项目、UI、数据、调试、Git 与构建。",
+    "changelog.engineCourses.l2": "新增 unreal-basics：12 章 Unreal Engine 5.7 新手课程，覆盖编辑器概念、Blueprint、Gameplay Framework、3D 原型、UMG、打包与 Git LFS。",
     "changelog.v010.date": "2026-05-20 / v0.1.0",
     "changelog.v010.l1": "实现了静态 Next.js 前端，支持 GitHub Pages 和自定义域名部署。",
     "changelog.v010.l2": "新增了本地优先的加密、数据和 AI 工程工作流工具。",
@@ -467,6 +477,10 @@ export const dict = {
     "study.gitBasics.summary": "面向新手的详细 Git 课程，覆盖概念、命令行流程、分支、远端、冲突和安全协作习惯。",
     "study.godotBasics.title": "Godot 4.6.3 新手教程",
     "study.godotBasics.summary": "面向游戏开发新手的 Godot 4.6.3 课程，从编辑器基础到可玩的 2D 项目和导出流程。",
+    "study.unityBasics.title": "Unity 6.3 LTS 新手教程",
+    "study.unityBasics.summary": "面向游戏开发新手的 Unity 6.3 LTS 课程，从编辑器基础到可玩的 2D 项目和构建流程。",
+    "study.unrealBasics.title": "Unreal Engine 5.7 新手教程",
+    "study.unrealBasics.summary": "面向新手的 Unreal Engine 5.7 课程，从编辑器基础、Blueprint 到可玩的 3D 原型。",
 
     // Levels
     "level.Foundation": "基础",

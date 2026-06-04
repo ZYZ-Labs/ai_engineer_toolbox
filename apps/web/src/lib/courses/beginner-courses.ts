@@ -121,6 +121,100 @@ export const beginnerCourses: BeginnerCourse[] = [
         ]
       }
     ]
+  },
+  {
+    slug: "unity-basics",
+    title: "Unity 6.3 LTS Beginner Course",
+    summary: "A Unity 6.3 LTS course for first-time game makers, from editor fundamentals to a small 2D project, UI, audio, scene flow, and builds.",
+    badges: ["Unity 6.3 LTS", "C# scripting", "2D project"],
+    stages: [
+      {
+        slug: "stage1",
+        number: 1,
+        title: "Unity 入门与核心模型",
+        titleEn: "Unity Basics and Core Model",
+        duration: "3-4 days",
+        chapters: [
+          chapter("stage1", 1, "安装 Unity 6.3 LTS 与编辑器", "Install Unity 6.3 LTS and the Editor", "chapter01_install_editor.md"),
+          chapter("stage1", 2, "场景、GameObject 与 Component", "Scenes, GameObjects, and Components", "chapter02_scene_gameobject_component.md"),
+          chapter("stage1", 3, "C# 与 MonoBehaviour 基础", "C# and MonoBehaviour Fundamentals", "chapter03_csharp_monobehaviour.md")
+        ]
+      },
+      {
+        slug: "stage2",
+        number: 2,
+        title: "做一个可玩的 Unity 2D 小游戏",
+        titleEn: "Build a Playable Unity 2D Game",
+        duration: "1-2 weeks",
+        chapters: [
+          chapter("stage2", 4, "玩家移动与输入", "Player Movement and Input", "chapter04_player_movement_input.md"),
+          chapter("stage2", 5, "碰撞、Rigidbody2D 与边界", "Collision, Rigidbody2D, and Boundaries", "chapter05_collision_rigidbody2d.md"),
+          chapter("stage2", 6, "Prefab、生成器与对象生命周期", "Prefabs, Spawners, and Object Lifetime", "chapter06_prefab_spawner_lifetime.md"),
+          chapter("stage2", 7, "分数、生命值与 UI", "Score, Health, and UI", "chapter07_score_health_ui.md"),
+          chapter("stage2", 8, "动画、音效与手感", "Animation, Audio, and Game Feel", "chapter08_animation_audio_feel.md")
+        ]
+      },
+      {
+        slug: "stage3",
+        number: 3,
+        title: "工程化、数据与发布",
+        titleEn: "Engineering, Data, and Release",
+        duration: "1 week",
+        chapters: [
+          chapter("stage3", 9, "ScriptableObject 与游戏数据", "ScriptableObject and Game Data", "chapter09_scriptableobject_data.md"),
+          chapter("stage3", 10, "场景切换、存档与项目结构", "Scene Flow, Save Data, and Project Structure", "chapter10_scene_flow_save_structure.md"),
+          chapter("stage3", 11, "调试、Profiler 与 Git", "Debugging, Profiler, and Git", "chapter11_debugging_profiler_git.md"),
+          chapter("stage3", 12, "构建发布与下一步", "Builds, Release, and Next Steps", "chapter12_build_release_next_steps.md")
+        ]
+      }
+    ]
+  },
+  {
+    slug: "unreal-basics",
+    title: "Unreal Engine 5.7 Beginner Course",
+    summary: "An Unreal Engine 5.7 course for first-time users, from editor basics and Blueprints to a small third-person prototype, UI, packaging, and Git/LFS.",
+    badges: ["Unreal Engine 5.7", "Blueprints", "3D prototype"],
+    stages: [
+      {
+        slug: "stage1",
+        number: 1,
+        title: "Unreal 入门与核心概念",
+        titleEn: "Unreal Basics and Core Concepts",
+        duration: "3-4 days",
+        chapters: [
+          chapter("stage1", 1, "安装 Unreal Engine 5.7 与编辑器", "Install Unreal Engine 5.7 and the Editor", "chapter01_install_editor.md"),
+          chapter("stage1", 2, "Level、Actor 与 Component", "Levels, Actors, and Components", "chapter02_level_actor_component.md"),
+          chapter("stage1", 3, "Blueprint 基础与变量事件", "Blueprint Fundamentals, Variables, and Events", "chapter03_blueprint_basics.md")
+        ]
+      },
+      {
+        slug: "stage2",
+        number: 2,
+        title: "做一个可玩的 Unreal 原型",
+        titleEn: "Build a Playable Unreal Prototype",
+        duration: "1-2 weeks",
+        chapters: [
+          chapter("stage2", 4, "Pawn、Character、Controller 与 GameMode", "Pawn, Character, Controller, and GameMode", "chapter04_gameplay_framework.md"),
+          chapter("stage2", 5, "输入、相机与角色移动", "Input, Camera, and Character Movement", "chapter05_input_camera_movement.md"),
+          chapter("stage2", 6, "碰撞、Overlap 与交互", "Collision, Overlap, and Interaction", "chapter06_collision_overlap_interaction.md"),
+          chapter("stage2", 7, "UMG UI、分数与生命值", "UMG UI, Score, and Health", "chapter07_umg_score_health.md"),
+          chapter("stage2", 8, "材质、音效与反馈", "Materials, Audio, and Feedback", "chapter08_materials_audio_feedback.md")
+        ]
+      },
+      {
+        slug: "stage3",
+        number: 3,
+        title: "工程化、调试与发布",
+        titleEn: "Engineering, Debugging, and Release",
+        duration: "1 week",
+        chapters: [
+          chapter("stage3", 9, "生成敌人、关卡规则与数据", "Spawning Enemies, Level Rules, and Data", "chapter09_spawning_rules_data.md"),
+          chapter("stage3", 10, "调试、日志、性能与引用", "Debugging, Logs, Performance, and References", "chapter10_debugging_logs_performance.md"),
+          chapter("stage3", 11, "打包发布与平台设置", "Packaging and Platform Settings", "chapter11_packaging_release.md"),
+          chapter("stage3", 12, "Git、Git LFS 与下一步", "Git, Git LFS, and Next Steps", "chapter12_git_lfs_next_steps.md")
+        ]
+      }
+    ]
   }
 ];
 

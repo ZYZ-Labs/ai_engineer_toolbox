@@ -22,6 +22,8 @@
 - Original placeholder roadmap study pages are removed from the active study index and static export.
 - Git and Godot beginner courses are now available under `/study/git-basics` and `/study/godot-basics`.
 - Godot beginner course baseline is fixed to Godot 4.6.3 stable.
+- Unity and Unreal beginner courses are now available under `/study/unity-basics` and `/study/unreal-basics`.
+- Unity course baseline is fixed to Unity 6.3 LTS; Unreal course baseline is fixed to Unreal Engine 5.7.
 - Beginner course integration validation passed for typecheck, build, tests, and targeted ESLint on 2026-06-04.
 
 ## Next Actions

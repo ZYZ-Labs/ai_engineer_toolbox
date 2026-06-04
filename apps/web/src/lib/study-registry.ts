@@ -35,6 +35,20 @@ export const studyPages: StudyPageMeta[] = [
     summary: "A detailed Godot 4.6.3 course for new game makers, from editor basics to a playable 2D project and export workflow.",
     level: "Foundation",
     readingTime: "12 chapters"
+  },
+  {
+    slug: "unity-basics",
+    title: "Unity 6.3 LTS Beginner Course",
+    summary: "A detailed Unity 6.3 LTS course for new game makers, from editor basics to a playable 2D project and build workflow.",
+    level: "Foundation",
+    readingTime: "12 chapters"
+  },
+  {
+    slug: "unreal-basics",
+    title: "Unreal Engine 5.7 Beginner Course",
+    summary: "A detailed Unreal Engine 5.7 course for new users, from editor basics and Blueprints to a playable 3D prototype.",
+    level: "Foundation",
+    readingTime: "12 chapters"
   }
 ];
 

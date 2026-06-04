@@ -13,12 +13,14 @@
   - Andrew Ng course: `content/courses/lectures-source/course_ng`.
   - Git beginner course: `content/courses/beginner-courses/git-basics`.
   - Godot 4.6.3 beginner course: `content/courses/beginner-courses/godot-basics`.
+  - Unity 6.3 LTS beginner course: `content/courses/beginner-courses/unity-basics`.
+  - Unreal Engine 5.7 beginner course: `content/courses/beginner-courses/unreal-basics`.
 - **I18n added**: Client-side i18n with `en` as the default first paint language and `zh` support.
 - **Auth system**: Hidden admin login at `/login`, session cookies, detailed stats protected by admin session.
 - **Visit tracking**: `VisitTracker` component + `POST /api/visit` with daily IP deduplication.
 - **Analytics API**: `GET /api/stats` (admin-only).
-- **Beginner study courses**: `/study/git-basics` and `/study/godot-basics` use the shared static beginner-course route under `apps/web/src/app/study/[course]`.
-- Latest beginner-course validation: `npm run typecheck`, `npm run build`, `npm run test`, and targeted ESLint for new course files passed on 2026-06-04.
+- **Beginner study courses**: `/study/git-basics`, `/study/godot-basics`, `/study/unity-basics`, and `/study/unreal-basics` use the shared static beginner-course route under `apps/web/src/app/study/[course]`.
+- Latest beginner-course validation: `npm run typecheck`, `npm run build`, `npm run test`, and targeted ESLint for new course files passed on 2026-06-04 after adding Git, Godot, Unity, and Unreal courses.
 
 ## Deployment Context
 
@@ -48,6 +50,8 @@
 - New beginner-course sample routes:
   - `/study/git-basics/stage1/chapter01_install_setup`
   - `/study/godot-basics/stage1/chapter01_install_editor`
+  - `/study/unity-basics/stage1/chapter01_install_editor`
+  - `/study/unreal-basics/stage1/chapter01_install_editor`
 - Cloudflare deploy command from repo root: `npm run worker:deploy` or `npm run pages:deploy` (compat alias); both run `wrangler deploy`.
 
 ## Current Risks

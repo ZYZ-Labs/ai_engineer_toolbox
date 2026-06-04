@@ -19,6 +19,14 @@ const studyKeyMap: Record<string, { title: DictKey; summary: DictKey }> = {
   "godot-basics": {
     title: "study.godotBasics.title",
     summary: "study.godotBasics.summary",
+  },
+  "unity-basics": {
+    title: "study.unityBasics.title",
+    summary: "study.unityBasics.summary",
+  },
+  "unreal-basics": {
+    title: "study.unrealBasics.title",
+    summary: "study.unrealBasics.summary",
   }
 };
 
