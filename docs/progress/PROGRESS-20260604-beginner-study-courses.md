@@ -7,6 +7,7 @@
 - Unity beginner course is implemented under `/study/unity-basics`.
 - Unreal beginner course is implemented under `/study/unreal-basics`.
 - 2026-06-18 content update complete: Git/Godot/Unity/Unreal lessons now include Windows PowerShell and Command Prompt guidance, and Godot lessons include local SVG diagrams.
+- 2026-06-18 follow-up update complete: course code blocks render visible short execution labels, and Windows examples reduce native PowerShell-only commands.
 - Godot course baseline is fixed to **Godot 4.6.3 stable**.
 - Unity course baseline is fixed to **Unity 6.3 LTS (6000.3)**.
 - Unreal course baseline is fixed to **Unreal Engine 5.7**.
@@ -27,6 +28,8 @@
   - `apps/web/public/course-assets/godot-basics/scene-instance-flow.svg`
   - `apps/web/public/course-assets/godot-basics/export-flow.svg`
 - Windows command guidance added to Git setup and ignore rules, Godot setup/debug/export, Unity setup/Git, and Unreal setup/Git LFS chapters.
+- Code block rendering now maps common fence languages to learner-facing labels: `PowerShell`, `cmd`, and `Git Bash / macOS / Linux`.
+- Windows examples now prefer `cmd`, Git Bash, or simple cross-terminal commands over native PowerShell commands like `New-Item`, `Set-Location`, `Get-Location`, and `Get-ChildItem`.
 - Study index and changelog now include all beginner courses with English and Chinese card/changelog metadata.
 - Official Godot basis checked:
   - Godot 4.6.3 maintenance release published on 2026-05-20.
@@ -58,6 +61,13 @@
   - `npm --workspace @ai-engineer-toolbox/web exec eslint -- src/lib/markdown.ts src/components/study/MarkdownRenderer.tsx`: passed.
   - `npm run build`: passed and generated 130 static pages.
   - Static output check confirmed Godot SVG assets under `apps/web/out/course-assets/godot-basics/` and rendered course page references.
+- 2026-06-18 validation for command-label follow-up:
+  - `npm run typecheck`: passed.
+  - `npm run test`: passed, 1 Vitest file and 4 tests.
+  - `npm --workspace @ai-engineer-toolbox/web exec eslint -- src/components/study/MarkdownRenderer.tsx`: passed.
+  - `npm run build`: passed and generated 130 static pages.
+  - Static output check confirmed visible `PowerShell / cmd / Git Bash`, `cmd`, and `Git Bash / macOS / Linux` code-block labels.
+  - Source check confirmed no `New-Item`, `Set-Location`, `Get-Location`, or `Get-ChildItem` remains in beginner Git/Godot/Unity/Unreal course Markdown.
 
 ## Blockers
 

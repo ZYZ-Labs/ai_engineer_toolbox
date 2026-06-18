@@ -75,11 +75,15 @@ build/
 .DS_Store
 ```
 
-Windows 下创建 `.gitignore` 的方式：
+Windows 下创建 `.gitignore` 的方式。
 
-```powershell
-New-Item -ItemType File .gitignore
+Git Bash：
+
+```bash
+touch .gitignore
 ```
+
+cmd：
 
 ```bat
 type nul > .gitignore
@@ -102,9 +106,9 @@ git commit -m "Add enemy spawn behavior"
 
 如果一次修改了很多 `.tscn`，提交前打开 diff 看看是否误改了不相关场景。
 
-Windows PowerShell、Command Prompt 和 Git Bash 中的 Git 命令基本相同：
+PowerShell / cmd / Git Bash：
 
-```powershell
+```terminal
 git status
 git add scenes/player.tscn scripts/player.gd
 git commit -m "Add player movement"

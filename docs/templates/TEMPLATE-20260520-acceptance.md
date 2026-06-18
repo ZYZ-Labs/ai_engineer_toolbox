@@ -14,14 +14,14 @@
 - Confirm lecture tables, code blocks, and Python example panel render.
 - Open `/study/git-basics`.
 - Open `/study/git-basics/stage1/chapter01_install_setup`.
-- Confirm the Git beginner chapter renders command examples, tables, checklist sections, and Windows PowerShell / Command Prompt notes.
+- Confirm the Git beginner chapter renders command examples with visible `PowerShell`, `cmd`, or `Git Bash / macOS / Linux` labels, plus tables and checklist sections.
 - Open `/study/godot-basics`.
 - Open `/study/godot-basics/stage1/chapter01_install_editor`.
 - Confirm the Godot beginner chapter states the Godot 4.6.3 baseline, renders setup steps, and displays the editor layout SVG diagram.
 - Open `/study/godot-basics/stage1/chapter02_nodes_scenes`.
 - Confirm the Godot scene/instance SVG diagram renders and the chapter still shows tables and code blocks.
 - Open `/study/godot-basics/stage3/chapter11_export_release`.
-- Confirm the Godot export SVG diagram renders and Windows `py -m http.server 8000` guidance appears.
+- Confirm the Godot export SVG diagram renders and Windows `py -m http.server 8000` guidance appears under a visible `PowerShell` label.
 - Open `/study/unity-basics`.
 - Open `/study/unity-basics/stage1/chapter01_install_editor`.
 - Confirm the Unity beginner chapter states the Unity 6.3 LTS baseline and renders Windows project directory setup notes.

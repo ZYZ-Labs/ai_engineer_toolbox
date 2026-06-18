@@ -58,20 +58,24 @@ Unreal 资源很多是二进制文件，例如：
 *.png filter=lfs diff=lfs merge=lfs -text
 ```
 
-Windows 下先确认 Git LFS 可用：
+PowerShell / cmd / Git Bash：
 
-```powershell
+```terminal
 git lfs version
 git lfs install
 ```
 
 如果提示 `git: 'lfs' is not a git command`，说明 Git LFS 没安装或 PATH 没生效。重新安装 Git for Windows 时勾选 Git LFS，安装后重开 PowerShell、Command Prompt 或 VS Code 终端再检查。
 
-创建 `.gitattributes`：
+创建 `.gitattributes`。
 
-```powershell
-New-Item -ItemType File .gitattributes
+Git Bash：
+
+```bash
+touch .gitattributes
 ```
+
+cmd：
 
 ```bat
 type nul > .gitattributes

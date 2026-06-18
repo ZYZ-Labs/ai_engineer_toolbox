@@ -23,13 +23,9 @@
 
 从官方 Godot 4.6.3 stable 下载页选择你的系统版本。Godot 编辑器通常是一个独立可执行文件，不需要复杂安装。下载后启动，你会看到 Project Manager。
 
-Windows 用户通常会下载 ZIP 包，解压后直接运行 `Godot_v4.6.3-stable_win64.exe`。建议把编辑器放在固定目录，例如 `C:\Tools\Godot\4.6.3\`，不要每次都从下载目录运行。PowerShell 可以这样创建目录：
+Windows 用户通常会下载 ZIP 包，解压后直接运行 `Godot_v4.6.3-stable_win64.exe`。建议把编辑器放在固定目录，例如 `C:\Tools\Godot\4.6.3\`，不要每次都从下载目录运行。
 
-```powershell
-New-Item -ItemType Directory -Force "C:\Tools\Godot\4.6.3"
-```
-
-Command Prompt 对应命令：
+cmd：
 
 ```bat
 mkdir C:\Tools\Godot\4.6.3

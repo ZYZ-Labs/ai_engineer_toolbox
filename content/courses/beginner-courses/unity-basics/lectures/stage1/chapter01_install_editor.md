@@ -24,13 +24,9 @@
 
 不要一开始安装所有平台模块。模块越多，占用空间越大，排错也更复杂。
 
-Windows 用户建议把项目放在固定开发目录，不要放在 OneDrive、下载目录或桌面临时目录。PowerShell 可以先创建目录：
+Windows 用户建议把项目放在固定开发目录，不要放在 OneDrive、下载目录或桌面临时目录。
 
-```powershell
-New-Item -ItemType Directory -Force "$HOME\Projects\unity"
-```
-
-Command Prompt 对应命令：
+cmd：
 
 ```bat
 mkdir "%USERPROFILE%\Projects\unity"

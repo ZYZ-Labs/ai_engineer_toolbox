@@ -26,6 +26,19 @@ function InlineText({ text }: { text: string }) {
   );
 }
 
+function codeBlockLabel(lang: string) {
+  const normalized = lang.toLowerCase();
+  if (normalized === "terminal" || normalized === "console") return "PowerShell / cmd / Git Bash";
+  if (normalized === "bash" || normalized === "sh" || normalized === "shell") return "Git Bash / macOS / Linux";
+  if (normalized === "powershell" || normalized === "ps1") return "PowerShell";
+  if (normalized === "bat" || normalized === "cmd") return "cmd";
+  if (normalized === "txt" || normalized === "text") return "Text";
+  if (normalized === "gitignore") return ".gitignore";
+  if (normalized === "gitattributes") return ".gitattributes";
+  if (normalized === "gdscript") return "GDScript";
+  return lang;
+}
+
 export function MarkdownRenderer({ source }: { source: string }) {
   const blocks = parseMarkdown(source);
 
@@ -110,9 +123,16 @@ export function MarkdownRenderer({ source }: { source: string }) {
         }
         if (block.type === "code") {
           return (
-            <pre key={index}>
-              <code>{block.code}</code>
-            </pre>
+            <div key={index} className="my-5 overflow-hidden rounded-lg border border-slate-200 bg-slate-950">
+              {block.lang ? (
+                <div className="border-b border-white/10 bg-slate-900 px-4 py-2 font-mono text-xs font-semibold text-slate-300">
+                  {codeBlockLabel(block.lang)}
+                </div>
+              ) : null}
+              <pre className="m-0 rounded-none border-0">
+                <code>{block.code}</code>
+              </pre>
+            </div>
           );
         }
         return null;

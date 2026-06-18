@@ -19,17 +19,13 @@
 
 创建 `.gitignore`：
 
+Git Bash / macOS / Linux：
+
 ```bash
 touch .gitignore
 ```
 
-Windows PowerShell 可以用：
-
-```powershell
-New-Item -ItemType File .gitignore
-```
-
-Windows Command Prompt 可以用：
+cmd：
 
 ```bat
 type nul > .gitignore

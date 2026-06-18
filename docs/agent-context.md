@@ -21,6 +21,7 @@
 - **Analytics API**: `GET /api/stats` (admin-only).
 - **Beginner study courses**: `/study/git-basics`, `/study/godot-basics`, `/study/unity-basics`, and `/study/unreal-basics` use the shared static beginner-course route under `apps/web/src/app/study/[course]`.
 - Latest beginner-course content update: on 2026-06-18, Git/Godot/Unity/Unreal lessons received Windows PowerShell and Command Prompt guidance; Godot lessons received local SVG diagrams rendered through Markdown image support.
+- Follow-up content update: command/code blocks now render visible short labels such as `PowerShell`, `cmd`, and `Git Bash / macOS / Linux`; Windows examples avoid native PowerShell-only commands where simple `cmd` or Git Bash equivalents are clearer.
 - Latest beginner-course validation before this update: `npm run typecheck`, `npm run build`, `npm run test`, and targeted ESLint for new course files passed on 2026-06-04 after adding Git, Godot, Unity, and Unreal courses.
 
 ## Deployment Context

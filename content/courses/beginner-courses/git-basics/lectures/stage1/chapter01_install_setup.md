@@ -73,19 +73,21 @@ git config --global --list
 
 Git 命令通常作用于“当前目录所在仓库”。执行命令前先确认自己在哪里。
 
+Git Bash / macOS / Linux：
+
 ```bash
 pwd
 ls
 ```
 
-Windows PowerShell 对应命令：
+PowerShell：
 
 ```powershell
-Get-Location
-Get-ChildItem
+cd
+dir
 ```
 
-Windows Command Prompt 对应命令：
+cmd：
 
 ```bat
 cd
@@ -94,15 +96,21 @@ dir
 
 创建练习目录时，不同终端可以这样写：
 
+Git Bash / macOS / Linux：
+
 ```bash
 mkdir -p ~/Projects/git-lab
 cd ~/Projects/git-lab
 ```
 
+PowerShell：
+
 ```powershell
-New-Item -ItemType Directory -Force "$HOME\Projects\git-lab"
-Set-Location "$HOME\Projects\git-lab"
+mkdir "$HOME\Projects\git-lab"
+cd "$HOME\Projects\git-lab"
 ```
+
+cmd：
 
 ```bat
 mkdir "%USERPROFILE%\Projects\git-lab"
@@ -116,7 +124,7 @@ cd /d "%USERPROFILE%\Projects\git-lab"
 1. 打开终端，运行 `git --version`。
 2. 配置 `user.name`、`user.email`、`init.defaultBranch`。
 3. 运行 `git config --global --list`，确认配置存在。
-4. 新建一个空文件夹 `git-lab`，进入它，运行 `pwd` 或 `Get-Location`。
+4. 新建一个空文件夹 `git-lab`，进入它，运行 `pwd`、`cd` 或 `dir` 确认位置。
 
 ## 检查点
 
