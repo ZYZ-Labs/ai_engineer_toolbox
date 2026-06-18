@@ -49,6 +49,15 @@ export function MarkdownRenderer({ source }: { source: string }) {
             </blockquote>
           );
         }
+        if (block.type === "image") {
+          return (
+            <figure key={index} className="my-6 overflow-hidden rounded-lg border border-slate-200 bg-white">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={block.src} alt={block.alt} className="h-auto w-full" loading="lazy" />
+              {block.alt ? <figcaption className="border-t border-slate-100 px-4 py-2 text-sm text-slate-600">{block.alt}</figcaption> : null}
+            </figure>
+          );
+        }
         if (block.type === "ul") {
           return (
             <ul key={index}>

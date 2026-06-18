@@ -23,6 +23,18 @@
 touch .gitignore
 ```
 
+Windows PowerShell 可以用：
+
+```powershell
+New-Item -ItemType File .gitignore
+```
+
+Windows Command Prompt 可以用：
+
+```bat
+type nul > .gitignore
+```
+
 示例内容：
 
 ```gitignore
@@ -39,6 +51,8 @@ build/
 git add .gitignore
 git commit -m "Add Git ignore rules"
 ```
+
+如果你用 PowerShell 或 Command Prompt，只要 Git 已经加入 PATH，`git add`、`git commit`、`git stash`、`git tag` 这些 Git 命令写法相同。差异主要在创建文件、查看目录、删除文件这类系统命令。
 
 ## 9.2 已经提交的文件不会被自动忽略
 

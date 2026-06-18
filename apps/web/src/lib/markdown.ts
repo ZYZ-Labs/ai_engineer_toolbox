@@ -1,6 +1,7 @@
 export type MarkdownBlock =
   | { type: "h1" | "h2" | "h3"; text: string }
   | { type: "p"; text: string }
+  | { type: "image"; alt: string; src: string }
   | { type: "ul"; items: string[] }
   | { type: "ol"; items: string[] }
   | { type: "blockquote"; text: string }
@@ -61,6 +62,13 @@ export function parseMarkdown(source: string): MarkdownBlock[] {
       continue;
     }
 
+    const image = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+    if (image) {
+      blocks.push({ type: "image", alt: image[1], src: image[2] });
+      index += 1;
+      continue;
+    }
+
     if (/^- /.test(line)) {
       const items: string[] = [];
       while (index < lines.length && /^- /.test(lines[index])) {
@@ -100,7 +108,7 @@ export function parseMarkdown(source: string): MarkdownBlock[] {
     while (
       index < lines.length &&
       lines[index].trim() &&
-      !/^(#|```|> |- |\d+\. )/.test(lines[index])
+      !/^(#|```|> |!\[[^\]]*\]\([^)]+\)$|- |\d+\. )/.test(lines[index])
     ) {
       paragraph.push(lines[index]);
       index += 1;

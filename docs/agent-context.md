@@ -20,7 +20,8 @@
 - **Visit tracking**: `VisitTracker` component + `POST /api/visit` with daily IP deduplication.
 - **Analytics API**: `GET /api/stats` (admin-only).
 - **Beginner study courses**: `/study/git-basics`, `/study/godot-basics`, `/study/unity-basics`, and `/study/unreal-basics` use the shared static beginner-course route under `apps/web/src/app/study/[course]`.
-- Latest beginner-course validation: `npm run typecheck`, `npm run build`, `npm run test`, and targeted ESLint for new course files passed on 2026-06-04 after adding Git, Godot, Unity, and Unreal courses.
+- Latest beginner-course content update: on 2026-06-18, Git/Godot/Unity/Unreal lessons received Windows PowerShell and Command Prompt guidance; Godot lessons received local SVG diagrams rendered through Markdown image support.
+- Latest beginner-course validation before this update: `npm run typecheck`, `npm run build`, `npm run test`, and targeted ESLint for new course files passed on 2026-06-04 after adding Git, Godot, Unity, and Unreal courses.
 
 ## Deployment Context
 
@@ -50,6 +51,8 @@
 - New beginner-course sample routes:
   - `/study/git-basics/stage1/chapter01_install_setup`
   - `/study/godot-basics/stage1/chapter01_install_editor`
+  - `/study/godot-basics/stage1/chapter02_nodes_scenes`
+  - `/study/godot-basics/stage3/chapter11_export_release`
   - `/study/unity-basics/stage1/chapter01_install_editor`
   - `/study/unreal-basics/stage1/chapter01_install_editor`
 - Cloudflare deploy command from repo root: `npm run worker:deploy` or `npm run pages:deploy` (compat alias); both run `wrangler deploy`.
@@ -62,3 +65,4 @@
 - `npm audit` still reports a moderate PostCSS advisory from Next.js 16.2.6's nested `postcss@8.4.31`.
 - Cloudflare dashboard must build before deploy so `apps/web/out` exists for Workers Static Assets.
 - Full `npm run lint` currently fails on pre-existing AI Chat lint issues in `AiChatWorkbench.tsx` and `ai-providers.ts`; targeted lint for the new beginner-course files passes.
+- Markdown image rendering is intentionally simple and supports standalone `![alt](src)` lines for trusted course content.

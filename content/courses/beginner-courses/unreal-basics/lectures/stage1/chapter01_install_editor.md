@@ -24,6 +24,16 @@
 
 Unreal 安装体积较大。建议把引擎和项目放在空间充足的 SSD 上。
 
+Windows 用户建议提前准备项目目录，避免把大型项目放进桌面、下载目录或 OneDrive 同步目录：
+
+```powershell
+New-Item -ItemType Directory -Force "$HOME\Projects\unreal"
+```
+
+```bat
+mkdir "%USERPROFILE%\Projects\unreal"
+```
+
 ## 1.3 创建项目
 
 创建项目：

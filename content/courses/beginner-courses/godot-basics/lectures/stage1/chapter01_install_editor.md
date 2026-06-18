@@ -23,6 +23,18 @@
 
 从官方 Godot 4.6.3 stable 下载页选择你的系统版本。Godot 编辑器通常是一个独立可执行文件，不需要复杂安装。下载后启动，你会看到 Project Manager。
 
+Windows 用户通常会下载 ZIP 包，解压后直接运行 `Godot_v4.6.3-stable_win64.exe`。建议把编辑器放在固定目录，例如 `C:\Tools\Godot\4.6.3\`，不要每次都从下载目录运行。PowerShell 可以这样创建目录：
+
+```powershell
+New-Item -ItemType Directory -Force "C:\Tools\Godot\4.6.3"
+```
+
+Command Prompt 对应命令：
+
+```bat
+mkdir C:\Tools\Godot\4.6.3
+```
+
 创建项目：
 
 1. 点击 New Project。
@@ -33,7 +45,17 @@
 
 不要把项目建在下载目录、桌面临时目录或云同步冲突严重的目录。推荐放在一个固定工作目录里，例如 `Projects/godot/DodgeStarter`。
 
+Windows 下推荐使用短而稳定的路径，例如：
+
+```txt
+C:\Projects\godot\DodgeStarter
+```
+
+如果路径包含中文、空格、云同步目录或很深的嵌套，某些外部工具、导出脚本或压缩流程更容易出问题。课程练习阶段先用简单路径。
+
 ## 1.4 认识编辑器界面
+
+![Godot 4.6.3 编辑器区域示意图](/course-assets/godot-basics/editor-layout.svg)
 
 | 区域 | 用途 |
 |------|------|

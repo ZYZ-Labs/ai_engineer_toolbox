@@ -75,6 +75,18 @@ build/
 .DS_Store
 ```
 
+Windows 下创建 `.gitignore` 的方式：
+
+```powershell
+New-Item -ItemType File .gitignore
+```
+
+```bat
+type nul > .gitignore
+```
+
+然后用 VS Code、记事本或其他编辑器写入上面的忽略规则。不要把 `.godot/`、`export/`、`build/` 提交进仓库。
+
 ## 10.5 提交节奏
 
 Godot 新手也要小步提交。建议节点结构调整、脚本逻辑、素材导入分开提交。
@@ -89,6 +101,16 @@ git commit -m "Add enemy spawn behavior"
 ```
 
 如果一次修改了很多 `.tscn`，提交前打开 diff 看看是否误改了不相关场景。
+
+Windows PowerShell、Command Prompt 和 Git Bash 中的 Git 命令基本相同：
+
+```powershell
+git status
+git add scenes/player.tscn scripts/player.gd
+git commit -m "Add player movement"
+```
+
+真正需要注意的是路径分隔符。Git 命令里使用 `/` 通常最省事，例如 `scenes/player.tscn`；即使在 Windows 上也能正常工作。
 
 ## 本章练习
 

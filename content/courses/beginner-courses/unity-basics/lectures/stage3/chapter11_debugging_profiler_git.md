@@ -72,6 +72,24 @@ UserSettings/
 
 注意 `.meta` 文件必须提交。Unity 用 `.meta` 保存资源 GUID，丢失后引用可能断掉。
 
+Windows 下创建 `.gitignore`：
+
+```powershell
+New-Item -ItemType File .gitignore
+```
+
+```bat
+type nul > .gitignore
+```
+
+提交前在 PowerShell、Command Prompt 或 Git Bash 中运行：
+
+```powershell
+git status
+git add .gitignore Assets Packages ProjectSettings
+git commit -m "Add Unity project ignore rules"
+```
+
 ## 11.5 提交节奏
 
 合适的提交：

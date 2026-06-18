@@ -6,6 +6,7 @@
 - Godot beginner course is implemented under `/study/godot-basics`.
 - Unity beginner course is implemented under `/study/unity-basics`.
 - Unreal beginner course is implemented under `/study/unreal-basics`.
+- 2026-06-18 content update complete: Git/Godot/Unity/Unreal lessons now include Windows PowerShell and Command Prompt guidance, and Godot lessons include local SVG diagrams.
 - Godot course baseline is fixed to **Godot 4.6.3 stable**.
 - Unity course baseline is fixed to **Unity 6.3 LTS (6000.3)**.
 - Unreal course baseline is fixed to **Unreal Engine 5.7**.
@@ -20,6 +21,12 @@
 - Godot course includes 12 chapters across Godot 4.6.3 setup, nodes/scenes, GDScript, a 2D game loop, UI, animation/audio, resources, Autoload, debugging, Git, export, and next steps.
 - Unity course includes 12 chapters across Unity 6.3 LTS setup, GameObjects/components, C# scripting, a 2D game loop, UI, ScriptableObject, scene flow, debugging, Git, builds, and next steps.
 - Unreal course includes 12 chapters across Unreal Engine 5.7 setup, Actors/components, Blueprint, Gameplay Framework, a third-person prototype, UMG, packaging, Git LFS, and next steps.
+- Standalone Markdown image lines are now parsed and rendered for study content.
+- Godot visuals added:
+  - `apps/web/public/course-assets/godot-basics/editor-layout.svg`
+  - `apps/web/public/course-assets/godot-basics/scene-instance-flow.svg`
+  - `apps/web/public/course-assets/godot-basics/export-flow.svg`
+- Windows command guidance added to Git setup and ignore rules, Godot setup/debug/export, Unity setup/Git, and Unreal setup/Git LFS chapters.
 - Study index and changelog now include all beginner courses with English and Chinese card/changelog metadata.
 - Official Godot basis checked:
   - Godot 4.6.3 maintenance release published on 2026-05-20.
@@ -45,6 +52,12 @@
 - `npm run lint`: failed on pre-existing AI Chat lint issues in:
   - `apps/web/src/components/tools/AiChatWorkbench.tsx`
   - `apps/web/src/lib/ai-providers.ts`
+- 2026-06-18 validation for Windows/course image update:
+  - `npm run typecheck`: passed.
+  - `npm run test`: passed, 1 Vitest file and 4 tests.
+  - `npm --workspace @ai-engineer-toolbox/web exec eslint -- src/lib/markdown.ts src/components/study/MarkdownRenderer.tsx`: passed.
+  - `npm run build`: passed and generated 130 static pages.
+  - Static output check confirmed Godot SVG assets under `apps/web/out/course-assets/godot-basics/` and rendered course page references.
 
 ## Blockers
 
@@ -54,6 +67,7 @@
 
 - No browser screenshot/manual click-through was performed in this turn.
 - Godot, Unity, and Unreal lessons provide reproducible editor steps and code snippets, but no executable engine project assets were added.
+- Added Godot images are local SVG diagrams, not official editor screenshots.
 - Full repo lint remains blocked by unrelated pre-existing AI Chat lint errors.
 
 ## Next Actions

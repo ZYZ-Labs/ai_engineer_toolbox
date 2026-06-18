@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Godot editor area overview</title>
+  <desc id="desc">A simplified layout showing Scene, Viewport, Inspector, FileSystem, Output, and Debugger areas in the Godot editor.</desc>
+  <rect width="960" height="540" fill="#f8fafc"/>
+  <rect x="32" y="32" width="896" height="476" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="32" y="32" width="896" height="52" rx="12" fill="#0f172a"/>
+  <text x="56" y="65" fill="#ffffff" font-family="Arial, sans-serif" font-size="20" font-weight="700">Godot 4.6.3 Editor</text>
+  <rect x="56" y="108" width="190" height="280" rx="8" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="76" y="142" fill="#075985" font-family="Arial, sans-serif" font-size="22" font-weight="700">Scene</text>
+  <text x="76" y="176" fill="#0f172a" font-family="Arial, sans-serif" font-size="18">Node tree</text>
+  <text x="76" y="206" fill="#0f172a" font-family="Arial, sans-serif" font-size="18">Main</text>
+  <text x="96" y="236" fill="#0f172a" font-family="Arial, sans-serif" font-size="18">Player</text>
+  <text x="96" y="266" fill="#0f172a" font-family="Arial, sans-serif" font-size="18">SpawnTimer</text>
+  <rect x="272" y="108" width="416" height="280" rx="8" fill="#ecfdf5" stroke="#16a34a"/>
+  <text x="300" y="142" fill="#166534" font-family="Arial, sans-serif" font-size="22" font-weight="700">2D / 3D / Script View</text>
+  <rect x="342" y="190" width="276" height="126" rx="10" fill="#bbf7d0" stroke="#15803d"/>
+  <text x="398" y="260" fill="#14532d" font-family="Arial, sans-serif" font-size="24" font-weight="700">Game canvas</text>
+  <rect x="714" y="108" width="190" height="280" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="734" y="142" fill="#92400e" font-family="Arial, sans-serif" font-size="22" font-weight="700">Inspector</text>
+  <text x="734" y="176" fill="#0f172a" font-family="Arial, sans-serif" font-size="18">Selected node</text>
+  <text x="734" y="206" fill="#0f172a" font-family="Arial, sans-serif" font-size="18">Properties</text>
+  <text x="734" y="236" fill="#0f172a" font-family="Arial, sans-serif" font-size="18">Signals</text>
+  <rect x="56" y="408" width="300" height="72" rx="8" fill="#f1f5f9" stroke="#64748b"/>
+  <text x="76" y="452" fill="#334155" font-family="Arial, sans-serif" font-size="22" font-weight="700">FileSystem</text>
+  <rect x="380" y="408" width="248" height="72" rx="8" fill="#f1f5f9" stroke="#64748b"/>
+  <text x="400" y="452" fill="#334155" font-family="Arial, sans-serif" font-size="22" font-weight="700">Output</text>
+  <rect x="652" y="408" width="252" height="72" rx="8" fill="#f1f5f9" stroke="#64748b"/>
+  <text x="672" y="452" fill="#334155" font-family="Arial, sans-serif" font-size="22" font-weight="700">Debugger</text>
+</svg>
