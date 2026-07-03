@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, startTransition } from "react";
 import {
   Bot,
   Send,
@@ -23,8 +23,7 @@ import {
   saveAiConfig,
   saveChatHistory,
   sendChat,
-  type ChatMessage,
-  type AiProvider
+  type ChatMessage
 } from "@/lib/ai-providers";
 
 export function AiChatWorkbench() {
@@ -33,7 +32,10 @@ export function AiChatWorkbench() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [streamingContent, setStreamingContent] = useState("");
-  const [availableModels, setAvailableModels] = useState<string[]>([]);
+  const [availableModels, setAvailableModels] = useState<string[]>(() => {
+    const p = getProviderById(loadAiConfig().providerId);
+    return p?.defaultModels || [];
+  });
   const [isFetchingModels, setIsFetchingModels] = useState(false);
   const [error, setError] = useState("");
   const [showSettings, setShowSettings] = useState(false);
@@ -59,26 +61,41 @@ export function AiChatWorkbench() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, streamingContent]);
 
-  // Fetch models when provider/apiKey changes
+  // Fetch models when provider/apiKey/baseUrl changes.
+  // `provider` is derived from `config.providerId` and `config.model` is updated
+  // conditionally inside the async result; adding them would cause loops.
   useEffect(() => {
     if (!provider || !config.apiKey) {
-      setAvailableModels(provider?.defaultModels || []);
       return;
     }
-    setIsFetchingModels(true);
-    fetchModels(provider, config.apiKey, config.baseUrl || undefined)
-      .then((models) => {
-        setAvailableModels(models.length ? models : provider.defaultModels);
-        if (!config.model || !models.includes(config.model)) {
-          const first = models[0] || provider.defaultModels[0];
+    let cancelled = false;
+    const load = async () => {
+      try {
+        startTransition(() => setIsFetchingModels(true));
+        const models = await fetchModels(provider, config.apiKey, config.baseUrl || undefined);
+        if (cancelled) return;
+        const effectiveModels = models.length ? models : provider.defaultModels;
+        setAvailableModels(effectiveModels);
+        if (!config.model || !effectiveModels.includes(config.model)) {
+          const first = effectiveModels[0] || provider.defaultModels[0];
           if (first) setConfig((prev) => ({ ...prev, model: first }));
         }
-      })
-      .catch(() => {
-        setAvailableModels(provider.defaultModels);
-      })
-      .finally(() => setIsFetchingModels(false));
+      } catch {
+        if (!cancelled) setAvailableModels(provider.defaultModels);
+      } finally {
+        if (!cancelled) setIsFetchingModels(false);
+      }
+    };
+    void load();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [config.providerId, config.apiKey, config.baseUrl]);
+
+  // We accumulate streaming content in a ref so onDone can read the final text
+  // without depending on React state timing.
+  const streamingContentRef = useRef("");
 
   const handleSend = useCallback(async () => {
     if (!input.trim() || isLoading || !provider) return;
@@ -98,6 +115,7 @@ export function AiChatWorkbench() {
     setInput("");
     setIsLoading(true);
     setStreamingContent("");
+    streamingContentRef.current = "";
     setError("");
     abortRef.current = false;
 
@@ -116,7 +134,8 @@ export function AiChatWorkbench() {
       maxTokens,
       onChunk: (chunk) => {
         if (abortRef.current) return;
-        setStreamingContent((prev) => prev + chunk);
+        streamingContentRef.current += chunk;
+        setStreamingContent(streamingContentRef.current);
       },
       onError: (err) => {
         setError(err);
@@ -124,23 +143,19 @@ export function AiChatWorkbench() {
       },
       onDone: () => {
         setIsLoading(false);
+        const finalContent = streamingContentRef.current;
+        streamingContentRef.current = "";
+        setStreamingContent("");
         setMessages((prev) => {
           const assistantMsg: ChatMessage = {
             role: "assistant",
-            content: streamingContentRef.current,
+            content: finalContent,
           };
           return [...prev, assistantMsg];
         });
-        setStreamingContent("");
       },
     });
   }, [input, isLoading, provider, config, messages, temperature, maxTokens]);
-
-  // We need a ref to read streamingContent inside onDone closure
-  const streamingContentRef = useRef(streamingContent);
-  useEffect(() => {
-    streamingContentRef.current = streamingContent;
-  }, [streamingContent]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {

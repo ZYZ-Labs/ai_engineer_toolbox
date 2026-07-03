@@ -139,13 +139,16 @@ export async function fetchModels(provider: AiProvider, apiKey: string, customBa
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
 
-    // OpenAI-compatible format
     if (Array.isArray(data.data)) {
-      return data.data.map((m: any) => m.id || m.model).filter(Boolean);
+      return data.data
+        .map((m: { id?: string; model?: string }) => m.id || m.model)
+        .filter((id: string | undefined): id is string => Boolean(id));
     }
     // Gemini format
     if (Array.isArray(data.models)) {
-      return data.models.map((m: any) => m.name?.replace("models/", "") || m.name).filter(Boolean);
+      return data.models
+        .map((m: { name?: string }) => m.name?.replace("models/", "") || m.name)
+        .filter((id: string | undefined): id is string => Boolean(id));
     }
     return provider.defaultModels;
   } catch {
