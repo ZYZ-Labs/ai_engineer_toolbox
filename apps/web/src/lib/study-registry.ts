@@ -49,6 +49,13 @@ export const studyPages: StudyPageMeta[] = [
     summary: "A detailed Unreal Engine 5.7 course for new users, from editor basics and Blueprints to a playable 3D prototype.",
     level: "Foundation",
     readingTime: "12 chapters"
+  },
+  {
+    slug: "ai-agent-engineering",
+    title: "AI Agent Engineering",
+    summary: "A 40-chapter bilingual course for backend engineers covering manual agent construction, MCP/LSP/A2A protocols, AI-assisted development, task orchestration, and production engineering with runnable multi-language labs.",
+    level: "Intermediate",
+    readingTime: "40 chapters + labs"
   }
 ];
 
