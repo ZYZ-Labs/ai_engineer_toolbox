@@ -20,6 +20,7 @@
   - Godot 4.6.3 beginner course: `content/courses/beginner-courses/godot-basics`.
   - Unity 6.3 LTS beginner course: `content/courses/beginner-courses/unity-basics`.
   - Unreal Engine 5.7 beginner course: `content/courses/beginner-courses/unreal-basics`.
+  - **AI Agent Engineering course**: `content/courses/beginner-courses/ai-agent-engineering` — 40-chapter bilingual course for backend engineers covering manual agent construction, MCP/LSP/A2A protocols, AI-assisted development, task orchestration, and production engineering. Companion runnable labs live in `https://github.com/ZYZ-Labs/agent-labs`.
 - **I18n added**: Client-side i18n with `en` as the default first paint language and `zh` support.
 - **Auth system**: Hidden admin login at `/login`, session cookies, detailed stats protected by admin session.
 - **Visit tracking**: `VisitTracker` component + `POST /api/visit` with daily IP deduplication.
@@ -27,7 +28,7 @@
 - **Beginner study courses**: `/study/git-basics`, `/study/godot-basics`, `/study/unity-basics`, and `/study/unreal-basics` use the shared static beginner-course route under `apps/web/src/app/study/[course]`.
 - Latest beginner-course content update: on 2026-06-18, Git/Godot/Unity/Unreal lessons received Windows PowerShell and Command Prompt guidance; Godot lessons received local SVG diagrams rendered through Markdown image support.
 - Follow-up content update: command/code blocks now render visible short labels such as `PowerShell`, `cmd`, and `Git Bash / macOS / Linux`; Windows examples avoid native PowerShell-only commands where simple `cmd` or Git Bash equivalents are clearer.
-- Latest beginner-course validation before this update: `npm run typecheck`, `npm run build`, `npm run test`, and targeted ESLint for new course files passed on 2026-06-04 after adding Git, Godot, Unity, and Unreal courses.
+- New AI Agent Engineering course: 40 bilingual chapters for backend engineers, with runnable Python/Node/Go/Java labs at `https://github.com/ZYZ-Labs/agent-labs`.
 
 ## Deployment Context
 

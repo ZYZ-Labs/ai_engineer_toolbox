@@ -8,13 +8,14 @@ The project follows the v1 spec in [`AI_Engineer_Toolbox_Spec_v1.md`](AI_Enginee
 
 - 11 browser tools across crypto, data, and online workflows
   - Crypto tools (AES, DES, SM4, Hash, HMAC) store key/IV history in localStorage for quick reuse
-- 6 integrated study courses:
+- 7 integrated study courses:
   - Transformer Lectures: 30 bilingual chapters with Python examples
   - Andrew Ng Deep Learning: 28 bilingual chapters with Python examples
   - Git Beginner Course: 10 beginner chapters for command-line Git and collaboration
   - Godot 4.6.3 Beginner Course: 12 beginner chapters for a playable 2D game workflow
   - Unity 6.3 LTS Beginner Course: 12 beginner chapters for a playable 2D game workflow
   - Unreal Engine 5.7 Beginner Course: 12 beginner chapters for a playable 3D prototype workflow
+  - AI Agent Engineering: 40 bilingual chapters for backend engineers covering manual agents, MCP/LSP/A2A, AI-assisted development, orchestration, and production engineering, with runnable multi-language labs
 - Static Next.js export served by Cloudflare Workers Static Assets
 - Cloudflare D1-backed visit tracking and simple login protection for study content
 - Monorepo structure with reusable utility packages
