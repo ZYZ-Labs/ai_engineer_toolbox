@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   base64ToText,
+  convertTimestamp,
   diffJson,
   encodeUrl,
   escapePrompt,
@@ -33,5 +34,15 @@ describe("browser utility helpers", () => {
     expect(escapePrompt("`$x`")).toBe("\\`\\$x\\`");
     expect(parseSse("event: ping\ndata: ok\n\n")).toContain('"data": "ok"');
     expect(hmacText("abc", "key", "HMAC-SHA256")).toHaveLength(64);
+  });
+
+  it("converts timestamps and dates", () => {
+    const dateStr = "2026-07-14T00:00:00.000Z";
+    const ms = new Date(dateStr).getTime();
+    const seconds = Math.floor(ms / 1000);
+    expect(convertTimestamp(dateStr, "toTimestamp", "Seconds")).toBe(String(seconds));
+    expect(convertTimestamp(String(seconds), "toDate", "Seconds")).toContain("2026-07-14T00:00:00.000Z");
+    expect(convertTimestamp(String(ms), "toDate", "Milliseconds")).toContain("2026-07-14T00:00:00.000Z");
+    expect(convertTimestamp("", "now", "Auto")).toContain("Seconds:");
   });
 });

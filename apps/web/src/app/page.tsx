@@ -57,12 +57,6 @@ export default function HomePage() {
         {recentlyUsed.map((tool) => (tool ? <ToolCard key={tool.path} tool={translateTool(tool, t)} /> : null))}
       </HomeSection>
 
-      <HomeSection title={t("home.section.aiTools")} href="/tools">
-        {getToolsByCategory("AI Engineering").map((tool) => (
-          <ToolCard key={tool.path} tool={translateTool(tool, t)} />
-        ))}
-      </HomeSection>
-
       <HomeSection title={t("home.section.cryptoTools")} href="/tools">
         {getToolsByCategory("Crypto").map((tool) => (
           <ToolCard key={tool.path} tool={translateTool(tool, t)} />

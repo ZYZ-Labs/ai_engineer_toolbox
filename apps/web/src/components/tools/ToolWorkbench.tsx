@@ -10,6 +10,7 @@ import {
   aesDecrypt,
   aesEncrypt,
   base64ToText,
+  convertTimestamp,
   decodeBase64Image,
   decodeUrl,
   desDecrypt,
@@ -550,6 +551,16 @@ async function executeTool({
 
   if (path === "/tools/url/encode") {
     return { output: operation === "decode" ? decodeUrl(input) : encodeUrl(input) };
+  }
+
+  if (path === "/tools/time/timestamp") {
+    return {
+      output: convertTimestamp(
+        input,
+        operation as "now" | "toDate" | "toTimestamp",
+        algorithm as "Auto" | "Seconds" | "Milliseconds" | "Microseconds"
+      )
+    };
   }
 
   throw new I18nError("error.unsupportedTool");

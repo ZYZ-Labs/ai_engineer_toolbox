@@ -81,12 +81,12 @@ const toolKeyMap: Record<string, { title: DictKey; summary: DictKey; inputLabel:
     placeholder: "tool.urlEncoder.placeholder",
     explanation: "tool.urlEncoder.explanation",
   },
-  "/tools/ai/chat": {
-    title: "tool.aiChat.title",
-    summary: "tool.aiChat.summary",
-    inputLabel: "tool.aiChat.inputLabel",
-    placeholder: "tool.aiChat.placeholder",
-    explanation: "tool.aiChat.explanation",
+  "/tools/time/timestamp": {
+    title: "tool.timeConverter.title",
+    summary: "tool.timeConverter.summary",
+    inputLabel: "tool.timeConverter.inputLabel",
+    placeholder: "tool.timeConverter.placeholder",
+    explanation: "tool.timeConverter.explanation",
   },
 };
 

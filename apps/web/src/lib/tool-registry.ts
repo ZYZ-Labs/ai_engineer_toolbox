@@ -1,7 +1,7 @@
 import {
   Binary,
   Braces,
-  Bot,
+  Clock,
   FileJson2,
   Fingerprint,
   Hash,
@@ -13,7 +13,7 @@ import {
   type LucideIcon
 } from "lucide-react";
 
-export type ToolCategory = "Crypto" | "Data" | "AI Engineering";
+export type ToolCategory = "Crypto" | "Data";
 
 export type ToolConfig = {
   title: string;
@@ -184,8 +184,8 @@ export const tools: ToolConfig[] = [
     summary: "Format, minify, and validate JSON without uploading it.",
     icon: FileJson2,
     inputLabel: "JSON",
-    placeholder: "{\"message\":\"paste JSON here\"}",
-    defaultInput: "{\"model\":\"gpt\",\"messages\":[{\"role\":\"user\",\"content\":\"Summarize this.\"}]}",
+    placeholder: '{"message":"paste JSON here"}',
+    defaultInput: '{"model":"gpt","messages":[{"role":"user","content":"Summarize this."}]}',
     operations: ["format", "minify"],
     defaultOperation: "format",
     explanation: "A focused JSON formatter for payload inspection, API debugging, and prompt fixture cleanup."
@@ -198,10 +198,10 @@ export const tools: ToolConfig[] = [
     icon: Braces,
     inputLabel: "Left JSON",
     secondaryInputLabel: "Right JSON",
-    placeholder: "{\"temperature\":0.2,\"stream\":true}",
-    secondaryPlaceholder: "{\"temperature\":0.3,\"stream\":true,\"seed\":7}",
-    defaultInput: "{\"temperature\":0.2,\"stream\":true}",
-    defaultSecondaryInput: "{\"temperature\":0.3,\"stream\":true,\"seed\":7}",
+    placeholder: '{"temperature":0.2,"stream":true}',
+    secondaryPlaceholder: '{"temperature":0.3,"stream":true,"seed":7}',
+    defaultInput: '{"temperature":0.2,"stream":true}',
+    defaultSecondaryInput: '{"temperature":0.3,"stream":true,"seed":7}',
     operations: ["diff"],
     defaultOperation: "diff",
     explanation: "The diff output is path-based, which makes it useful for checking config and API response drift."
@@ -247,22 +247,23 @@ export const tools: ToolConfig[] = [
     explanation: "Encodes individual URL components with percent escaping and decodes them back to readable text."
   },
   {
-    title: "AI Chat",
-    path: "/tools/ai/chat",
-    category: "AI Engineering",
-    summary: "Multi-provider AI chat with OpenAI, Anthropic, Gemini, DeepSeek, OpenRouter, and more. API key stored locally.",
-    icon: Bot,
-    inputLabel: "Message",
-    placeholder: "Type your message...",
+    title: "Timestamp Converter",
+    path: "/tools/time/timestamp",
+    category: "Data",
+    summary: "Convert between Unix timestamps and human-readable dates.",
+    icon: Clock,
+    inputLabel: "Timestamp or date",
+    placeholder: "Paste a Unix timestamp or ISO date.",
     defaultInput: "",
-    operations: ["chat"],
-    defaultOperation: "chat",
-    explanation: "Connect to multiple AI providers directly from your browser. Your API key is stored in localStorage and never sent to our servers. Supports streaming responses. Some providers require a CORS proxy for browser access."
+    operations: ["now", "toDate", "toTimestamp"],
+    defaultOperation: "now",
+    algorithms: ["Auto", "Seconds", "Milliseconds", "Microseconds"],
+    defaultAlgorithm: "Auto",
+    explanation: "Get the current time, convert a Unix timestamp to local/UTC date, or convert a date string to a timestamp. Supports seconds, milliseconds, and microseconds."
   }
 ];
 
 export const featuredTools = [
-  "/tools/ai/chat",
   "/tools/json/formatter",
   "/tools/crypto/aes",
   "/tools/base64/text"

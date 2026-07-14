@@ -9,25 +9,24 @@ export const dict = {
     "nav.study": "Study",
     "nav.about": "About",
     "nav.changelog": "Changelog",
-    "site.name": "AI Engineer Toolbox",
+    "site.name": "SilverIce Toolbox",
 
     // Footer
-    "footer.line1": "AI Engineer Toolbox is open source, local-first, and intentionally minimal on server-side features.",
+    "footer.line1": "SilverIce Toolbox is open source, local-first, and intentionally minimal on server-side features.",
     "footer.line2": "All processing happens locally in your browser whenever possible. Your data is not uploaded unless explicitly stated.",
 
     // Home
     "home.badge": "Local-first engineering workstation",
-    "home.title": "AI Engineer Toolbox",
-    "home.description": "A focused collection of browser-side tools and study pages for AI application engineers who work with prompts, payloads, streaming APIs, retrieval systems, and integration security.",
-    "home.search.placeholder": "Search AES, JSON, SSE, RAG...",
+    "home.title": "SilverIce Toolbox",
+    "home.description": "A focused collection of browser-side tools and study pages for developers who work with payloads, APIs, data transforms, and integration security.",
+    "home.search.placeholder": "Search AES, JSON, Base64, URL...",
     "home.section.recentlyUsed": "Recently Used",
-    "home.section.aiTools": "AI Tools",
     "home.section.cryptoTools": "Crypto Tools",
     "home.section.study": "Study",
     "home.viewAll": "View all",
     "home.updates.title": "Recent Updates",
     "home.updates.v1": "v1 implementation with static export, Cloudflare Worker deployment, and custom domain support.",
-    "home.updates.tools": "Added local browser tools for crypto, JSON, Base64, URL, SSE, messages, prompts, and token estimation.",
+    "home.updates.tools": "Added local browser tools for crypto, JSON, Base64, URL, timestamps, and more.",
     "home.stats.title": "Site traffic",
     "home.stats.description": "Public aggregate traffic from D1. IP addresses are hashed before storage and never shown here.",
     "home.stats.total": "Total visits",
@@ -39,9 +38,9 @@ export const dict = {
 
     // About
     "about.label": "About",
-    "about.title": "A small toolbox for real AI application work",
-    "about.p1": "AI Engineer Toolbox keeps v1 intentionally simple: browser-side tools, practical study pages, no public accounts, no ads, and only minimal D1-backed aggregate analytics.",
-    "about.p2": "The goal is to help engineers inspect payloads, debug streaming APIs, prepare prompt fixtures, validate signatures, and study the systems that matter around modern AI applications.",
+    "about.title": "A small toolbox for real engineering work",
+    "about.p1": "SilverIce Toolbox keeps v1 intentionally simple: browser-side tools, practical study pages, no public accounts, no ads, and only minimal D1-backed aggregate analytics.",
+    "about.p2": "The goal is to help engineers inspect payloads, debug APIs, validate signatures, and study the systems that matter around modern applications.",
 
     // Changelog
     "changelog.label": "Changelog",
@@ -84,7 +83,7 @@ export const dict = {
     "changelog.engineCourses.l2": "Added unreal-basics: a 12-chapter Unreal Engine 5.7 beginner course covering editor concepts, Blueprints, gameplay framework, a 3D prototype, UMG, packaging, and Git LFS.",
     "changelog.v010.date": "2026-05-20 / v0.1.0",
     "changelog.v010.l1": "Implemented the static Next.js frontend for GitHub Pages and custom domain deployment.",
-    "changelog.v010.l2": "Added local-first tools for crypto, data, and AI engineering workflows.",
+    "changelog.v010.l2": "Added local-first tools for crypto, data, and online workflows.",
     "changelog.v010.l3": "Added MDX study roadmaps and project handoff documentation.",
 
     // Donate
@@ -94,13 +93,13 @@ export const dict = {
 
     // Study index
     "study.label": "Study",
-    "study.title": "Roadmaps for practical AI engineering",
-    "study.description": "Study notes focus on design decisions, implementation traps, and production habits rather than generic AI summaries.",
+    "study.title": "Roadmaps for practical engineering",
+    "study.description": "Study notes focus on design decisions, implementation traps, and production habits for real engineering work.",
 
     // Tools index
     "tools.label": "Tools",
     "tools.title": "Local browser tools for engineering work",
-    "tools.description": "Focused utilities for payload inspection, AI API debugging, compatibility checks, and privacy-preserving data transforms.",
+    "tools.description": "Focused utilities for payload inspection, API debugging, compatibility checks, and privacy-preserving data transforms.",
 
     // Tool detail
     "tool.explanation": "Explanation",
@@ -205,12 +204,12 @@ export const dict = {
     "tool.urlEncoder.placeholder": "Paste text to encode or decode.",
     "tool.urlEncoder.explanation": "Encodes individual URL components with percent escaping and decodes them back to readable text.",
 
-    // Tool: AI Chat
-    "tool.aiChat.title": "AI Chat",
-    "tool.aiChat.summary": "Multi-provider AI chat with OpenAI, Anthropic, Gemini, DeepSeek, OpenRouter, and more. API key stored locally.",
-    "tool.aiChat.inputLabel": "Message",
-    "tool.aiChat.placeholder": "Type your message...",
-    "tool.aiChat.explanation": "Connect to multiple AI providers directly from your browser. Your API key is stored in localStorage and never sent to our servers. Supports streaming responses. Some providers require a CORS proxy for browser access.",
+    // Tool: Timestamp Converter
+    "tool.timeConverter.title": "Timestamp Converter",
+    "tool.timeConverter.summary": "Convert between Unix timestamps and human-readable dates.",
+    "tool.timeConverter.inputLabel": "Timestamp or date",
+    "tool.timeConverter.placeholder": "Paste a Unix timestamp or ISO date.",
+    "tool.timeConverter.explanation": "Get the current time, convert a Unix timestamp to local/UTC date, or convert a date string to a timestamp. Supports seconds, milliseconds, and microseconds.",
 
     // Study pages
     "study.transformerLectures.title": "Transformer Lectures",
@@ -232,7 +231,6 @@ export const dict = {
     "level.Advanced": "Advanced",
 
     // Categories
-    "category.AI Engineering": "AI Engineering",
     "category.Crypto": "Crypto",
     "category.Data": "Data",
 
@@ -249,6 +247,9 @@ export const dict = {
     "op.escape": "escape",
     "op.parse": "parse",
     "op.estimate": "estimate",
+    "op.toDate": "to date",
+    "op.toTimestamp": "to timestamp",
+    "op.now": "now",
 
     // Workbench errors
     "error.aes.secretRequired": "Passphrase is required.",
@@ -265,25 +266,24 @@ export const dict = {
     "nav.study": "学习",
     "nav.about": "关于",
     "nav.changelog": "更新日志",
-    "site.name": "AI Engineer Toolbox",
+    "site.name": "SilverIce Toolbox",
 
     // Footer
-    "footer.line1": "AI Engineer Toolbox 是开源的、本地优先的，并刻意保持最小化服务端能力。",
+    "footer.line1": "SilverIce Toolbox 是开源的、本地优先的，并刻意保持最小化服务端能力。",
     "footer.line2": "所有处理尽可能在浏览器本地完成。除非另有说明，您的数据不会被上传。",
 
     // Home
     "home.badge": "本地优先的工程工作站",
-    "home.title": "AI Engineer Toolbox",
-    "home.description": "为 AI 应用工程师精心整理的浏览器端工具和学习页面，涵盖提示词、请求体、流式 API、检索系统和集成安全。",
-    "home.search.placeholder": "搜索 AES、JSON、SSE、RAG...",
+    "home.title": "SilverIce Toolbox",
+    "home.description": "为开发者精心整理的浏览器端工具和学习页面，涵盖请求体、流式 API、检索系统和集成安全。",
+    "home.search.placeholder": "搜索 AES、JSON、Base64、URL...",
     "home.section.recentlyUsed": "最近使用",
-    "home.section.aiTools": "AI 工具",
     "home.section.cryptoTools": "加密工具",
     "home.section.study": "学习",
     "home.viewAll": "查看全部",
     "home.updates.title": "最近更新",
     "home.updates.v1": "v1 实现：静态导出、Cloudflare Worker 部署和自定义域名支持。",
-    "home.updates.tools": "新增本地浏览器工具：加密、JSON、Base64、URL、SSE、消息、提示词和 token 估算。",
+    "home.updates.tools": "新增本地浏览器工具：加密、JSON、Base64、URL、时间戳等。",
     "home.stats.title": "站点访问量",
     "home.stats.description": "来自 D1 的公开聚合访问统计。IP 会先哈希再存储，这里不会展示任何 IP 信息。",
     "home.stats.total": "总访问量",
@@ -295,9 +295,9 @@ export const dict = {
 
     // About
     "about.label": "关于",
-    "about.title": "为真实 AI 应用工作准备的小工具箱",
-    "about.p1": "AI Engineer Toolbox 的 v1 版本刻意保持简单：浏览器端工具、实用的学习页面、无公开账号、没有广告，只保留最小化的 D1 聚合访问统计。",
-    "about.p2": "目标是帮助工程师检查请求体、调试流式 API、准备提示词模板、验证签名，并学习现代 AI 应用周围重要的系统知识。",
+    "about.title": "为真实工程工作准备的小工具箱",
+    "about.p1": "SilverIce Toolbox 的 v1 版本刻意保持简单：浏览器端工具、实用的学习页面、无公开账号、没有广告，只保留最小化的 D1 聚合访问统计。",
+    "about.p2": "目标是帮助工程师检查请求体、调试 API、验证签名，并学习现代应用周围重要的系统知识。",
 
     // Changelog
     "changelog.label": "更新日志",
@@ -340,7 +340,7 @@ export const dict = {
     "changelog.engineCourses.l2": "新增 unreal-basics：12 章 Unreal Engine 5.7 新手课程，覆盖编辑器概念、Blueprint、Gameplay Framework、3D 原型、UMG、打包与 Git LFS。",
     "changelog.v010.date": "2026-05-20 / v0.1.0",
     "changelog.v010.l1": "实现了静态 Next.js 前端，支持 GitHub Pages 和自定义域名部署。",
-    "changelog.v010.l2": "新增了本地优先的加密、数据和 AI 工程工作流工具。",
+    "changelog.v010.l2": "新增了本地优先的加密、数据和在线工作流工具。",
     "changelog.v010.l3": "新增了 MDX 学习路线图和项目交接文档。",
 
     // Donate
@@ -350,13 +350,13 @@ export const dict = {
 
     // Study index
     "study.label": "学习",
-    "study.title": "实用 AI 工程学习路线",
-    "study.description": "学习笔记聚焦于设计决策、实现陷阱和生产习惯，而非泛泛的 AI 总结。",
+    "study.title": "实用工程学习路线",
+    "study.description": "学习笔记聚焦于设计决策、实现陷阱和生产习惯。",
 
     // Tools index
     "tools.label": "工具",
     "tools.title": "本地浏览器工程工具",
-    "tools.description": "专注于请求体检查、AI API 调试、兼容性检查和隐私保护的数据转换工具。",
+    "tools.description": "专注于请求体检查、API 调试、兼容性检查和隐私保护的数据转换工具。",
 
     // Tool detail
     "tool.explanation": "说明",
@@ -461,12 +461,12 @@ export const dict = {
     "tool.urlEncoder.placeholder": "粘贴要编码或解码的文本。",
     "tool.urlEncoder.explanation": "使用百分号转义对单个 URL 组件进行编码，并将其解码回可读文本。",
 
-    // Tool: AI Chat
-    "tool.aiChat.title": "AI 对话",
-    "tool.aiChat.summary": "多供应商 AI 对话，支持 OpenAI、Anthropic、Gemini、DeepSeek、OpenRouter 等。API 密钥本地存储。",
-    "tool.aiChat.inputLabel": "消息",
-    "tool.aiChat.placeholder": "输入消息...",
-    "tool.aiChat.explanation": "直接从浏览器连接多个 AI 供应商。您的 API 密钥存储在 localStorage 中，不会发送到我们的服务器。支持流式响应。部分供应商需要 CORS 代理才能在浏览器中访问。",
+    // Tool: Timestamp Converter
+    "tool.timeConverter.title": "时间戳转换器",
+    "tool.timeConverter.summary": "在 Unix 时间戳与可读日期之间转换。",
+    "tool.timeConverter.inputLabel": "时间戳或日期",
+    "tool.timeConverter.placeholder": "粘贴 Unix 时间戳或 ISO 日期。",
+    "tool.timeConverter.explanation": "获取当前时间、将 Unix 时间戳转换为本地/UTC 日期，或将日期字符串转换为时间戳。支持秒、毫秒和微秒。",
 
     // Study pages
     "study.transformerLectures.title": "Transformer 系列课程",
@@ -488,7 +488,6 @@ export const dict = {
     "level.Advanced": "高级",
 
     // Categories
-    "category.AI Engineering": "AI 工程",
     "category.Crypto": "加密",
     "category.Data": "数据",
 
@@ -505,6 +504,9 @@ export const dict = {
     "op.escape": "转义",
     "op.parse": "解析",
     "op.estimate": "估算",
+    "op.toDate": "转日期",
+    "op.toTimestamp": "转时间戳",
+    "op.now": "当前时间",
 
     // Workbench errors
     "error.aes.secretRequired": "密码是必填项。",

@@ -542,3 +542,63 @@ export function decodeBase64Image(input: string): { dataUrl: string; mimeType: s
   const dataUrl = `data:${mimeType};base64,${clean}`;
   return { dataUrl, mimeType };
 }
+
+// ---------- Timestamp converter ----------
+
+export type TimestampUnit = "Auto" | "Seconds" | "Milliseconds" | "Microseconds";
+export type TimestampOperation = "now" | "toDate" | "toTimestamp";
+
+function parseTimestampToMs(value: string, unit: TimestampUnit): number {
+  const trimmed = value.trim();
+  if (!trimmed) throw new Error("Input is empty.");
+  const num = Number(trimmed);
+  if (Number.isNaN(num)) throw new Error("Input is not a valid number.");
+  if (unit === "Seconds") return Math.round(num * 1000);
+  if (unit === "Milliseconds") return Math.round(num);
+  if (unit === "Microseconds") return Math.round(num / 1000);
+  const abs = Math.abs(num);
+  if (abs < 1e11) return Math.round(num * 1000);
+  if (abs < 1e14) return Math.round(num);
+  return Math.round(num / 1000);
+}
+
+function formatTimestampDate(ms: number): string {
+  const date = new Date(ms);
+  if (Number.isNaN(date.getTime())) throw new Error("Invalid date.");
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const local = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}.${String(date.getMilliseconds()).padStart(3, "0")}`;
+  const utc = date.toISOString();
+  const weekdayLocal = date.toLocaleDateString("en-US", { weekday: "long" });
+  const weekdayUtc = new Date(utc).toLocaleDateString("en-US", { weekday: "long", timeZone: "UTC" });
+  return `Local: ${local} (${weekdayLocal})\nUTC:   ${utc} (${weekdayUtc})`;
+}
+
+function formatMsToUnit(ms: number, unit: TimestampUnit): string {
+  if (unit === "Seconds") return String(Math.floor(ms / 1000));
+  if (unit === "Microseconds") return String(ms * 1000);
+  return String(ms);
+}
+
+export function convertTimestamp(
+  input: string,
+  operation: TimestampOperation,
+  unit: TimestampUnit
+) {
+  if (operation === "now") {
+    const ms = Date.now();
+    const seconds = Math.floor(ms / 1000);
+    const us = ms * 1000;
+    return `Seconds:      ${seconds}\nMilliseconds: ${ms}\nMicroseconds: ${us}\n\n${formatTimestampDate(ms)}`;
+  }
+  if (operation === "toDate") {
+    const ms = parseTimestampToMs(input, unit);
+    return formatTimestampDate(ms);
+  }
+  if (operation === "toTimestamp") {
+    const date = new Date(input.trim());
+    if (Number.isNaN(date.getTime())) throw new Error("Invalid date.");
+    const ms = date.getTime();
+    return formatMsToUnit(ms, unit === "Auto" ? "Milliseconds" : unit);
+  }
+  throw new Error("Unsupported timestamp operation.");
+}

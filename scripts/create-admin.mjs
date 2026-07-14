@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Create admin user for AI Engineer Toolbox
+ * Create admin user for SilverIce Toolbox
  * Usage: node scripts/create-admin.mjs <username> <password>
  *
  * This script generates the SQL to insert an admin user.

@@ -2,7 +2,12 @@
 
 ## Current Status
 
-- Main task: implement AI Engineer Toolbox v1 from `AI_Engineer_Toolbox_Spec_v1.md`.
+- Main task: rebrand the project to **SilverIce Toolbox / 银冰工具箱**, add a timestamp converter tool, and remove the AI Chat tool.
+  - Rename is complete: README, site copy, layout metadata, AGENTS.md, script comments, DB schema comments, and deployment docs have been updated.
+  - New tool path: `/tools/time/timestamp`.
+  - AI Chat tool (`/tools/ai/chat`), `AiChatWorkbench.tsx`, and `lib/ai-providers.ts` have been removed.
+  - Tool categories are now `Crypto` and `Data` only.
+  - Internal npm workspace package names (`@ai-engineer-toolbox/*`) were left unchanged to avoid import/lockfile churn.
 - **New feature**: D1 database + visit tracking + auth system integrated.
 - Deployment target: **Cloudflare Workers** with Workers Static Assets + D1.
 - Main entry: `apps/web/src/app/page.tsx`.
@@ -65,5 +70,4 @@
 - Client-side protection means course content is still present in static HTML (acceptable for personal use).
 - `npm audit` still reports a moderate PostCSS advisory from Next.js 16.2.6's nested `postcss@8.4.31`.
 - Cloudflare dashboard must build before deploy so `apps/web/out` exists for Workers Static Assets.
-- Full `npm run lint` currently fails on pre-existing AI Chat lint issues in `AiChatWorkbench.tsx` and `ai-providers.ts`; targeted lint for the new beginner-course files passes.
 - Markdown image rendering is intentionally simple and supports standalone `![alt](src)` lines for trusted course content.

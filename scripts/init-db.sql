@@ -1,5 +1,5 @@
--- D1 Database Schema for AI Engineer Toolbox
--- Run: wrangler d1 execute ai-engineer-toolbox-db --file=./scripts/init-db.sql
+-- D1 Database Schema for SilverIce Toolbox
+-- Run: wrangler d1 execute silverice-toolbox-db --file=./scripts/init-db.sql
 
 -- Visits table: track page visits with IP+date deduplication
 CREATE TABLE IF NOT EXISTS visits (

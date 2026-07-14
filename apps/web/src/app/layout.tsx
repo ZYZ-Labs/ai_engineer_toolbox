@@ -7,10 +7,10 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "AI Engineer Toolbox",
-    template: "%s | AI Engineer Toolbox"
+    default: "SilverIce Toolbox",
+    template: "%s | SilverIce Toolbox"
   },
-  description: "Local-first tools and study resources for AI application engineers.",
+  description: "Local-first tools and study resources for developers.",
   metadataBase: new URL("https://toolbox.silvericekey.fun")
 };
 

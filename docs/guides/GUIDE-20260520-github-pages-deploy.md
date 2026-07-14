@@ -2,7 +2,7 @@
 
 ## Target
 
-Deploy AI Engineer Toolbox to GitHub Pages with the custom domain `toolbox.silvericekey.fun`.
+Deploy SilverIce Toolbox to GitHub Pages with the custom domain `toolbox.silvericekey.fun`.
 
 ## Repository Settings
 

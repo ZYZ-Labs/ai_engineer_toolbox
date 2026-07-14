@@ -2,7 +2,7 @@
 
 ## Background
 
-AI Engineer Toolbox v1 was implemented from `AI_Engineer_Toolbox_Spec_v1.md` as a local-first static website for AI application engineers.
+SilverIce Toolbox v1 was implemented from `AI_Engineer_Toolbox_Spec_v1.md` as a local-first static website for developers.
 
 ## Scope
 

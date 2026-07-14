@@ -1,12 +1,12 @@
-# AI Engineer Toolbox
+# SilverIce Toolbox
 
-AI Engineer Toolbox is a local-first toolbox and study site for AI application engineers.
+SilverIce Toolbox is a local-first toolbox and study site for developers.
 
 The project follows the v1 spec in [`AI_Engineer_Toolbox_Spec_v1.md`](AI_Engineer_Toolbox_Spec_v1.md): browser-side processing whenever possible, no public accounts, and only minimal D1-backed aggregate analytics.
 
 ## What Is Included
 
-- 14 browser tools across crypto, data, and AI engineering workflows
+- 11 browser tools across crypto, data, and online workflows
   - Crypto tools (AES, DES, SM4, Hash, HMAC) store key/IV history in localStorage for quick reuse
 - 6 integrated study courses:
   - Transformer Lectures: 30 bilingual chapters with Python examples
