@@ -2,7 +2,7 @@
   "name": "ai-engineer-toolbox",
   "version": "0.1.0",
   "private": true,
-  "description": "Local-first tools and study resources for AI application engineers.",
+  "description": "Local-first tools and study resources for developers.",
   "license": "Apache-2.0",
   "workspaces": [
     "apps/*",

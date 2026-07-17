@@ -497,7 +497,7 @@ This file contains project-specific context for AI coding agents working on the 
 
 ## Project Overview
 
-SilverIce Toolbox is a local-first toolbox and study site for AI application engineers. It provides browser-based developer tools (crypto, data, AI chat) and bilingual learning courses, with all processing happening in the browser whenever possible.
+SilverIce Toolbox is a local-first toolbox and study site for developers. It provides browser-based developer tools (crypto, data) and bilingual learning courses, with all processing happening in the browser whenever possible.
 
 Core philosophy:
 - **Local-first processing** — user data is not uploaded unless explicitly stated
@@ -599,7 +599,7 @@ The `pages:deploy` script is a compatibility alias that also runs `wrangler depl
 | `components/tools/` | Tool workbenches (crypto, JSON, Base64, URL, timestamps) |
 | `components/layout/` | Header, Footer, PageShell |
 | `components/auth/` | VisitTracker, login-related UI |
-| `lib/tool-registry.ts` | Single source of truth for all 11 tools |
+| `lib/tool-registry.ts` | Single source of truth for all 28 tools |
 | `lib/study-registry.ts` | Course metadata and chapter resolution |
 | `lib/i18n/` | Client-side i18n context, dictionary, and hook |
 | `lib/auth.ts` | Client-side auth helpers (fetchMe, login, logout, trackVisit) |
@@ -621,7 +621,7 @@ The `pages:deploy` script is a compatibility alias that also runs `wrangler depl
 
 ### Shared Packages
 
-- **`packages/utils`** — Browser-safe utilities: AES (Web Crypto + CryptoJS), DES/SM4 (CryptoJS/sm-crypto), hash/HMAC, Base64, JSON diff/format, URL encode/decode, token estimation, SSE parsing, message formatting. Has Vitest tests.
+- **`packages/utils`** — Browser-safe utilities: AES (Web Crypto + CryptoJS), DES/SM4 (CryptoJS/sm-crypto), hash/HMAC, Base64, JSON diff/format, URL encode/decode, token estimation, SSE parsing, message formatting, text diff, case conversion, string escape, regex testing, JWT decode/verify, file hashing, URL parsing, date calculation, cron parsing, number base conversion, color conversion, YAML↔JSON (js-yaml), UUID/password generation. Has Vitest tests.
 - **`packages/ui`** — Minimal shared UI utilities. Currently only exports a `cn()` class name merger.
 
 ---
@@ -661,7 +661,6 @@ The `pages:deploy` script is a compatibility alias that also runs `wrangler depl
 
 ### Local-First Data
 - Crypto tool keys/IVs are stored in `localStorage` for quick reuse.
-- AI chat config and history stored in `localStorage`.
 - Language preference stored in `localStorage` under key `aet-lang`.
 
 ---
@@ -730,7 +729,6 @@ npx wrangler d1 execute ai-engineer-toolbox-db --local --file=./scripts/init-db.
 - **Session cookies**: `httpOnly`, `Secure`, `SameSite=Strict`. Token stored in D1 `sessions` table.
 - **CORS**: Restricted to same origin for API routes.
 - **Client-side content protection**: Course content is still present in static HTML. The auth layer is for UX gating, not cryptographic protection.
-- **API keys**: AI provider API keys are stored in user `localStorage` and sent directly from the browser to provider APIs. They never touch the project's backend.
 - **PostCSS override**: Root `package.json` overrides `postcss` to `8.5.15` to address a moderate advisory in Next.js 16.2.6's nested dependency.
 
 ---

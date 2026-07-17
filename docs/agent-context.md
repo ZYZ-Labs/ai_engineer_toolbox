@@ -2,11 +2,12 @@
 
 ## Current Status
 
-- Main task: rebrand the project to **SilverIce Toolbox / 银冰工具箱**, add a timestamp converter tool, and remove the AI Chat tool.
-  - Rename is complete: README, site copy, layout metadata, AGENTS.md, script comments, DB schema comments, and deployment docs have been updated.
-  - New tool path: `/tools/time/timestamp`.
+- Main task: rebrand to **SilverIce Toolbox / 银冰工具箱** (done) + developer-tools expansion (done 2026-07-17).
+  - Rename is complete: README, site copy, layout metadata, AGENTS.md, script comments, DB schema comments, and deployment docs have been updated. Positioning is now "local-first toolbox for developers", no longer AI-engineer-focused.
   - AI Chat tool (`/tools/ai/chat`), `AiChatWorkbench.tsx`, and `lib/ai-providers.ts` have been removed.
-  - Tool categories are now `Crypto` and `Data` only.
+  - 2026-07-17: added 17 developer tools per `docs/plans/PLAN-20260717-developer-tools.md`. Tool count is now 28 across five categories: `Crypto`, `Data`, `Text`, `Generator`, `Converter`.
+  - Custom workbenches for 5 tools (uuid, password, qr, markdown, keygen) live in `apps/web/src/components/tools/custom/` and are routed in `ToolPageClient.tsx`.
+  - New dependencies: `js-yaml` (packages/utils), `qrcode-generator` (apps/web).
   - Internal npm workspace package names (`@ai-engineer-toolbox/*`) were left unchanged to avoid import/lockfile churn.
 - **New feature**: D1 database + visit tracking + auth system integrated.
 - Deployment target: **Cloudflare Workers** with Workers Static Assets + D1.
@@ -55,6 +56,7 @@
 - Install: `npm install` or `npm ci`.
 - Development server: `npm run dev` (frontend only) or `npm run pages:dev` (with Functions).
 - Checks: `npm run lint`, `npm run test`, `npm run typecheck`, `npm run build`.
+- New tool sample routes: `/tools/generator/uuid`, `/tools/text/diff`, `/tools/crypto/jwt`, `/tools/convert/base`, `/tools/time/cron`, `/tools/convert/yaml-json`.
 - New beginner-course sample routes:
   - `/study/git-basics/stage1/chapter01_install_setup`
   - `/study/godot-basics/stage1/chapter01_install_editor`

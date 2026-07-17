@@ -6,7 +6,7 @@ import { getToolsByCategory } from "@/lib/tool-registry";
 import { useI18n } from "@/lib/i18n";
 import { translateTool, translateCategory } from "@/lib/i18n/tool";
 
-const categories = ["Crypto", "Data"] as const;
+const categories = ["Crypto", "Data", "Text", "Generator", "Converter"] as const;
 
 export default function ToolsPage() {
   const { t } = useI18n();

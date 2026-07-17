@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { PageShell } from "@/components/layout/PageShell";
 import { ToolWorkbench } from "@/components/tools/ToolWorkbench";
+import { customWorkbenches } from "@/components/tools/custom";
 import { useI18n } from "@/lib/i18n";
 import { translateTool, translateCategory } from "@/lib/i18n/tool";
 import { findToolByPath } from "@/lib/tool-registry";
@@ -24,6 +25,7 @@ export function ToolPageClient({ toolPath }: Props) {
 
   const localized = translateTool(tool, t);
   const { icon: Icon, ...workbenchTool } = localized;
+  const CustomWorkbench = customWorkbenches[tool.path];
 
   return (
     <PageShell>
@@ -38,7 +40,7 @@ export function ToolPageClient({ toolPath }: Props) {
         </div>
       </div>
 
-      <ToolWorkbench tool={workbenchTool} />
+      {CustomWorkbench ? <CustomWorkbench tool={workbenchTool} /> : <ToolWorkbench tool={workbenchTool} />}
 
       <section className="mt-8 grid gap-6 lg:grid-cols-2">
         <div className="rounded-spec border border-line bg-panel p-5 shadow-sm">

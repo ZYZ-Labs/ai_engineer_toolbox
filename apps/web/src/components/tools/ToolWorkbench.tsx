@@ -10,21 +10,36 @@ import {
   aesDecrypt,
   aesEncrypt,
   base64ToText,
+  calcDate,
+  convertBase,
+  convertCase,
+  convertColor,
   convertTimestamp,
   decodeBase64Image,
+  decodeJwt,
   decodeUrl,
   desDecrypt,
   desEncrypt,
   diffJson,
+  diffText,
   encodeUrl,
+  escapeString,
   formatJson,
+  hashBuffer,
   hashText,
   hmacText,
   imageToDataUrl,
+  jsonToYaml,
   minifyJson,
+  parseCron,
+  parseUrl,
+  runRegex,
   sm4Decrypt,
   sm4Encrypt,
-  textToBase64
+  textToBase64,
+  unescapeString,
+  yamlToJson,
+  type CaseStyle
 } from "@ai-engineer-toolbox/utils";
 
 type Props = {
@@ -98,6 +113,7 @@ export function ToolWorkbench({ tool }: Props) {
   const didRunInitial = useRef(false);
 
   const needsIv = tool.ivLabel && !algorithm.includes("ECB");
+  const showFilePicker = Boolean(tool.acceptsFile) && (operation === "encode" || tool.path === "/tools/crypto/file-hash");
 
   function handleAlgorithmChange(next: string) {
     setAlgorithm(next);
@@ -181,6 +197,18 @@ export function ToolWorkbench({ tool }: Props) {
     setFileName(file.name);
     setError("");
     setCopied(false);
+    if (tool.path === "/tools/crypto/file-hash") {
+      try {
+        const buffer = await file.arrayBuffer();
+        const hex = await hashBuffer(buffer, algorithm as "MD5" | "SHA-1" | "SHA-256" | "SHA-512");
+        setOutput(hex);
+        setMeta({ name: file.name, bytes: file.size, type: file.type || "unknown" });
+      } catch (cause) {
+        setOutput("");
+        setError(cause instanceof Error ? cause.message : t("workbench.error.generic"));
+      }
+      return;
+    }
     const dataUrl = await imageToDataUrl(file);
     setOutput(dataUrl);
     setMeta({ bytes: file.size, type: file.type || "unknown" });
@@ -230,7 +258,7 @@ export function ToolWorkbench({ tool }: Props) {
             </div>
           </fieldset>
 
-          {tool.algorithms ? (
+          {tool.algorithms && (tool.path !== "/tools/time/date-calc" || operation === "toZone") ? (
             <label className="block">
               <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">{t("workbench.algorithm")}</span>
               <select
@@ -358,7 +386,7 @@ export function ToolWorkbench({ tool }: Props) {
             <button
               type="button"
               onClick={run}
-              disabled={tool.acceptsFile && operation === "encode"}
+              disabled={showFilePicker}
               className="inline-flex h-10 flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-semibold text-white transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-muted/30"
             >
               <Play className="h-4 w-4" aria-hidden="true" />
@@ -380,16 +408,16 @@ export function ToolWorkbench({ tool }: Props) {
         <div className="rounded-spec border border-line bg-panel p-5 shadow-sm">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-sm font-semibold text-ink">{tool.inputLabel}</h2>
-            {tool.acceptsFile && operation === "encode" ? (
+            {showFilePicker ? (
               <label className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-xl border border-line px-3 text-sm font-medium text-muted transition hover:border-primary/40 hover:text-primary">
                 <Upload className="h-4 w-4" aria-hidden="true" />
                 {t("workbench.select")}
-                <input className="sr-only" type="file" accept="image/*" onChange={(event) => void handleFile(event.target.files?.[0])} />
+                <input className="sr-only" type="file" accept={tool.path === "/tools/base64/image" ? "image/*" : undefined} onChange={(event) => void handleFile(event.target.files?.[0])} />
               </label>
             ) : null}
           </div>
 
-          {tool.acceptsFile && operation === "encode" ? (
+          {showFilePicker ? (
             <div className="grid min-h-[18rem] place-items-center rounded-xl border border-dashed border-line bg-canvas p-6 text-center text-sm text-muted">
               <span>{fileName || tool.placeholder}</span>
             </div>
@@ -430,6 +458,13 @@ export function ToolWorkbench({ tool }: Props) {
               {copied ? t("workbench.copied") : t("workbench.copy")}
             </button>
           </div>
+          {tool.path === "/tools/convert/color" && !error && meta.hex ? (
+            <div
+              className="mb-3 h-16 rounded-xl border border-line"
+              style={{ backgroundColor: String(meta.hex) }}
+              aria-hidden="true"
+            />
+          ) : null}
           {error ? (
             <div className="min-h-[18rem] rounded-xl border border-red-200 bg-red-50 p-4 text-sm leading-6 text-red-700">{error}</div>
           ) : tool.path === "/tools/base64/image" && operation === "decode" ? (
@@ -561,6 +596,50 @@ async function executeTool({
         algorithm as "Auto" | "Seconds" | "Milliseconds" | "Microseconds"
       )
     };
+  }
+
+  if (path === "/tools/text/diff") {
+    return { output: diffText(input, secondaryInput) };
+  }
+
+  if (path === "/tools/text/case") {
+    return { output: convertCase(input, operation as CaseStyle) };
+  }
+
+  if (path === "/tools/text/escape") {
+    return { output: operation === "unescape" ? unescapeString(input) : escapeString(input) };
+  }
+
+  if (path === "/tools/text/regex") {
+    return { output: runRegex(secondaryInput, input) };
+  }
+
+  if (path === "/tools/crypto/jwt") {
+    return decodeJwt(input, secret || undefined);
+  }
+
+  if (path === "/tools/convert/color") {
+    return convertColor(input);
+  }
+
+  if (path === "/tools/url/parser") {
+    return { output: parseUrl(input) };
+  }
+
+  if (path === "/tools/time/date-calc") {
+    return { output: calcDate(operation as "diff" | "add" | "toZone", input, secondaryInput, algorithm) };
+  }
+
+  if (path === "/tools/convert/base") {
+    return { output: convertBase(input, algorithm as "Auto" | "2" | "8" | "10" | "16") };
+  }
+
+  if (path === "/tools/convert/yaml-json") {
+    return { output: operation === "toYAML" ? jsonToYaml(input) : yamlToJson(input) };
+  }
+
+  if (path === "/tools/time/cron") {
+    return { output: parseCron(input) };
   }
 
   throw new I18nError("error.unsupportedTool");

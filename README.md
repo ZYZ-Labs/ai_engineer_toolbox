@@ -6,7 +6,7 @@ The project follows the v1 spec in [`AI_Engineer_Toolbox_Spec_v1.md`](AI_Enginee
 
 ## What Is Included
 
-- 11 browser tools across crypto, data, and online workflows
+- 28 browser tools across five categories (Crypto, Data, Text, Generator, Converter)
   - Crypto tools (AES, DES, SM4, Hash, HMAC) store key/IV history in localStorage for quick reuse
 - 7 integrated study courses:
   - Transformer Lectures: 30 bilingual chapters with Python examples

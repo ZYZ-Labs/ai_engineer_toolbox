@@ -8,10 +8,12 @@
   },
   "dependencies": {
     "crypto-js": "^4.2.0",
+    "js-yaml": "^4.1.0",
     "sm-crypto": "^0.4.0"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^26.1.0",
     "vitest": "^4.1.9"
   },

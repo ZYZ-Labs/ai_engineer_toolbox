@@ -211,6 +211,146 @@ export const dict = {
     "tool.timeConverter.placeholder": "Paste a Unix timestamp or ISO date.",
     "tool.timeConverter.explanation": "Get the current time, convert a Unix timestamp to local/UTC date, or convert a date string to a timestamp. Supports seconds, milliseconds, and microseconds.",
 
+    // Tool: UUID Generator
+    "tool.uuid.title": "UUID Generator",
+    "tool.uuid.summary": "Generate UUID v4 or time-ordered UUID v7 in bulk, with uppercase and hyphen options.",
+    "tool.uuid.inputLabel": "UUIDs",
+    "tool.uuid.placeholder": "Generated UUIDs appear here.",
+    "tool.uuid.explanation": "UUID v4 is fully random; UUID v7 embeds a Unix timestamp so values sort roughly by creation time. All UUIDs are generated locally with crypto.getRandomValues.",
+    "tool.uuid.option.version": "Version",
+    "tool.uuid.option.count": "Count",
+    "tool.uuid.option.uppercase": "Uppercase",
+    "tool.uuid.option.hyphens": "Include hyphens",
+
+    // Tool: Password Generator
+    "tool.password.title": "Password Generator",
+    "tool.password.summary": "Generate random passwords with configurable length, character sets, and ambiguity filtering.",
+    "tool.password.inputLabel": "Passwords",
+    "tool.password.placeholder": "Generated passwords appear here.",
+    "tool.password.explanation": "Passwords are generated locally with crypto.getRandomValues. Nothing is stored or uploaded. Excluding ambiguous characters removes lookalikes such as 0/O and 1/l/I.",
+    "tool.password.option.length": "Length",
+    "tool.password.option.count": "Count",
+    "tool.password.option.lowercase": "Lowercase (a-z)",
+    "tool.password.option.uppercase": "Uppercase (A-Z)",
+    "tool.password.option.digits": "Digits (0-9)",
+    "tool.password.option.symbols": "Symbols",
+    "tool.password.option.excludeAmbiguous": "Exclude ambiguous characters",
+    "tool.password.error.noCharset": "Select at least one character set.",
+
+    // Tool: Text Diff
+    "tool.textDiff.title": "Text Diff",
+    "tool.textDiff.summary": "Compare two texts line by line and show additions and removals.",
+    "tool.textDiff.inputLabel": "Left text",
+    "tool.textDiff.placeholder": "Paste the original text.",
+    "tool.textDiff.explanation": "Line-based diff: unchanged lines are prefixed with two spaces, removals with -, and additions with +. Returns (no differences) when the texts match.",
+
+    // Tool: Case Converter
+    "tool.caseConverter.title": "Case Converter",
+    "tool.caseConverter.summary": "Convert text between camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, and plain lower/upper case.",
+    "tool.caseConverter.inputLabel": "Text",
+    "tool.caseConverter.placeholder": "Paste text to convert.",
+    "tool.caseConverter.explanation": "Each line is converted independently. Words are split on non-alphanumeric characters and camelCase boundaries.",
+
+    // Tool: String Escape
+    "tool.stringEscape.title": "String Escape",
+    "tool.stringEscape.summary": "Escape or unescape strings with backslash sequences like \\n, \\t, and \\uXXXX.",
+    "tool.stringEscape.inputLabel": "Text",
+    "tool.stringEscape.placeholder": "Paste text to escape or unescape.",
+    "tool.stringEscape.explanation": "Escape converts backslashes, quotes, newlines, tabs, and carriage returns to escape sequences; non-ASCII characters stay as-is. Unescape reverses the process and supports \\uXXXX.",
+
+    // Tool: JWT Decoder
+    "tool.jwt.title": "JWT Decoder",
+    "tool.jwt.summary": "Decode JWT header and payload locally, with optional HMAC signature verification.",
+    "tool.jwt.inputLabel": "JWT",
+    "tool.jwt.placeholder": "Paste a JWT (header.payload.signature).",
+    "tool.jwt.secretLabel": "HMAC Secret (optional)",
+    "tool.jwt.explanation": "Decodes the header and payload and shows algorithm, expiry, and verification status. The signature is only checked when you provide an HMAC secret (HS256/384/512). Decoding is not verification — never trust unverified claims.",
+
+    // Tool: Markdown Preview
+    "tool.markdownPreview.title": "Markdown Preview",
+    "tool.markdownPreview.summary": "Write markdown on the left and see it rendered live on the right.",
+    "tool.markdownPreview.inputLabel": "Markdown",
+    "tool.markdownPreview.placeholder": "Type or paste markdown here.",
+    "tool.markdownPreview.explanation": "The preview uses the same lightweight renderer as the study pages. It supports headings, lists, tables, quotes, code blocks, and images. Everything renders locally in your browser.",
+    "tool.markdownPreview.previewLabel": "Preview",
+
+    // Tool: Regex Tester
+    "tool.regex.title": "Regex Tester",
+    "tool.regex.summary": "Test a regular expression against text and inspect matches and capture groups.",
+    "tool.regex.inputLabel": "Text",
+    "tool.regex.placeholder": "Paste text to search.",
+    "tool.regex.explanation": "Supports inline flags like (?i), (?m), and (?s). Output lists each match with its range, matched text, and capture groups.",
+
+    // Tool: File Hash
+    "tool.fileHash.title": "File Hash",
+    "tool.fileHash.summary": "Compute MD5, SHA-1, SHA-256, or SHA-512 digests of a local file.",
+    "tool.fileHash.inputLabel": "File",
+    "tool.fileHash.placeholder": "Select a file to hash.",
+    "tool.fileHash.explanation": "The file is read into memory and hashed entirely in your browser — it is never uploaded. Because the whole file is held in memory, files under 500 MB are recommended.",
+
+    // Tool: Color Converter
+    "tool.colorConverter.title": "Color Converter",
+    "tool.colorConverter.summary": "Convert colors between HEX, RGB, and HSL with a live swatch preview.",
+    "tool.colorConverter.inputLabel": "Color",
+    "tool.colorConverter.placeholder": "#3b82f6, rgb(59,130,246), or hsl(217,91%,60%)",
+    "tool.colorConverter.explanation": "Accepts #rgb, #rrggbb, rgb(r,g,b), and hsl(h,s%,l%). Outputs HEX, RGB, and HSL values with a swatch preview.",
+
+    // Tool: Key Pair Generator
+    "tool.keygen.title": "Key Pair Generator",
+    "tool.keygen.summary": "Generate RSA-OAEP or elliptic-curve (ECDSA/ECDH) key pairs and export them as JWK.",
+    "tool.keygen.inputLabel": "Key pair",
+    "tool.keygen.placeholder": "Generated keys appear here.",
+    "tool.keygen.explanation": "Keys are generated with Web Crypto (crypto.subtle) and exported as JWK. RSA-OAEP supports 2048/4096-bit keys for encryption; ECDSA and ECDH use the P-256 curve.",
+    "tool.keygen.option.algorithm": "Algorithm",
+    "tool.keygen.publicKey": "Public Key (JWK)",
+    "tool.keygen.privateKey": "Private Key (JWK)",
+    "tool.keygen.localNote": "Keys are generated locally in your browser and never uploaded. Save the private key somewhere safe — it cannot be recovered.",
+
+    // Tool: URL Parser
+    "tool.urlParser.title": "URL Parser",
+    "tool.urlParser.summary": "Break a URL into protocol, host, port, path, query parameters, and fragment.",
+    "tool.urlParser.inputLabel": "URL",
+    "tool.urlParser.placeholder": "Paste a full URL.",
+    "tool.urlParser.explanation": "Parses absolute URLs and lists every query parameter. Invalid URLs are rejected with an error.",
+
+    // Tool: Date Calculator
+    "tool.dateCalc.title": "Date Calculator",
+    "tool.dateCalc.summary": "Diff two dates, add a duration to a date, or convert a date to another timezone.",
+    "tool.dateCalc.inputLabel": "Date",
+    "tool.dateCalc.placeholder": "2026-07-17T09:00:00Z",
+    "tool.dateCalc.explanation": "diff shows the gap between two dates broken down to days/hours/minutes/seconds. add applies a duration like \"2w 3d 4h 30m\". toZone formats the date in the selected timezone.",
+
+    // Tool: Number Base Converter
+    "tool.baseConverter.title": "Number Base Converter",
+    "tool.baseConverter.summary": "Convert integers between binary, octal, decimal, and hexadecimal with arbitrary precision.",
+    "tool.baseConverter.inputLabel": "Number",
+    "tool.baseConverter.placeholder": "0xFF, 0b1010, 0o17, or 255",
+    "tool.baseConverter.explanation": "Auto mode detects 0x/0b/0o prefixes and defaults to decimal. Implemented with BigInt, so very large integers are exact.",
+
+    // Tool: YAML ↔ JSON
+    "tool.yamlJson.title": "YAML ↔ JSON",
+    "tool.yamlJson.summary": "Convert YAML documents to JSON and JSON back to YAML.",
+    "tool.yamlJson.inputLabel": "YAML or JSON",
+    "tool.yamlJson.placeholder": "Paste YAML or JSON.",
+    "tool.yamlJson.explanation": "to JSON parses YAML and prints JSON with 2-space indentation. to YAML parses JSON and dumps YAML. Invalid input is rejected with a parser error.",
+
+    // Tool: QR Code Generator
+    "tool.qr.title": "QR Code Generator",
+    "tool.qr.summary": "Generate QR codes locally with selectable size and error-correction level, and download as PNG.",
+    "tool.qr.inputLabel": "Text",
+    "tool.qr.placeholder": "Text or URL to encode.",
+    "tool.qr.explanation": "Text is encoded as UTF-8 and rendered to a canvas entirely in your browser. Higher error-correction levels (Q/H) tolerate more damage but produce denser codes.",
+    "tool.qr.option.size": "Size",
+    "tool.qr.option.errorCorrection": "Error correction",
+    "tool.qr.download": "Download PNG",
+
+    // Tool: Cron Parser
+    "tool.cron.title": "Cron Parser",
+    "tool.cron.summary": "Parse a standard 5-field cron expression and preview the next run times.",
+    "tool.cron.inputLabel": "Cron expression",
+    "tool.cron.placeholder": "*/15 9-18 * * 1-5",
+    "tool.cron.explanation": "Standard 5-field cron only: minute hour day-of-month month day-of-week. Supports * , - / and three-letter English month/weekday names. Extended syntax like L, W, #, @daily, and seconds fields is not supported. Next runs are shown in your local timezone.",
+
     // Study pages
     "study.transformerLectures.title": "Transformer Lectures",
     "study.transformerLectures.summary": "A 30-chapter bilingual course from tensor basics to Transformer internals, diffusion, and source hacking.",
@@ -233,6 +373,9 @@ export const dict = {
     // Categories
     "category.Crypto": "Crypto",
     "category.Data": "Data",
+    "category.Text": "Text",
+    "category.Generator": "Generator",
+    "category.Converter": "Converter",
 
     // Operations
     "op.encrypt": "encrypt",
@@ -250,6 +393,21 @@ export const dict = {
     "op.toDate": "to date",
     "op.toTimestamp": "to timestamp",
     "op.now": "now",
+    "op.camel": "camel",
+    "op.pascal": "pascal",
+    "op.snake": "snake",
+    "op.kebab": "kebab",
+    "op.constant": "constant",
+    "op.lower": "lower",
+    "op.upper": "upper",
+    "op.unescape": "unescape",
+    "op.match": "match",
+    "op.convert": "convert",
+    "op.toJSON": "to JSON",
+    "op.toYAML": "to YAML",
+    "op.add": "add",
+    "op.toZone": "to timezone",
+    "op.generate": "generate",
 
     // Workbench errors
     "error.aes.secretRequired": "Passphrase is required.",
@@ -468,6 +626,146 @@ export const dict = {
     "tool.timeConverter.placeholder": "粘贴 Unix 时间戳或 ISO 日期。",
     "tool.timeConverter.explanation": "获取当前时间、将 Unix 时间戳转换为本地/UTC 日期，或将日期字符串转换为时间戳。支持秒、毫秒和微秒。",
 
+    // Tool: UUID Generator
+    "tool.uuid.title": "UUID 生成器",
+    "tool.uuid.summary": "批量生成随机 UUID v4 或按时间排序的 UUID v7，支持大写与连字符选项。",
+    "tool.uuid.inputLabel": "UUID",
+    "tool.uuid.placeholder": "生成的 UUID 会显示在这里。",
+    "tool.uuid.explanation": "UUID v4 完全随机；UUID v7 内嵌 Unix 时间戳，值大致按生成时间排序。所有 UUID 均通过 crypto.getRandomValues 在本地生成。",
+    "tool.uuid.option.version": "版本",
+    "tool.uuid.option.count": "数量",
+    "tool.uuid.option.uppercase": "大写",
+    "tool.uuid.option.hyphens": "包含连字符",
+
+    // Tool: Password Generator
+    "tool.password.title": "密码生成器",
+    "tool.password.summary": "生成随机密码，可配置长度、字符集，并可排除易混淆字符。",
+    "tool.password.inputLabel": "密码",
+    "tool.password.placeholder": "生成的密码会显示在这里。",
+    "tool.password.explanation": "密码通过 crypto.getRandomValues 在本地生成，不会存储或上传。排除易混淆字符会移除 0/O、1/l/I 等形近字符。",
+    "tool.password.option.length": "长度",
+    "tool.password.option.count": "数量",
+    "tool.password.option.lowercase": "小写字母 (a-z)",
+    "tool.password.option.uppercase": "大写字母 (A-Z)",
+    "tool.password.option.digits": "数字 (0-9)",
+    "tool.password.option.symbols": "符号",
+    "tool.password.option.excludeAmbiguous": "排除易混淆字符",
+    "tool.password.error.noCharset": "请至少选择一种字符集。",
+
+    // Tool: Text Diff
+    "tool.textDiff.title": "文本对比",
+    "tool.textDiff.summary": "逐行比较两段文本，展示新增与删除。",
+    "tool.textDiff.inputLabel": "左侧文本",
+    "tool.textDiff.placeholder": "粘贴原始文本。",
+    "tool.textDiff.explanation": "基于行的 diff：相同行以两个空格开头，删除行以 - 开头，新增行以 + 开头。两段文本一致时返回 (no differences)。",
+
+    // Tool: Case Converter
+    "tool.caseConverter.title": "命名风格转换",
+    "tool.caseConverter.summary": "在 camelCase、PascalCase、snake_case、kebab-case、CONSTANT_CASE 以及纯小写/大写之间转换。",
+    "tool.caseConverter.inputLabel": "文本",
+    "tool.caseConverter.placeholder": "粘贴要转换的文本。",
+    "tool.caseConverter.explanation": "逐行独立转换。按非字母数字字符和 camelCase 边界拆词。",
+
+    // Tool: String Escape
+    "tool.stringEscape.title": "字符串转义",
+    "tool.stringEscape.summary": "使用 \\n、\\t、\\uXXXX 等反斜杠序列转义或还原字符串。",
+    "tool.stringEscape.inputLabel": "文本",
+    "tool.stringEscape.placeholder": "粘贴要转义或还原的文本。",
+    "tool.stringEscape.explanation": "转义会把反斜杠、引号、换行、制表符和回车转换为转义序列，非 ASCII 字符保持原样；还原执行反向操作，支持 \\uXXXX。",
+
+    // Tool: JWT Decoder
+    "tool.jwt.title": "JWT 解码器",
+    "tool.jwt.summary": "在本地解码 JWT 的 header 和 payload，可选 HMAC 签名校验。",
+    "tool.jwt.inputLabel": "JWT",
+    "tool.jwt.placeholder": "粘贴 JWT（header.payload.signature）。",
+    "tool.jwt.secretLabel": "HMAC 密钥（可选）",
+    "tool.jwt.explanation": "解码 header 与 payload，并显示算法、过期与校验状态。只有提供 HMAC 密钥（HS256/384/512）时才会校验签名。解码不等于验证——不要信任未校验的声明。",
+
+    // Tool: Markdown Preview
+    "tool.markdownPreview.title": "Markdown 预览",
+    "tool.markdownPreview.summary": "左侧编写 Markdown，右侧实时渲染预览。",
+    "tool.markdownPreview.inputLabel": "Markdown",
+    "tool.markdownPreview.placeholder": "在此输入或粘贴 Markdown。",
+    "tool.markdownPreview.explanation": "预览使用与学习页面相同的轻量渲染器，支持标题、列表、表格、引用、代码块和图片。所有渲染均在浏览器本地完成。",
+    "tool.markdownPreview.previewLabel": "预览",
+
+    // Tool: Regex Tester
+    "tool.regex.title": "正则测试器",
+    "tool.regex.summary": "对文本测试正则表达式，查看匹配区间与捕获组。",
+    "tool.regex.inputLabel": "文本",
+    "tool.regex.placeholder": "粘贴要搜索的文本。",
+    "tool.regex.explanation": "支持 (?i)、(?m)、(?s) 等内联标志。输出列出每个匹配的区间、内容与捕获组。",
+
+    // Tool: File Hash
+    "tool.fileHash.title": "文件哈希",
+    "tool.fileHash.summary": "计算本地文件的 MD5、SHA-1、SHA-256 或 SHA-512 摘要。",
+    "tool.fileHash.inputLabel": "文件",
+    "tool.fileHash.placeholder": "选择要计算哈希的文件。",
+    "tool.fileHash.explanation": "文件读入内存后完全在浏览器本地计算哈希，不会上传。由于整个文件会驻留内存，建议文件小于 500MB。",
+
+    // Tool: Color Converter
+    "tool.colorConverter.title": "颜色转换器",
+    "tool.colorConverter.summary": "在 HEX、RGB、HSL 之间转换颜色，并实时显示色板预览。",
+    "tool.colorConverter.inputLabel": "颜色",
+    "tool.colorConverter.placeholder": "#3b82f6、rgb(59,130,246) 或 hsl(217,91%,60%)",
+    "tool.colorConverter.explanation": "接受 #rgb、#rrggbb、rgb(r,g,b) 和 hsl(h,s%,l%) 格式，输出 HEX、RGB、HSL 值并显示色板预览。",
+
+    // Tool: Key Pair Generator
+    "tool.keygen.title": "密钥对生成器",
+    "tool.keygen.summary": "生成 RSA-OAEP 或椭圆曲线（ECDSA/ECDH）密钥对，并导出为 JWK。",
+    "tool.keygen.inputLabel": "密钥对",
+    "tool.keygen.placeholder": "生成的密钥会显示在这里。",
+    "tool.keygen.explanation": "密钥通过 Web Crypto（crypto.subtle）生成并导出为 JWK。RSA-OAEP 支持 2048/4096 位加密密钥；ECDSA 与 ECDH 使用 P-256 曲线。",
+    "tool.keygen.option.algorithm": "算法",
+    "tool.keygen.publicKey": "公钥 (JWK)",
+    "tool.keygen.privateKey": "私钥 (JWK)",
+    "tool.keygen.localNote": "密钥在浏览器本地生成，不会上传。请妥善保存私钥——丢失后无法找回。",
+
+    // Tool: URL Parser
+    "tool.urlParser.title": "URL 解析器",
+    "tool.urlParser.summary": "将 URL 拆解为协议、主机、端口、路径、查询参数和片段。",
+    "tool.urlParser.inputLabel": "URL",
+    "tool.urlParser.placeholder": "粘贴完整 URL。",
+    "tool.urlParser.explanation": "解析绝对 URL 并列出所有查询参数，非法 URL 会报错。",
+
+    // Tool: Date Calculator
+    "tool.dateCalc.title": "日期计算器",
+    "tool.dateCalc.summary": "计算两个日期的差值、为日期加上时长，或将日期转换到其它时区。",
+    "tool.dateCalc.inputLabel": "日期",
+    "tool.dateCalc.placeholder": "2026-07-17T09:00:00Z",
+    "tool.dateCalc.explanation": 'diff 展示两个日期之间的差值（天/时/分/秒）；add 支持 "2w 3d 4h 30m" 这样的时长；toZone 按所选时区格式化日期。',
+
+    // Tool: Number Base Converter
+    "tool.baseConverter.title": "进制转换器",
+    "tool.baseConverter.summary": "在二进制、八进制、十进制、十六进制之间转换整数，支持任意精度。",
+    "tool.baseConverter.inputLabel": "数值",
+    "tool.baseConverter.placeholder": "0xFF、0b1010、0o17 或 255",
+    "tool.baseConverter.explanation": "Auto 模式识别 0x/0b/0o 前缀，默认按十进制处理。基于 BigInt 实现，超大整数也能精确转换。",
+
+    // Tool: YAML ↔ JSON
+    "tool.yamlJson.title": "YAML ↔ JSON",
+    "tool.yamlJson.summary": "YAML 与 JSON 互相转换。",
+    "tool.yamlJson.inputLabel": "YAML 或 JSON",
+    "tool.yamlJson.placeholder": "粘贴 YAML 或 JSON。",
+    "tool.yamlJson.explanation": "转 JSON：解析 YAML 并以 2 空格缩进输出 JSON；转 YAML：解析 JSON 并输出 YAML。非法输入会返回解析错误。",
+
+    // Tool: QR Code Generator
+    "tool.qr.title": "二维码生成器",
+    "tool.qr.summary": "在本地生成二维码，可选尺寸与纠错级别，并可下载 PNG。",
+    "tool.qr.inputLabel": "文本",
+    "tool.qr.placeholder": "要编码的文本或 URL。",
+    "tool.qr.explanation": "文本按 UTF-8 编码并完全在浏览器中绘制到画布。更高的纠错级别（Q/H）容错更强，但图案更密。",
+    "tool.qr.option.size": "尺寸",
+    "tool.qr.option.errorCorrection": "纠错级别",
+    "tool.qr.download": "下载 PNG",
+
+    // Tool: Cron Parser
+    "tool.cron.title": "Cron 表达式解析",
+    "tool.cron.summary": "解析标准 5 段 cron 表达式，并预览接下来的执行时间。",
+    "tool.cron.inputLabel": "Cron 表达式",
+    "tool.cron.placeholder": "*/15 9-18 * * 1-5",
+    "tool.cron.explanation": "仅支持标准 5 段 cron：分 时 日 月 周。支持 * , - / 以及三位英文月/周缩写。不支持 L、W、#、@daily、秒字段等扩展语法。执行时间按本地时区显示。",
+
     // Study pages
     "study.transformerLectures.title": "Transformer 系列课程",
     "study.transformerLectures.summary": "30 章中英双语课程，从 Tensor 基础到 Transformer 内核、Diffusion、源码阅读与模型魔改。",
@@ -490,6 +788,9 @@ export const dict = {
     // Categories
     "category.Crypto": "加密",
     "category.Data": "数据",
+    "category.Text": "文本",
+    "category.Generator": "生成器",
+    "category.Converter": "转换器",
 
     // Operations
     "op.encrypt": "加密",
@@ -507,6 +808,21 @@ export const dict = {
     "op.toDate": "转日期",
     "op.toTimestamp": "转时间戳",
     "op.now": "当前时间",
+    "op.camel": "小驼峰",
+    "op.pascal": "大驼峰",
+    "op.snake": "下划线",
+    "op.kebab": "短横线",
+    "op.constant": "常量",
+    "op.lower": "小写",
+    "op.upper": "大写",
+    "op.unescape": "还原",
+    "op.match": "匹配",
+    "op.convert": "转换",
+    "op.toJSON": "转 JSON",
+    "op.toYAML": "转 YAML",
+    "op.add": "加时长",
+    "op.toZone": "转时区",
+    "op.generate": "生成",
 
     // Workbench errors
     "error.aes.secretRequired": "密码是必填项。",
