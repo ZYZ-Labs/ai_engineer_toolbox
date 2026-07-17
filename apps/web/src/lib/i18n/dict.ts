@@ -117,6 +117,15 @@ export const dict = {
     "workbench.copy": "Copy",
     "workbench.copied": "Copied",
     "workbench.error.generic": "Unable to process the input.",
+    "workbench.fromBase": "From base",
+    "workbench.toBase": "To base",
+    "workbench.unit": "Unit",
+    "workbench.timezone": "Time zone",
+    "unit.seconds": "seconds",
+    "unit.minutes": "minutes",
+    "unit.hours": "hours",
+    "unit.days": "days",
+    "unit.weeks": "weeks",
 
     // Search
     "search.aria": "Global search",
@@ -318,14 +327,14 @@ export const dict = {
     "tool.dateCalc.summary": "Diff two dates, add a duration to a date, or convert a date to another timezone.",
     "tool.dateCalc.inputLabel": "Date",
     "tool.dateCalc.placeholder": "2026-07-17T09:00:00Z",
-    "tool.dateCalc.explanation": "diff shows the gap between two dates broken down to days/hours/minutes/seconds. add applies a duration like \"2w 3d 4h 30m\". toZone formats the date in the selected timezone.",
+    "tool.dateCalc.explanation": "diff shows the gap between two dates broken down to days/hours/minutes/seconds. add takes a signed amount with the selected unit — positive values add, negative values subtract. toZone formats the date in the selected timezone.",
 
     // Tool: Number Base Converter
     "tool.baseConverter.title": "Number Base Converter",
     "tool.baseConverter.summary": "Convert integers between binary, octal, decimal, and hexadecimal with arbitrary precision.",
     "tool.baseConverter.inputLabel": "Number",
     "tool.baseConverter.placeholder": "0xFF, 0b1010, 0o17, or 255",
-    "tool.baseConverter.explanation": "Auto mode detects 0x/0b/0o prefixes and defaults to decimal. Implemented with BigInt, so very large integers are exact.",
+    "tool.baseConverter.explanation": "Pick the source base (Auto detects 0x/0b/0o prefixes and defaults to decimal) and the target base. Implemented with BigInt, so very large integers are exact.",
 
     // Tool: YAML ↔ JSON
     "tool.yamlJson.title": "YAML ↔ JSON",
@@ -343,6 +352,18 @@ export const dict = {
     "tool.qr.option.size": "Size",
     "tool.qr.option.errorCorrection": "Error correction",
     "tool.qr.download": "Download PNG",
+    "tool.qrDecode.title": "QR Code Decoder",
+    "tool.qrDecode.summary": "Decode QR codes from an image file or a pasted screenshot, entirely in the browser.",
+    "tool.qrDecode.inputLabel": "Image",
+    "tool.qrDecode.placeholder": "Select an image or paste a screenshot.",
+    "tool.qrDecode.explanation": "Decoding runs locally with jsQR — images never leave your browser. Select an image file or paste a screenshot directly (Ctrl/Cmd+V).",
+    "tool.qrDecode.select": "Select image",
+    "tool.qrDecode.pasteHint": "or paste a screenshot with Ctrl/Cmd+V",
+    "tool.qrDecode.preview": "Preview",
+    "tool.qrDecode.result": "Decoded text",
+    "tool.qrDecode.empty": "No image yet — select a file or paste a screenshot.",
+    "tool.qrDecode.error.notFound": "No QR code found in this image.",
+    "tool.qrDecode.error.notImage": "The pasted content is not an image.",
 
     // Tool: Cron Parser
     "tool.cron.title": "Cron Parser",
@@ -532,6 +553,15 @@ export const dict = {
     "workbench.copy": "复制",
     "workbench.copied": "已复制",
     "workbench.error.generic": "无法处理输入内容。",
+    "workbench.fromBase": "源进制",
+    "workbench.toBase": "目标进制",
+    "workbench.unit": "单位",
+    "workbench.timezone": "时区",
+    "unit.seconds": "秒",
+    "unit.minutes": "分钟",
+    "unit.hours": "小时",
+    "unit.days": "天",
+    "unit.weeks": "周",
 
     // Search
     "search.aria": "全局搜索",
@@ -733,14 +763,14 @@ export const dict = {
     "tool.dateCalc.summary": "计算两个日期的差值、为日期加上时长，或将日期转换到其它时区。",
     "tool.dateCalc.inputLabel": "日期",
     "tool.dateCalc.placeholder": "2026-07-17T09:00:00Z",
-    "tool.dateCalc.explanation": 'diff 展示两个日期之间的差值（天/时/分/秒）；add 支持 "2w 3d 4h 30m" 这样的时长；toZone 按所选时区格式化日期。',
+    "tool.dateCalc.explanation": "diff 展示两个日期之间的差值（天/时/分/秒）；add 输入带符号的数值并选择单位——正数为加、负数为减；toZone 按所选时区格式化日期。",
 
     // Tool: Number Base Converter
     "tool.baseConverter.title": "进制转换器",
     "tool.baseConverter.summary": "在二进制、八进制、十进制、十六进制之间转换整数，支持任意精度。",
     "tool.baseConverter.inputLabel": "数值",
     "tool.baseConverter.placeholder": "0xFF、0b1010、0o17 或 255",
-    "tool.baseConverter.explanation": "Auto 模式识别 0x/0b/0o 前缀，默认按十进制处理。基于 BigInt 实现，超大整数也能精确转换。",
+    "tool.baseConverter.explanation": "选择源进制（Auto 会识别 0x/0b/0o 前缀，默认按十进制处理）与目标进制。基于 BigInt 实现，超大整数也能精确转换。",
 
     // Tool: YAML ↔ JSON
     "tool.yamlJson.title": "YAML ↔ JSON",
@@ -758,6 +788,18 @@ export const dict = {
     "tool.qr.option.size": "尺寸",
     "tool.qr.option.errorCorrection": "纠错级别",
     "tool.qr.download": "下载 PNG",
+    "tool.qrDecode.title": "二维码解码器",
+    "tool.qrDecode.summary": "从图片文件或粘贴的截图中解码二维码，全程在浏览器本地完成。",
+    "tool.qrDecode.inputLabel": "图片",
+    "tool.qrDecode.placeholder": "选择图片或粘贴截图。",
+    "tool.qrDecode.explanation": "解码由 jsQR 在本地完成，图片不会离开浏览器。可选择图片文件，或直接粘贴截图（Ctrl/Cmd+V）。",
+    "tool.qrDecode.select": "选择图片",
+    "tool.qrDecode.pasteHint": "或用 Ctrl/Cmd+V 粘贴截图",
+    "tool.qrDecode.preview": "预览",
+    "tool.qrDecode.result": "解码文本",
+    "tool.qrDecode.empty": "还没有图片——请选择文件或粘贴截图。",
+    "tool.qrDecode.error.notFound": "未在这张图片中识别到二维码。",
+    "tool.qrDecode.error.notImage": "粘贴的内容不是图片。",
 
     // Tool: Cron Parser
     "tool.cron.title": "Cron 表达式解析",

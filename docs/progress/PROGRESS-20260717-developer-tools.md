@@ -42,3 +42,25 @@
 
 - 如需人工验收：逐页打开 17 个新工具核对中英文案与交互。
 - 后续可考虑：时区转换增强、CSV↔JSON、图片格式转换（本轮明确不做）。
+
+## 追加（2026-07-17）：解码支持 bytes→hex 输出
+
+- 起因：用户反馈解码需要支持 byte 转 hex 的特殊类型（二进制解码结果输出为文本会乱码）。
+- 计划：`docs/plans/PLAN-20260717-decode-hex-output.md`。
+- 改动：仅 `ToolWorkbench.tsx`。AES/DES/SM4 的 decrypt 新增输出编码选项 text（默认）/base64/hex；Base64 Text 的 decode 新增 text（默认）/hex。utils 层本就支持这些编码，未改动。
+- 验证：`npm run typecheck` 0 错误、`npm run lint` 0 警告、`npm run test` 56/56、`npm run build` 188 页成功。
+- 未执行：浏览器人工确认下拉框交互（逻辑路径复用已测试的 utils 函数）。
+
+## 追加（2026-07-17 第二轮）：QR 解码 + 工具输出双语 + 交互改进
+
+- 起因：用户 4 项反馈——缺 QR 解码（需选择+粘贴图片）、工具输出只有英文、进制转换要源/目标双选择、日期加减要数字+单位（负数为减）。
+- 计划：`docs/plans/PLAN-20260717-qr-decode-and-tool-i18n.md`。
+- 改动：
+  - 新工具 `/tools/qr/decode`（Data 分类，第 29 个工具）：自定义 `QrDecodeWorkbench`，支持文件选择 + 剪贴板粘贴（截图 Ctrl/Cmd+V），jsQR 本地解码，图片预览 + 结果复制。新依赖 `jsqr@1.4.0`（MIT，自带类型）。
+  - utils 新增 `Lang` 类型；`diffText`/`runRegex`/`parseUrl`/`calcDate`/`parseCron`/`convertBase` 增加可选 `lang` 参数，workbench 透传 UI 语言，输出标签中英双语。
+  - `convertBase` 签名变更：`(input, fromBase, toBase, lang)`，输出单行目标进制结果；workbench 新增通用 `secondaryAlgorithms` 下拉（From/To base）。
+  - `calcDate` 签名变更：`options { zone, unit, lang }` 对象；add 改为有符号数字 + 单位（seconds/minutes/hours/days/weeks），负数为减；删除 "2w 3d" 时长串格式。
+  - date-calc 时区下拉标签改为 dict `workbench.timezone`（原硬编码 Algorithm）。
+  - 新增 dict：`workbench.fromBase/toBase/unit/timezone`、`unit.*`（5 个单位）、`tool.qrDecode.*`（含组件 UI 文案），en+zh。
+- 验证：`npm run test` 63/63（新增 7 条中文/新签名断言）、`npm run typecheck` 0 错误、`npm run lint` 0 警告、`npm run build` 189 页成功、`/tools/qr/decode` 路由产物存在。
+- 未执行：浏览器人工验收（粘贴图片解码 QR 的实际交互未在浏览器中点击验证）；utils 抛出的错误信息仍为英文（计划内不做）。

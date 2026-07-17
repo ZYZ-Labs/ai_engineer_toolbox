@@ -22,6 +22,7 @@ import {
   Palette,
   QrCode,
   Regex,
+  ScanLine,
   ScanText,
   ShieldCheck,
   TextQuote,
@@ -48,6 +49,8 @@ export type ToolConfig = {
   algorithms?: string[];
   defaultOperation: string;
   defaultAlgorithm?: string;
+  secondaryAlgorithms?: string[];
+  defaultSecondaryAlgorithm?: string;
   paddings?: string[];
   defaultPadding?: string;
   keyEncodings?: string[];
@@ -451,16 +454,18 @@ export const tools: ToolConfig[] = [
     summary: "Diff two dates, add a duration to a date, or convert a date to another timezone.",
     icon: CalendarDays,
     inputLabel: "Date",
-    secondaryInputLabel: "Second date / duration",
+    secondaryInputLabel: "Second date / amount",
     placeholder: "2026-07-17T09:00:00Z",
-    secondaryPlaceholder: "7d or another ISO date",
+    secondaryPlaceholder: "2026-07-24T09:00:00Z or -3",
     defaultInput: "2026-07-17T09:00:00Z",
     defaultSecondaryInput: "2026-07-24T09:00:00Z",
     operations: ["diff", "add", "toZone"],
     defaultOperation: "diff",
     algorithms: ["UTC", "Asia/Shanghai", "Asia/Tokyo", "Europe/London", "Europe/Berlin", "America/New_York", "America/Los_Angeles"],
     defaultAlgorithm: "UTC",
-    explanation: "diff shows the gap between two dates broken down to days/hours/minutes/seconds. add applies a duration like \"2w 3d 4h 30m\". toZone formats the date in the selected timezone."
+    secondaryAlgorithms: ["seconds", "minutes", "hours", "days", "weeks"],
+    defaultSecondaryAlgorithm: "days",
+    explanation: "diff shows the gap between two dates broken down to days/hours/minutes/seconds. add takes a signed amount with the selected unit — positive values add, negative values subtract. toZone formats the date in the selected timezone."
   },
   {
     title: "Number Base Converter",
@@ -475,7 +480,9 @@ export const tools: ToolConfig[] = [
     algorithms: ["Auto", "2", "8", "10", "16"],
     defaultOperation: "convert",
     defaultAlgorithm: "Auto",
-    explanation: "Auto mode detects 0x/0b/0o prefixes and defaults to decimal. Implemented with BigInt, so very large integers are exact."
+    secondaryAlgorithms: ["2", "8", "10", "16"],
+    defaultSecondaryAlgorithm: "16",
+    explanation: "Pick the source base (Auto detects 0x/0b/0o prefixes and defaults to decimal) and the target base. Implemented with BigInt, so very large integers are exact."
   },
   {
     title: "YAML ↔ JSON",
@@ -502,6 +509,19 @@ export const tools: ToolConfig[] = [
     operations: ["generate"],
     defaultOperation: "generate",
     explanation: "Text is encoded as UTF-8 and rendered to a canvas entirely in your browser. Higher error-correction levels (Q/H) tolerate more damage but produce denser codes."
+  },
+  {
+    title: "QR Code Decoder",
+    path: "/tools/qr/decode",
+    category: "Data",
+    summary: "Decode QR codes from an image file or a pasted screenshot, entirely in the browser.",
+    icon: ScanLine,
+    inputLabel: "Image",
+    placeholder: "Select an image or paste a screenshot.",
+    defaultInput: "",
+    operations: ["decode"],
+    defaultOperation: "decode",
+    explanation: "Decoding runs locally with jsQR — images never leave your browser. Select an image file or paste a screenshot directly (Ctrl/Cmd+V)."
   },
   {
     title: "Cron Parser",

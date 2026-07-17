@@ -599,7 +599,7 @@ The `pages:deploy` script is a compatibility alias that also runs `wrangler depl
 | `components/tools/` | Tool workbenches (crypto, JSON, Base64, URL, timestamps) |
 | `components/layout/` | Header, Footer, PageShell |
 | `components/auth/` | VisitTracker, login-related UI |
-| `lib/tool-registry.ts` | Single source of truth for all 28 tools |
+| `lib/tool-registry.ts` | Single source of truth for all 29 tools |
 | `lib/study-registry.ts` | Course metadata and chapter resolution |
 | `lib/i18n/` | Client-side i18n context, dictionary, and hook |
 | `lib/auth.ts` | Client-side auth helpers (fetchMe, login, logout, trackVisit) |

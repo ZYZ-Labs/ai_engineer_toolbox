@@ -201,6 +201,13 @@ const toolKeyMap: Record<string, { title: DictKey; summary: DictKey; inputLabel:
     placeholder: "tool.qr.placeholder",
     explanation: "tool.qr.explanation",
   },
+  "/tools/qr/decode": {
+    title: "tool.qrDecode.title",
+    summary: "tool.qrDecode.summary",
+    inputLabel: "tool.qrDecode.inputLabel",
+    placeholder: "tool.qrDecode.placeholder",
+    explanation: "tool.qrDecode.explanation",
+  },
   "/tools/time/cron": {
     title: "tool.cron.title",
     summary: "tool.cron.summary",

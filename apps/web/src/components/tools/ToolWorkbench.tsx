@@ -9,7 +9,9 @@ import type { DictKey } from "@/lib/i18n/dict";
 import {
   aesDecrypt,
   aesEncrypt,
+  base64ToBytes,
   base64ToText,
+  bytesToHex,
   calcDate,
   convertBase,
   convertCase,
@@ -90,9 +92,10 @@ class I18nError extends Error {
 }
 
 export function ToolWorkbench({ tool }: Props) {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const [operation, setOperation] = useState(tool.defaultOperation);
   const [algorithm, setAlgorithm] = useState(tool.defaultAlgorithm || tool.algorithms?.[0] || "");
+  const [secondaryAlgorithm, setSecondaryAlgorithm] = useState(tool.defaultSecondaryAlgorithm || tool.secondaryAlgorithms?.[0] || "");
   const [padding, setPadding] = useState(tool.defaultPadding || tool.paddings?.[0] || "PKCS7");
   const [keyEncoding, setKeyEncoding] = useState(tool.defaultKeyEncoding || tool.keyEncodings?.[0] || "text");
   const [ivEncoding, setIvEncoding] = useState(tool.defaultIvEncoding || tool.ivEncodings?.[0] || "text");
@@ -113,6 +116,32 @@ export function ToolWorkbench({ tool }: Props) {
   const didRunInitial = useRef(false);
 
   const needsIv = tool.ivLabel && !algorithm.includes("ECB");
+
+  const isDecodeOperation =
+    operation === "decrypt" || (tool.path === "/tools/base64/text" && operation === "decode");
+  const outputOptions =
+    operation === "encrypt"
+      ? tool.outputEncodings ?? []
+      : isDecodeOperation
+        ? tool.path === "/tools/base64/text"
+          ? ["text", "hex"]
+          : ["text", ...(tool.outputEncodings ?? [])]
+        : [];
+  const effectiveOutputEncoding = outputOptions.includes(outputEncoding)
+    ? outputEncoding
+    : outputOptions[0] ?? outputEncoding;
+
+  const algorithmLabel =
+    tool.path === "/tools/convert/base"
+      ? t("workbench.fromBase")
+      : tool.path === "/tools/time/date-calc"
+        ? t("workbench.timezone")
+        : t("workbench.algorithm");
+  const showSecondaryAlgorithm = Boolean(
+    tool.secondaryAlgorithms && (tool.path !== "/tools/time/date-calc" || operation === "add")
+  );
+  const secondaryAlgorithmLabel =
+    tool.path === "/tools/convert/base" ? t("workbench.toBase") : t("workbench.unit");
   const showFilePicker = Boolean(tool.acceptsFile) && (operation === "encode" || tool.path === "/tools/crypto/file-hash");
 
   function handleAlgorithmChange(next: string) {
@@ -149,11 +178,13 @@ export function ToolWorkbench({ tool }: Props) {
         path: tool.path,
         operation,
         algorithm,
+        secondaryAlgorithm,
+        lang,
         padding,
         keyEncoding,
         ivEncoding,
         inputEncoding,
-        outputEncoding,
+        outputEncoding: effectiveOutputEncoding,
         input,
         secondaryInput,
         secret,
@@ -177,7 +208,7 @@ export function ToolWorkbench({ tool }: Props) {
         setError(cause instanceof Error ? cause.message : t("workbench.error.generic"));
       }
     }
-  }, [algorithm, padding, keyEncoding, ivEncoding, inputEncoding, outputEncoding, input, iv, operation, secondaryInput, secret, t, tool.path, tool.ivLabel, tool.secretLabel]);
+  }, [algorithm, secondaryAlgorithm, lang, padding, keyEncoding, ivEncoding, inputEncoding, effectiveOutputEncoding, input, iv, operation, secondaryInput, secret, t, tool.path, tool.ivLabel, tool.secretLabel]);
 
   useEffect(() => {
     if (!didRunInitial.current && !tool.acceptsFile) {
@@ -217,6 +248,7 @@ export function ToolWorkbench({ tool }: Props) {
   function reset() {
     setOperation(tool.defaultOperation);
     setAlgorithm(tool.defaultAlgorithm || tool.algorithms?.[0] || "");
+    setSecondaryAlgorithm(tool.defaultSecondaryAlgorithm || tool.secondaryAlgorithms?.[0] || "");
     setPadding(tool.defaultPadding || tool.paddings?.[0] || "PKCS7");
     setKeyEncoding(tool.defaultKeyEncoding || tool.keyEncodings?.[0] || "text");
     setIvEncoding(tool.defaultIvEncoding || tool.ivEncodings?.[0] || "text");
@@ -260,7 +292,7 @@ export function ToolWorkbench({ tool }: Props) {
 
           {tool.algorithms && (tool.path !== "/tools/time/date-calc" || operation === "toZone") ? (
             <label className="block">
-              <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">{t("workbench.algorithm")}</span>
+              <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">{algorithmLabel}</span>
               <select
                 value={algorithm}
                 onChange={(event) => handleAlgorithmChange(event.target.value)}
@@ -269,6 +301,23 @@ export function ToolWorkbench({ tool }: Props) {
                 {tool.algorithms.map((item) => (
                   <option key={item} value={item}>
                     {item}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+
+          {showSecondaryAlgorithm && tool.secondaryAlgorithms ? (
+            <label className="block">
+              <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">{secondaryAlgorithmLabel}</span>
+              <select
+                value={secondaryAlgorithm}
+                onChange={(event) => setSecondaryAlgorithm(event.target.value)}
+                className="h-11 w-full rounded-xl border border-line bg-white px-3 text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
+              >
+                {tool.secondaryAlgorithms.map((item) => (
+                  <option key={item} value={item}>
+                    {tool.path === "/tools/time/date-calc" ? t(`unit.${item}` as DictKey) : item}
                   </option>
                 ))}
               </select>
@@ -343,15 +392,15 @@ export function ToolWorkbench({ tool }: Props) {
             </label>
           ) : null}
 
-          {tool.outputEncodings && operation === "encrypt" ? (
+          {outputOptions.length > 0 ? (
             <label className="block">
               <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted">Output Encoding</span>
               <select
-                value={outputEncoding}
+                value={effectiveOutputEncoding}
                 onChange={(event) => setOutputEncoding(event.target.value)}
                 className="h-11 w-full rounded-xl border border-line bg-white px-3 text-sm text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10"
               >
-                {tool.outputEncodings.map((item) => (
+                {outputOptions.map((item) => (
                   <option key={item} value={item}>
                     {item}
                   </option>
@@ -507,6 +556,8 @@ async function executeTool({
   path,
   operation,
   algorithm,
+  secondaryAlgorithm,
+  lang,
   padding,
   keyEncoding,
   ivEncoding,
@@ -520,6 +571,8 @@ async function executeTool({
   path: string;
   operation: string;
   algorithm: string;
+  secondaryAlgorithm: string;
+  lang: "en" | "zh";
   padding: string;
   keyEncoding: string;
   ivEncoding: string;
@@ -534,7 +587,7 @@ async function executeTool({
     keyEncoding,
     ivEncoding,
     inputEncoding,
-    outputEncoding: operation === "decrypt" ? "text" : outputEncoding
+    outputEncoding
   };
 
   if (path === "/tools/crypto/aes") {
@@ -575,7 +628,10 @@ async function executeTool({
   }
 
   if (path === "/tools/base64/text") {
-    return { output: operation === "decode" ? base64ToText(input) : textToBase64(input) };
+    if (operation === "decode") {
+      return { output: outputEncoding === "hex" ? bytesToHex(base64ToBytes(input)) : base64ToText(input) };
+    }
+    return { output: textToBase64(input) };
   }
 
   if (path === "/tools/base64/image") {
@@ -599,7 +655,7 @@ async function executeTool({
   }
 
   if (path === "/tools/text/diff") {
-    return { output: diffText(input, secondaryInput) };
+    return { output: diffText(input, secondaryInput, lang) };
   }
 
   if (path === "/tools/text/case") {
@@ -611,7 +667,7 @@ async function executeTool({
   }
 
   if (path === "/tools/text/regex") {
-    return { output: runRegex(secondaryInput, input) };
+    return { output: runRegex(secondaryInput, input, lang) };
   }
 
   if (path === "/tools/crypto/jwt") {
@@ -623,15 +679,28 @@ async function executeTool({
   }
 
   if (path === "/tools/url/parser") {
-    return { output: parseUrl(input) };
+    return { output: parseUrl(input, lang) };
   }
 
   if (path === "/tools/time/date-calc") {
-    return { output: calcDate(operation as "diff" | "add" | "toZone", input, secondaryInput, algorithm) };
+    return {
+      output: calcDate(operation as "diff" | "add" | "toZone", input, secondaryInput, {
+        zone: algorithm,
+        unit: secondaryAlgorithm as "seconds" | "minutes" | "hours" | "days" | "weeks",
+        lang
+      })
+    };
   }
 
   if (path === "/tools/convert/base") {
-    return { output: convertBase(input, algorithm as "Auto" | "2" | "8" | "10" | "16") };
+    return {
+      output: convertBase(
+        input,
+        algorithm as "Auto" | "2" | "8" | "10" | "16",
+        secondaryAlgorithm as "2" | "8" | "10" | "16",
+        lang
+      )
+    };
   }
 
   if (path === "/tools/convert/yaml-json") {
@@ -639,7 +708,7 @@ async function executeTool({
   }
 
   if (path === "/tools/time/cron") {
-    return { output: parseCron(input) };
+    return { output: parseCron(input, lang) };
   }
 
   throw new I18nError("error.unsupportedTool");

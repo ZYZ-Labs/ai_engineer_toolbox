@@ -69,6 +69,10 @@ describe("diffText", () => {
     expect(diffText("a\nb", "a\nb")).toBe("(no differences)");
   });
 
+  it("reports identical input in Chinese", () => {
+    expect(diffText("a\nb", "a\nb", "zh")).toBe("（无差异）");
+  });
+
   it("marks removed and added lines in merged order", () => {
     const output = diffText("a\nb\nc", "a\nx\nc");
     expect(output).toBe("  a\n- b\n+ x\n  c");
@@ -133,6 +137,13 @@ describe("runRegex", () => {
 
   it("reports no matches", () => {
     expect(runRegex("zzz", "abc")).toBe("No matches.");
+  });
+
+  it("reports matches and groups in Chinese", () => {
+    const output = runRegex("(\\w+)@(\\w+)", "a@b", "zh");
+    expect(output).toContain('匹配 1: [0, 3) "a@b"');
+    expect(output).toContain('分组 1: "a"');
+    expect(runRegex("zzz", "abc", "zh")).toBe("无匹配。");
   });
 
   it("throws on invalid pattern", () => {
@@ -228,6 +239,15 @@ describe("parseUrl", () => {
     expect(output).toContain("Hash: (none)");
   });
 
+  it("uses Chinese labels when lang is zh", () => {
+    const output = parseUrl("https://example.com/path?q=1#frag", "zh");
+    expect(output).toContain("协议: https");
+    expect(output).toContain("路径: /path");
+    expect(output).toContain("查询参数:");
+    expect(output).toContain("锚点: frag");
+    expect(parseUrl("https://example.com/", "zh")).toContain("（无）");
+  });
+
   it("throws on invalid URLs", () => {
     expect(() => parseUrl("not a url")).toThrow(/Invalid URL/);
   });
@@ -239,22 +259,35 @@ describe("calcDate", () => {
     expect(output).toBe("2 days, 12 hours, 0 minutes, 0 seconds\nTotal seconds: 216000");
   });
 
-  it("adds duration strings to a date", () => {
-    const output = calcDate("add", "2026-01-01T00:00:00.000Z", "1w 2d 3h");
-    expect(output.split("\n")[0]).toBe("ISO: 2026-01-10T03:00:00.000Z");
-    expect(output).toContain("\nLocal: ");
+  it("computes diffs with Chinese labels", () => {
+    const output = calcDate("diff", "2026-07-17T00:00:00.000Z", "2026-07-14T12:00:00.000Z", { lang: "zh" });
+    expect(output).toBe("2 天, 12 小时, 0 分钟, 0 秒\n总秒数: 216000");
+  });
+
+  it("adds a signed amount with the selected unit", () => {
+    const added = calcDate("add", "2026-01-01T00:00:00.000Z", "9", { unit: "days" });
+    expect(added.split("\n")[0]).toBe("ISO: 2026-01-10T00:00:00.000Z");
+    const subtracted = calcDate("add", "2026-01-01T00:00:00.000Z", "-3", { unit: "hours" });
+    expect(subtracted.split("\n")[0]).toBe("ISO: 2025-12-31T21:00:00.000Z");
+    const fractional = calcDate("add", "2026-01-01T00:00:00.000Z", "1.5", { unit: "days" });
+    expect(fractional.split("\n")[0]).toBe("ISO: 2026-01-02T12:00:00.000Z");
+  });
+
+  it("uses Chinese output labels when lang is zh", () => {
+    const output = calcDate("add", "2026-01-01T00:00:00.000Z", "1", { unit: "weeks", lang: "zh" });
+    expect(output).toContain("\n本地时间: ");
   });
 
   it("formats a date in an IANA time zone with a UTC line", () => {
-    const output = calcDate("toZone", "2026-07-17T00:00:00.000Z", "", "Asia/Shanghai");
+    const output = calcDate("toZone", "2026-07-17T00:00:00.000Z", "", { zone: "Asia/Shanghai" });
     expect(output).toContain("Asia/Shanghai: 2026-07-17 08:00:00 GMT+08:00");
     expect(output).toContain("UTC: 2026-07-17T00:00:00.000Z");
   });
 
-  it("throws on invalid dates, durations and zones", () => {
+  it("throws on invalid dates, amounts and zones", () => {
     expect(() => calcDate("diff", "nope", "2026-01-01")).toThrow(/Invalid date input/);
-    expect(() => calcDate("add", "2026-01-01T00:00:00.000Z", "3x")).toThrow(/Invalid duration/);
-    expect(() => calcDate("toZone", "2026-01-01T00:00:00.000Z", "", "Not/AZone")).toThrow(/Invalid time zone/);
+    expect(() => calcDate("add", "2026-01-01T00:00:00.000Z", "3x", { unit: "days" })).toThrow(/Invalid amount/);
+    expect(() => calcDate("toZone", "2026-01-01T00:00:00.000Z", "", { zone: "Not/AZone" })).toThrow(/Invalid time zone/);
   });
 });
 
@@ -278,6 +311,14 @@ describe("parseCron", () => {
     expect(output).toContain("day-of-week: 1");
   });
 
+  it("describes fields in Chinese when lang is zh", () => {
+    const output = parseCron("*/15 9-18 * * 1-5", "zh");
+    expect(output).toContain("分钟: 每 15");
+    expect(output).toContain("小时: 9-18");
+    expect(output).toContain("星期: 1-5");
+    expect(output).toContain("未来 5 次执行时间:");
+  });
+
   it("throws on out-of-range values and unsupported extensions", () => {
     expect(() => parseCron("61 * * * *")).toThrow(/out of range/);
     expect(() => parseCron("0 0 L * *")).toThrow(/Unsupported cron syntax/);
@@ -286,16 +327,22 @@ describe("parseCron", () => {
 });
 
 describe("convertBase", () => {
-  it("auto-detects 0x hex prefixes", () => {
-    expect(convertBase("0xff", "Auto")).toBe("Binary: 11111111\nOctal: 377\nDecimal: 255\nHex: ff");
+  it("auto-detects 0x hex prefixes and converts to the target base", () => {
+    expect(convertBase("0xff", "Auto", "2")).toBe("Binary: 11111111");
+    expect(convertBase("0xff", "Auto", "16")).toBe("Hex: ff");
+    expect(convertBase("0xff", "Auto")).toBe("Decimal: 255");
   });
 
   it("supports arbitrarily large integers", () => {
-    expect(convertBase("123456789012345678901234567890", "10")).toContain("Decimal: 123456789012345678901234567890");
+    expect(convertBase("123456789012345678901234567890", "10", "10")).toBe("Decimal: 123456789012345678901234567890");
+  });
+
+  it("uses Chinese labels when lang is zh", () => {
+    expect(convertBase("255", "10", "16", "zh")).toBe("十六进制: ff");
   });
 
   it("throws on digits invalid for the base", () => {
-    expect(() => convertBase("102", "2")).toThrow(/Invalid digit "2" for base 2/);
+    expect(() => convertBase("102", "2", "10")).toThrow(/Invalid digit "2" for base 2/);
   });
 });
 

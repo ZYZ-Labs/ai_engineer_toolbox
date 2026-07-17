@@ -4,6 +4,8 @@ import { sm4 } from "sm-crypto";
 
 export type ToolOperation = "encode" | "decode" | "encrypt" | "decrypt" | "format" | "minify" | "diff" | "parse" | "estimate";
 
+export type Lang = "en" | "zh";
+
 export type ToolResult = {
   output: string;
   meta?: Record<string, string | number>;
@@ -606,8 +608,8 @@ export function convertTimestamp(
 
 // ---------- Text diff ----------
 
-export function diffText(left: string, right: string): string {
-  if (left === right) return "(no differences)";
+export function diffText(left: string, right: string, lang: Lang = "en"): string {
+  if (left === right) return lang === "zh" ? "（无差异）" : "(no differences)";
   const a = left.split(/\r?\n/);
   const b = right.split(/\r?\n/);
   const m = a.length;
@@ -704,7 +706,7 @@ export function unescapeString(input: string): string {
 
 // ---------- Regex tester ----------
 
-export function runRegex(pattern: string, text: string): string {
+export function runRegex(pattern: string, text: string, lang: Lang = "en"): string {
   let flags = "";
   let source = pattern;
   const inline = source.match(/^\(\?([a-z]*)\)/);
@@ -728,14 +730,19 @@ export function runRegex(pattern: string, text: string): string {
     count += 1;
     const start = match.index;
     const end = start + match[0].length;
-    lines.push(`Match ${count}: [${start}, ${end}) ${JSON.stringify(match[0])}`);
+    lines.push(lang === "zh"
+      ? `匹配 ${count}: [${start}, ${end}) ${JSON.stringify(match[0])}`
+      : `Match ${count}: [${start}, ${end}) ${JSON.stringify(match[0])}`);
     for (let group = 1; group < match.length; group += 1) {
       const value = match[group];
-      lines.push(`  group ${group}: ${value === undefined ? "(undefined)" : JSON.stringify(value)}`);
+      lines.push(lang === "zh"
+        ? `  分组 ${group}: ${value === undefined ? "（未定义）" : JSON.stringify(value)}`
+        : `  group ${group}: ${value === undefined ? "(undefined)" : JSON.stringify(value)}`);
     }
     if (match[0] === "") regex.lastIndex += 1;
   }
-  return lines.length ? lines.join("\n") : "No matches.";
+  if (lines.length) return lines.join("\n");
+  return lang === "zh" ? "无匹配。" : "No matches.";
 }
 
 // ---------- JWT ----------
@@ -816,27 +823,29 @@ export async function hashBuffer(
 
 // ---------- URL parser ----------
 
-export function parseUrl(input: string): string {
+export function parseUrl(input: string, lang: Lang = "en"): string {
   let url: URL;
   try {
     url = new URL(input.trim());
   } catch {
     throw new Error(`Invalid URL: ${input}`);
   }
+  const zh = lang === "zh";
+  const none = zh ? "（无）" : "(none)";
   const lines = [
-    `Protocol: ${url.protocol.replace(/:$/, "")}`,
-    `Host: ${url.host}`,
-    `Port: ${url.port || "(default)"}`,
-    `Path: ${url.pathname}`
+    `${zh ? "协议" : "Protocol"}: ${url.protocol.replace(/:$/, "")}`,
+    `${zh ? "主机" : "Host"}: ${url.host}`,
+    `${zh ? "端口" : "Port"}: ${url.port || (zh ? "（默认）" : "(default)")}`,
+    `${zh ? "路径" : "Path"}: ${url.pathname}`
   ];
   const params = [...url.searchParams.entries()];
-  lines.push("Query params:");
+  lines.push(zh ? "查询参数:" : "Query params:");
   if (params.length === 0) {
-    lines.push("  (none)");
+    lines.push(`  ${none}`);
   } else {
     params.forEach(([key, value]) => lines.push(`  ${key} = ${value}`));
   }
-  lines.push(`Hash: ${url.hash ? url.hash.slice(1) : "(none)"}`);
+  lines.push(`${zh ? "锚点" : "Hash"}: ${url.hash ? url.hash.slice(1) : none}`);
   return lines.join("\n");
 }
 
@@ -853,26 +862,24 @@ function parseDateOrThrow(value: string, label: string): Date {
   return date;
 }
 
-function parseDurationMs(value: string): number {
-  const trimmed = value.trim();
-  if (!trimmed) throw new Error("Invalid duration: empty string.");
-  const pattern = /(\d+(?:\.\d+)?)\s*([wdhms])/gi;
-  let total = 0;
-  let consumed = "";
-  let match: RegExpExecArray | null;
-  while ((match = pattern.exec(trimmed)) !== null) {
-    consumed += match[0];
-    const amount = parseFloat(match[1]);
-    const unit = match[2].toLowerCase();
-    total += amount * (unit === "w" ? 604_800_000 : unit === "d" ? 86_400_000 : unit === "h" ? 3_600_000 : unit === "m" ? 60_000 : 1_000);
-  }
-  if (consumed.replace(/\s/g, "") !== trimmed.replace(/\s/g, "")) {
-    throw new Error(`Invalid duration: ${value} (expected parts like "2w 3d 4h 30m 15s").`);
-  }
-  return total;
-}
+export type DateUnit = "seconds" | "minutes" | "hours" | "days" | "weeks";
 
-export function calcDate(operation: "diff" | "add" | "toZone", input: string, secondary: string, zone?: string): string {
+export type DateCalcOptions = {
+  zone?: string;
+  unit?: DateUnit;
+  lang?: Lang;
+};
+
+const DATE_UNIT_MS: Record<DateUnit, number> = {
+  seconds: 1_000,
+  minutes: 60_000,
+  hours: 3_600_000,
+  days: 86_400_000,
+  weeks: 604_800_000
+};
+
+export function calcDate(operation: "diff" | "add" | "toZone", input: string, secondary: string, options: DateCalcOptions = {}): string {
+  const lang = options.lang ?? "en";
   if (operation === "diff") {
     const left = parseDateOrThrow(input, "date input");
     const right = parseDateOrThrow(secondary, "secondary date");
@@ -884,19 +891,26 @@ export function calcDate(operation: "diff" | "add" | "toZone", input: string, se
     rest %= 3_600;
     const minutes = Math.floor(rest / 60);
     const seconds = rest % 60;
-    return `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds\nTotal seconds: ${totalSeconds}`;
+    return lang === "zh"
+      ? `${days} 天, ${hours} 小时, ${minutes} 分钟, ${seconds} 秒\n总秒数: ${totalSeconds}`
+      : `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds\nTotal seconds: ${totalSeconds}`;
   }
   if (operation === "add") {
     const base = parseDateOrThrow(input, "date input");
-    const result = new Date(base.getTime() + parseDurationMs(secondary));
-    return `ISO: ${result.toISOString()}\nLocal: ${formatLocalDateTime(result)}`;
+    const amount = Number(secondary.trim());
+    if (!Number.isFinite(amount)) throw new Error(`Invalid amount: ${secondary} (expected a signed number; negative values subtract).`);
+    const unit = options.unit ?? "days";
+    const result = new Date(base.getTime() + amount * DATE_UNIT_MS[unit]);
+    return lang === "zh"
+      ? `ISO: ${result.toISOString()}\n本地时间: ${formatLocalDateTime(result)}`
+      : `ISO: ${result.toISOString()}\nLocal: ${formatLocalDateTime(result)}`;
   }
   const date = parseDateOrThrow(input, "date input");
-  if (!zone) throw new Error("Time zone is required for toZone (IANA name like Asia/Shanghai).");
+  if (!options.zone) throw new Error("Time zone is required for toZone (IANA name like Asia/Shanghai).");
   let formatter: Intl.DateTimeFormat;
   try {
     formatter = new Intl.DateTimeFormat("sv-SE", {
-      timeZone: zone,
+      timeZone: options.zone,
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
@@ -907,9 +921,9 @@ export function calcDate(operation: "diff" | "add" | "toZone", input: string, se
       timeZoneName: "longOffset"
     });
   } catch {
-    throw new Error(`Invalid time zone: ${zone}`);
+    throw new Error(`Invalid time zone: ${options.zone}`);
   }
-  return `${zone}: ${formatter.format(date)}\nUTC: ${date.toISOString()}`;
+  return `${options.zone}: ${formatter.format(date)}\nUTC: ${date.toISOString()}`;
 }
 
 // ---------- Cron parser ----------
@@ -967,10 +981,10 @@ function parseCronField(field: string, min: number, max: number, names?: string[
   return values;
 }
 
-function describeCronField(name: string, raw: string, values: Set<number>, min: number, max: number): string {
-  if (values.size === max - min + 1) return `${name}: every`;
+function describeCronField(name: string, raw: string, values: Set<number>, min: number, max: number, lang: Lang): string {
+  if (values.size === max - min + 1) return lang === "zh" ? `${name}: 每` : `${name}: every`;
   const stepMatch = raw.match(/^\*\/(\d+)$/);
-  if (stepMatch) return `${name}: every ${stepMatch[1]}`;
+  if (stepMatch) return lang === "zh" ? `${name}: 每 ${stepMatch[1]}` : `${name}: every ${stepMatch[1]}`;
   const sorted = [...values].sort((a, b) => a - b);
   const parts: string[] = [];
   let index = 0;
@@ -990,7 +1004,7 @@ function cronDayMatches(date: Date, dom: Set<number>, dow: Set<number>, domStar:
   return dom.has(date.getDate()) || dow.has(date.getDay());
 }
 
-export function parseCron(input: string): string {
+export function parseCron(input: string, lang: Lang = "en"): string {
   const fields = input.trim().split(/\s+/);
   if (fields.length !== 5) {
     throw new Error(`Expected 5 cron fields (minute hour day-of-month month day-of-week), got ${fields.length}.`);
@@ -1003,12 +1017,15 @@ export function parseCron(input: string): string {
   const dow = new Set<number>();
   dowRaw.forEach((value) => dow.add(value === 7 ? 0 : value));
 
+  const names = lang === "zh"
+    ? ["分钟", "小时", "日", "月", "星期"]
+    : ["minute", "hour", "day-of-month", "month", "day-of-week"];
   const lines = [
-    describeCronField("minute", fields[0], minutes, 0, 59),
-    describeCronField("hour", fields[1], hours, 0, 23),
-    describeCronField("day-of-month", fields[2], dom, 1, 31),
-    describeCronField("month", fields[3], months, 1, 12),
-    describeCronField("day-of-week", fields[4], dow, 0, 6)
+    describeCronField(names[0], fields[0], minutes, 0, 59, lang),
+    describeCronField(names[1], fields[1], hours, 0, 23, lang),
+    describeCronField(names[2], fields[2], dom, 1, 31, lang),
+    describeCronField(names[3], fields[3], months, 1, 12, lang),
+    describeCronField(names[4], fields[4], dow, 0, 6, lang)
   ];
 
   const domStar = dom.size === 31;
@@ -1028,15 +1045,20 @@ export function parseCron(input: string): string {
     }
     candidate.setTime(candidate.getTime() + 60_000);
   }
-  lines.push("Next 5 runs:");
-  if (runs.length === 0) lines.push("(none within 366 days)");
+  lines.push(lang === "zh" ? "未来 5 次执行时间:" : "Next 5 runs:");
+  if (runs.length === 0) lines.push(lang === "zh" ? "（366 天内无执行时间）" : "(none within 366 days)");
   else lines.push(...runs);
   return lines.join("\n");
 }
 
 // ---------- Number base converter ----------
 
-export function convertBase(input: string, fromBase: "Auto" | "2" | "8" | "10" | "16"): string {
+export function convertBase(
+  input: string,
+  fromBase: "Auto" | "2" | "8" | "10" | "16",
+  toBase: "2" | "8" | "10" | "16" = "10",
+  lang: Lang = "en"
+): string {
   const trimmed = input.trim();
   if (!trimmed) throw new Error("Input is empty.");
   let base: number;
@@ -1059,12 +1081,10 @@ export function convertBase(input: string, fromBase: "Auto" | "2" | "8" | "10" |
   }
   const prefix = base === 16 ? "0x" : base === 8 ? "0o" : base === 2 ? "0b" : "";
   const value = BigInt(`${prefix}${digits}`);
-  return [
-    `Binary: ${value.toString(2)}`,
-    `Octal: ${value.toString(8)}`,
-    `Decimal: ${value.toString(10)}`,
-    `Hex: ${value.toString(16)}`
-  ].join("\n");
+  const labels: Record<string, string> = lang === "zh"
+    ? { "2": "二进制", "8": "八进制", "10": "十进制", "16": "十六进制" }
+    : { "2": "Binary", "8": "Octal", "10": "Decimal", "16": "Hex" };
+  return `${labels[toBase]}: ${value.toString(Number(toBase))}`;
 }
 
 // ---------- Color converter ----------
